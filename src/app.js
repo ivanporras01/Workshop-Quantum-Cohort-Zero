@@ -77,7 +77,18 @@ function explore(){
  if(st.day===4&&st.tab==='explore')draw();
 }
 function download(name,contents){let u=URL.createObjectURL(new Blob([contents],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),5000)}
-async function boot(){try{const [agendaResponse,lessonResponse]=await Promise.all([fetch('/src/agenda.json'),fetch('/src/lessons.json')]);if(!agendaResponse.ok||!lessonResponse.ok)throw Error('workshop content fetch failed');const d=await agendaResponse.json(),study=await lessonResponse.json();st.days=d.days;st.lessons=study.lessons;if(st.days.length!==5||st.lessons.length!==18)throw Error('Five workshop days and eighteen lessons expected');let day=new URLSearchParams(location.search).get('day'),i=st.days.findIndex(v=>v.date===day);if(i!==-1)st.day=i;
+function removeTrackingParameters(){
+  const url=new URL(location.href);
+  let changed=false;
+  for(const name of [...url.searchParams.keys()]){
+    if(name.toLowerCase().startsWith('utm_')){
+      url.searchParams.delete(name);
+      changed=true;
+    }
+  }
+  if(changed)history.replaceState(null,'',url.pathname+url.search+url.hash);
+}
+async function boot(){try{removeTrackingParameters();const [agendaResponse,lessonResponse]=await Promise.all([fetch('/src/agenda.json'),fetch('/src/lessons.json')]);if(!agendaResponse.ok||!lessonResponse.ok)throw Error('workshop content fetch failed');const d=await agendaResponse.json(),study=await lessonResponse.json();st.days=d.days;st.lessons=study.lessons;if(st.days.length!==5||st.lessons.length!==18)throw Error('Five workshop days and eighteen lessons expected');let day=new URLSearchParams(location.search).get('day'),i=st.days.findIndex(v=>v.date===day);if(i!==-1)st.day=i;
  let theme=read('theme');if(theme)document.documentElement.dataset.theme=theme;
  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));$('theme-button').onclick=()=>{let v=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=v;store('theme',v)};
  $('previous-day').onclick=()=>choose(st.day-1);$('next-day').onclick=()=>choose(st.day+1);$('jump-last-day').onclick=()=>choose(4);
