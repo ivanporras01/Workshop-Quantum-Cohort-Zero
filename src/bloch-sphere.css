@@ -1,0 +1,36 @@
+
+/* Quantum Workforce-inspired Bloch sphere — workshop public presentation */
+.public-bloch-panel{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(265px,.94fr);gap:17px;align-items:start;margin:20px 0 26px}
+.public-bloch-main,.public-bloch-controls{min-width:0;background:linear-gradient(180deg,#082439 0%,#06182e 100%);border:1px solid #376374;border-radius:19px;padding:17px;box-shadow:0 14px 34px #03101d4a}
+.public-bloch-step{font-size:11px;font-weight:850;letter-spacing:.145em;color:#9df2df;margin:4px 0 13px}
+.public-bloch-presets,.public-bloch-gates,.public-bloch-basis{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.public-bloch-button{font-weight:760;letter-spacing:.01em;min-width:55px;min-height:42px}
+.public-bloch-button[aria-pressed=true]{background:#c5f6a4;border-color:#d8ffcc;color:#163531;box-shadow:0 0 0 1px #b3f4c6}
+.public-bloch-svg{display:block;width:100%;max-width:550px;margin:4px auto 0;aspect-ratio:1}
+.public-bloch-heading{fill:#bcf4f9;font-family:Inter,system-ui,sans-serif;font-size:16px;font-weight:760;letter-spacing:.17em}
+.public-bloch-caption{fill:#9cc8d9;font-family:Inter,system-ui,sans-serif;font-size:14px}
+.bloch-reference circle{fill:#89dfe2;stroke:#e2fffb;stroke-width:.5px}
+.bloch-reference.selected circle{fill:#d9ff8b;stroke:#f4ffd7;stroke-width:1.4px}
+.bloch-reference-name{fill:#f0ffff;font-size:18px;font-family:Inter,system-ui,sans-serif}
+.bloch-reference-axis{fill:#8fc9d1;font-size:11px;font-family:Inter,system-ui,sans-serif}
+.public-state-formula{display:block;text-align:center;font-size:clamp(20px,2.4vw,27px);font-weight:750;color:#dcffae;margin-top:-12px}
+.public-state-explanation{font-size:13px;text-align:center;color:#b9dfe7;line-height:1.7;margin:8px 8px 14px}
+.public-bloch-control-group{padding:5px 2px 20px;border-bottom:1px solid #315567;margin-bottom:18px}
+.public-bloch-control-group:last-of-type{border-bottom:none;margin-bottom:0}
+.public-bloch-help{font-size:12px;line-height:1.7;color:#a7ced9;margin:13px 3px 17px}
+.public-measure-row{background:#12334c;border:1px solid #35576d;border-radius:12px;padding:12px;margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center}
+.public-measure-row span{font-size:12px;color:#bfdce6}
+.public-measure-row strong{font-size:22px;font-weight:850;color:#eafbe7}
+.public-measure-track{grid-column:1/-1;width:100%;height:9px;border-radius:30px;background:#071f34;overflow:hidden}
+.public-measure-track>div{height:100%;border-radius:30px;background:#89ecda;transition:width .22s ease}
+.public-measure-track>div.secondary{background:#b7a8ff}
+.public-bloch-vector,.public-bloch-trace{font-size:12px;line-height:1.6;color:#bcd9e3;overflow-wrap:anywhere}
+.public-bloch-trace{border-top:1px dashed #426174;padding-top:12px}
+.public-bloch-challenge{padding:15px;border-radius:12px;border:1px solid #5f9a8a;background:#183c47;color:#e1f8ed;line-height:1.7;font-size:13px}
+.public-bloch-challenge strong{color:#d2ffb6}
+.public-qiskit-block{border:1px solid #376579;border-radius:14px;padding:17px;margin-top:17px;background:#102d44}
+.public-qiskit-block h4{margin:0 0 7px;font-size:18px}
+.public-qiskit-block>p{color:#bdd8e4;line-height:1.7;font-size:13px}
+@media(max-width:1100px){.public-bloch-panel{grid-template-columns:1fr}.public-bloch-svg{max-width:480px}.public-bloch-controls{display:grid;grid-template-columns:1fr 1fr;gap:13px}.public-bloch-control-group{border-bottom:0;margin:0}.public-bloch-challenge{grid-column:1/-1}}
+@media(max-width:680px){.public-bloch-panel{grid-template-columns:minmax(0,1fr)}.public-bloch-controls{display:block}.public-bloch-control-group{border-bottom:1px solid #315567;margin-bottom:18px}.public-bloch-main,.public-bloch-controls{padding:13px 9px}.public-bloch-button{min-width:44px}.public-bloch-heading{font-size:14px}.bloch-reference-name{font-size:16px}.public-state-formula{margin-top:-18px;font-size:21px}}
+@media(prefers-reduced-motion:reduce){.public-measure-track>div{transition:none}}
