@@ -74,7 +74,7 @@
       },
       "practice": {
         "question": "A state has amplitudes 1/√2 and i/√2. What is P(1)?",
-        "answer": "P(1)=|i/√2|²=1/2 (50%)."
+        "answer": "P(1)=|i/√2|²=1/2 (50%). The imaginary phase affects other measurement bases, not this Z-basis probability."
       },
       "misconception": "A qubit does not produce a readable continuous value during one Z measurement.",
       "terms": [
@@ -197,11 +197,11 @@
         },
         {
           "heading": "Read the Bloch sphere",
-          "text": "Describe where |0⟩, |1⟩, |+⟩, and |−⟩ are on the sphere; distinguish Z and X measurement."
+          "text": "Describe where |0⟩, |1⟩, |+⟩, and |−⟩ are on the sphere; distinguish Z and X measurement. Explain that opposite directions along an axis correspond to distinguishable reference states; the measurement basis sets which axis is tested."
         },
         {
           "heading": "Explain a circuit",
-          "text": "For H then Z then H on |0⟩, reason through each state before calculating the final outcome."
+          "text": "For H then Z then H on |0⟩, reason through each state before calculating the final outcome. Predict the final measurement before viewing the circuit diagram and state which intermediate probabilities are unchanged."
         }
       ],
       "worked": {
@@ -373,11 +373,11 @@
         },
         {
           "heading": "Polarization recap",
-          "text": "Recall Malus's law and interpret 0°, 60°, and 90° analyzer angles under ideal assumptions."
+          "text": "Recall Malus's law and interpret 0°, 60°, and 90° analyzer angles under ideal assumptions. For a 30° angle the ideal intensity fraction is 75%, and for a 90° angle it is zero under the idealized model."
         },
         {
           "heading": "QKD recap",
-          "text": "Describe basis choices, sifting, and why an authenticated public discussion is still required."
+          "text": "Describe basis choices, sifting, and why an authenticated public discussion is still required. Keep the basis announcement separate from the secret bit values; authenticated public communication is essential."
         }
       ],
       "worked": {
@@ -388,7 +388,7 @@
           "Predict one-quarter of the incident polarized intensity.",
           "Label whether the observation is classical intensity or photon counts."
         ],
-        "result": "Expected ideal fraction: 25%."
+        "result": "The expected ideal transmitted fraction is 25% of incident linearly polarized light, not 25% of an arbitrary source."
       },
       "practice": {
         "question": "Does BB84 create an already encrypted message?",
@@ -708,7 +708,7 @@
       },
       "practice": {
         "question": "At 500 Hz, what is the period?",
-        "answer": "T=1/500 s=0.002 s=2 ms."
+        "answer": "T=1/500 s=0.002 s=2 ms. Lower frequency means a longer time between successive peaks in this waveform."
       },
       "misconception": "A minus sign depends on the chosen measurement reference; it is not automatically an unsafe condition.",
       "terms": [
