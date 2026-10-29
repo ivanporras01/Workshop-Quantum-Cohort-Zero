@@ -23,14 +23,17 @@ export function measureBloch(vector,basis='Z'){
 }
 export function applyBlochGate(vector,gate){
   const [x,y,z]=vector;
+  let result;
   switch(gate){
-    case 'X': return [x,-y,-z];
-    case 'Y': return [-x,y,-z];
-    case 'Z': return [-x,-y,z];
-    case 'H': return [z,-y,x];
-    case 'Reset': return [0,0,1];
+    case 'X': result=[x,-y,-z];break;
+    case 'Y': result=[-x,y,-z];break;
+    case 'Z': result=[-x,-y,z];break;
+    case 'H': result=[z,-y,x];break;
+    case 'Reset': result=[0,0,1];break;
     default: throw Error('Unknown quantum gate: '+gate);
   }
+  // Signed zero has no physical significance; normalize it for tests and readouts.
+  return result.map(v=>Object.is(v,-0)?0:v);
 }
 function vecPoint(v){
   const [x,y,z]=v;
