@@ -40,6 +40,15 @@ try{
  assert.equal(copied,origin+'/');
  console.log('PASS BROWSER: Copy public website link copies only the clean workers.dev URL');
 
+ await page.goto(origin+'/?utm_source=referral&utm_medium=chat&day=2026-11-09',{waitUntil:'domcontentloaded'});
+ await page.locator('#day-nav [data-day]').first().waitFor();
+ const cleanTracking=await page.evaluate(()=>({href:location.href,day:new URLSearchParams(location.search).get('day')}));
+ assert.ok(!cleanTracking.href.includes('utm_'),'Tracking parameters must not remain in visible website URLs');
+ assert.equal(cleanTracking.day,'2026-11-09','Clean link must preserve the selected workshop day');
+ console.log('PASS BROWSER: inbound tracking labels disappear from address bar without losing selected workshop day');
+ await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
+ await page.locator('#day-nav [data-day]').first().waitFor();
+
  await page.locator('#tab-learn').click();
  await page.locator('#learning-content .topic-card').first().waitFor();
  assert.ok(await page.locator('#learning-content .topic-card').count()>=3);
