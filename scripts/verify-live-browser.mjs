@@ -29,7 +29,7 @@ try{
  assert.equal(identity.icon,'/favicon.svg');
  assert.ok(identity.title.startsWith('Workshop Quantum Cohort Zero'));
  const documentValues=[identity.title,identity.pageText,...identity.hrefs,...identity.meta];
- for(const value of documentValues)assert.ok(!/chatgpt|chat\\.openai\\.com|openai\\.com/i.test(value),'Unexpected third-party branding or URL in public website');
+ for(const value of documentValues)assert.ok(!/chatgpt|chat\.openai\.com|openai\.com/i.test(value),'Unexpected third-party branding or URL in public website');
  const favicon=await page.request.get(origin+'/favicon.svg');
  assert.equal(favicon.status(),200);
  assert.ok((await favicon.text()).includes('Quantum Zero workshop emblem'));
