@@ -21,7 +21,7 @@ A separate, responsive five-day workshop companion aligned to the **Palm Beach S
 4. Friday: copyable Python exercise connecting amplitudes to probabilities.
 5. Saturday: interactive *classical* two-signal interference oscilloscope simulator, including phase controls. It is not quantum hardware.
 
-Each day has its exact agenda, an Explore tab, and optional private notes/completion checkmarks saved **only in that browser's local storage**. No user accounts, server, tracking or student-grade collection. The portal works on desktop and mobile and includes light/dark display.
+Each day has its exact **Agenda**, **Learn**, **Explore**, and **My Notes** tabs. The Learn tab contains 18 session-matched lessons across the five dates: substantive explanations, guided worked examples, common mistakes, vocabulary, independent practice with revealed reasoning, and relevant official external resources. Click **Study this topic** beside an agenda item to jump to its full lesson. These lessons are supplemental preparation, **not official presenter transcripts**. Notes/completion checkmarks are saved **only in that browser's local storage**. No user accounts, server, tracking or student-grade collection. The portal works on desktop and mobile and includes light/dark display.
 
 ## Test locally
 
@@ -57,3 +57,6 @@ npm run deploy
 ```
 
 Do not change the existing project's Workers or account routes. A new Worker is published independently.
+## Maintain the session lessons
+
+`src/lessons.json` contains the 18 substantive learning guides. Each item is identified by the source agenda date and exact session title. The original agenda is stored separately in `payload/agenda.json.b64`; do not change session times or speaker credits when editing educational explanations. The build copies the lessons into `dist/src/lessons.json`. CI verifies complete coverage, step-by-step content, and the website's Learn tab.
