@@ -34,3 +34,20 @@ jobs:
         run: node scripts/verify-live.mjs
         env:
           WORKSHOP_URL: https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev
+
+  live-browser-check:
+    needs: [verify, live-production-check]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install browser test runner
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Exercise published workshop on desktop and mobile
+        run: node scripts/verify-live-browser.mjs
+        env:
+          WORKSHOP_URL: https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev
