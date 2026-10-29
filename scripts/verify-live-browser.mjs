@@ -15,6 +15,31 @@ try{
  assert.equal(await page.locator('#day-nav [data-day]').count(),5);
  console.log('PASS BROWSER: five-day agenda renders in Chromium');
 
+ const identity=await page.evaluate(()=>({
+   href:location.href,
+   title:document.title,
+   canonical:document.querySelector('link[rel="canonical"]')?.href,
+   icon:document.querySelector('link[rel="icon"]')?.getAttribute('href'),
+   pageText:document.body.innerText,
+   hrefs:[...document.querySelectorAll('a[href]')].map(a=>a.href),
+   meta:[...document.querySelectorAll('meta[content]')].map(a=>a.content)
+ }));
+ assert.equal(identity.href,origin+'/','The public site should not redirect through another hostname');
+ assert.equal(identity.canonical,origin+'/');
+ assert.equal(identity.icon,'/favicon.svg');
+ assert.ok(identity.title.startsWith('Workshop Quantum Cohort Zero'));
+ const documentValues=[identity.title,identity.pageText,...identity.hrefs,...identity.meta];
+ for(const value of documentValues)assert.ok(!/chatgpt|chat\\.openai\\.com|openai\\.com/i.test(value),'Unexpected third-party branding or URL in public website');
+ const favicon=await page.request.get(origin+'/favicon.svg');
+ assert.equal(favicon.status(),200);
+ assert.ok((await favicon.text()).includes('Quantum Zero workshop emblem'));
+ console.log('PASS BROWSER: direct Cloudflare URL, independent title, favicon, canonical, all visible links and metadata have no ChatGPT branding');
+ await page.context().grantPermissions(['clipboard-read','clipboard-write'],{origin});
+ await page.locator('#copy-public-link').click();
+ const copied=await page.evaluate(()=>navigator.clipboard.readText());
+ assert.equal(copied,origin+'/');
+ console.log('PASS BROWSER: Copy public website link copies only the clean workers.dev URL');
+
  await page.locator('#tab-learn').click();
  await page.locator('#learning-content .topic-card').first().waitFor();
  assert.ok(await page.locator('#learning-content .topic-card').count()>=3);
