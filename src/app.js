@@ -1,7 +1,7 @@
 // Workshop Quantum Cohort Zero — interactive five-day learning companion.
 // Official schedule is read from agenda.json. Educational models are supplementary.
 const $=id=>document.getElementById(id),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])),pad=n=>String(n).padStart(2,'0');
-const st={days:[],day:0,tab:'agenda',v:[0,0,1],state:'|0⟩',phase:0,frequency:2},key='cohortzero:v1:';
+const st={days:[],lessons:[],day:0,tab:'agenda',v:[0,0,1],state:'|0⟩',phase:0,frequency:2},key='cohortzero:v1:';
 const store=(k,v)=>{try{localStorage.setItem(key+k,v)}catch{}},read=k=>{try{return localStorage.getItem(key+k)}catch{return null}};
 const time=v=>{if(!v)return 'Not specified';let [h,m]=v.split(':').map(Number);return (h%12||12)+':'+pad(m)+(h<12?' AM':' PM')};
 const dayDate=i=>st.days[i].date,notesKey=()=> 'notes-'+dayDate(st.day),doneKey=()=> 'done-'+dayDate(st.day);
@@ -10,13 +10,30 @@ function nav(){ $('day-nav').innerHTML=st.days.map((d,i)=>'<button class="day-bu
  $('day-nav').querySelectorAll('[data-day]').forEach(b=>b.addEventListener('click',()=>choose(+b.dataset.day)));
 }
 function choose(i){if(i<0||i>=st.days.length)return;st.day=i;st.tab='agenda';st.v=[0,0,1];let url=new URL(location.href);url.searchParams.set('day',dayDate(i));history.replaceState(null,'',url.pathname+url.search+url.hash);render();tab('agenda')}
-function tab(t){st.tab=t;for(const name of ['agenda','explore','notes']){$('panel-'+name).hidden=name!==t;$('tab-'+name).setAttribute('aria-selected',String(t===name))}if(t==='explore'&&st.day===4)draw()}
+function tab(t){st.tab=t;for(const name of ['agenda','learn','explore','notes']){$('panel-'+name).hidden=name!==t;$('tab-'+name).setAttribute('aria-selected',String(t===name))}if(t==='explore'&&st.day===4)draw()}
 function render(){let d=st.days[st.day],date=new Date(d.date+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
  $('day-heading').innerHTML='<div class="day-heading"><div class="day-topline"><span class="day-pill">DAY '+pad(st.day+1)+' · '+date.toUpperCase()+'</span><span class="day-ordinal">'+(st.day+1)+' OF 5</span></div><h3>'+safe(d.theme)+'</h3><p>'+safe(d.focus)+'</p></div>';
  $('day-position').textContent=pad(st.day+1)+' / 05';$('previous-day').disabled=st.day===0;$('next-day').disabled=st.day===4;
  $('timeline').innerHTML='<p class="session-intro">Official program times and presenters, transcribed from the supplied agenda.</p><div class="timeline">'+d.sessions.map(s=>'<article class="session '+(s.kind==='break'?'break':'')+'"><div class="session-time">'+(s.start?time(s.start):'TBA')+'<small>'+(s.end?'to '+time(s.end):'Time not specified')+'</small></div><div class="timeline-rail"><span class="timeline-dot"></span></div><div class="session-card"><h4>'+safe(s.title)+'</h4>'+(s.speaker?'<p>'+safe(s.speaker)+'</p>':'')+(s.note?'<p class="session-note">'+safe(s.note)+'</p>':'')+'</div></article>').join('')+'</div><p class="original-note">The Explore activities are additional educational demonstrations; the schedule above follows the source agenda. <a href="/resources/PBSC-Cohort-Zero-Agenda.pdf" target="_blank">Download agenda PDF</a>.</p>';
- $('workshop-notes').value=read(notesKey())||'';$('day-complete').checked=read(doneKey())==='yes';$('note-status').textContent='Stored locally in this browser';nav();explore();
+ $('workshop-notes').value=read(notesKey())||'';$('day-complete').checked=read(doneKey())==='yes';$('note-status').textContent='Stored locally in this browser';nav();learn();explore();
 }
+function learn(){
+  const d=st.days[st.day],items=d.sessions.filter(s=>s.kind!=='break').map(s=>({session:s,lesson:st.lessons.find(l=>l.date===d.date&&l.title===s.title)}));
+  const list=items.map(({session},i)=>'<a href="#topic-'+st.day+'-'+i+'" class="lesson-jump-link">'+(i+1).toString().padStart(2,'0')+' · '+safe(session.title)+'</a>').join('');
+  $('learning-content').innerHTML='<div class="lesson-opening"><span class="eyebrow plain">DETAILED WORKSHOP LESSONS</span><h3>Understand the science. Practice the reasoning.</h3><p>Supplementary instructional materials for the original schedule. These are not transcripts or official presenter slides. Use the exercises to prepare for each session.</p></div><nav class="lesson-jump-list" aria-label="Topics for this workshop day">'+list+'</nav>'+
+  items.map(({session,lesson},i)=>{
+    const when=session.start?time(session.start)+(session.end?' – '+time(session.end):''):'Time not specified in source agenda';
+    if(!lesson)return '<article class="topic-card" id="topic-'+st.day+'-'+i+'"><h4>'+safe(session.title)+'</h4><p>Lesson is not yet available for this agenda item.</p></article>';
+    const concepts=lesson.concepts.map((p,j)=>'<section class="lesson-concept"><span class="concept-number">'+String(j+1).padStart(2,'0')+'</span><div><h5>'+safe(p.heading)+'</h5><p>'+safe(p.text)+'</p></div></section>').join('');
+    const worked='<section class="worked-exercise"><span class="eyebrow plain">WORKED EXAMPLE</span><h5>'+safe(lesson.worked.title)+'</h5><ol>'+lesson.worked.steps.map(x=>'<li>'+safe(x)+'</li>').join('')+'</ol><p class="worked-result"><strong>Result:</strong> '+safe(lesson.worked.result)+'</p></section>';
+    const practice='<section class="lesson-practice"><span class="eyebrow plain">YOUR TURN</span><p>'+safe(lesson.practice.question)+'</p><details><summary>Reveal the answer and explanation</summary><p>'+safe(lesson.practice.answer)+'</p></details></section>';
+    const vocab=lesson.terms.length?'<section class="lesson-vocab"><strong>Key vocabulary</strong><div>'+lesson.terms.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div></section>':'';
+    const refs=lesson.resources.length?'<div class="lesson-resources"><strong>Study further:</strong> '+lesson.resources.map(r=>'<a href="'+safe(r.url)+'" target="_blank" rel="noopener noreferrer">'+safe(r.label)+' ↗</a>').join(' · ')+'</div>':'';
+    return '<article class="topic-card" id="topic-'+st.day+'-'+i+'"><details '+(i===0?'open':'')+'><summary><span class="topic-number">'+String(i+1).padStart(2,'0')+'</span><span class="topic-summary"><small>'+safe(when)+'</small><strong>'+safe(session.title)+'</strong><span>'+safe(session.speaker||'Presenter not listed in agenda')+'</span></span><span class="topic-toggle" aria-hidden="true">+</span></summary><div class="topic-details"><p class="topic-overview">'+safe(lesson.overview)+'</p>'+concepts+worked+practice+'<p class="lesson-pitfall"><strong>Common misconception:</strong> '+safe(lesson.misconception)+'</p>'+vocab+refs+'<button class="lesson-explore-link" type="button" data-open-explore="true">Open this day’s interactive demonstration ↗</button></div></details></article>';
+  }).join('')+'<p class="lesson-origin">Agenda sessions and presenters follow the supplied PBSC document. All explanations, exercises, and external references are additional study materials.</p>';
+  $('learning-content').querySelectorAll('[data-open-explore]').forEach(b=>b.addEventListener('click',()=>{tab('explore');document.getElementById('workshop')?.scrollIntoView({behavior:'smooth',block:'start'})}));
+}
+
 const box=(title,description,body)=>'<header class="explore-header"><span class="explore-icon">✳</span><div><h3>'+title+'</h3><p>'+description+'</p></div></header><p class="disclaimer">Additional instructional demonstration, not an official agenda session or physical quantum experiment.</p>'+body;
 const quizzes=[
  ['Which is a valid Z measurement outcome for one qubit?',['0 or 1','A half bit','A continuously varying value'],0,'A single projective Z measurement returns 0 or 1; probabilities describe repeated results.'],
@@ -52,7 +69,7 @@ function explore(){
  if(st.day===4&&st.tab==='explore')draw();
 }
 function download(name,contents){let u=URL.createObjectURL(new Blob([contents],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),5000)}
-async function boot(){try{const r=await fetch('/src/agenda.json');if(!r.ok)throw Error('agenda fetch failed');const d=await r.json();st.days=d.days;if(st.days.length!==5)throw Error('five days expected');let day=new URLSearchParams(location.search).get('day'),i=st.days.findIndex(v=>v.date===day);if(i!==-1)st.day=i;
+async function boot(){try{const [agendaResponse,lessonResponse]=await Promise.all([fetch('/src/agenda.json'),fetch('/src/lessons.json')]);if(!agendaResponse.ok||!lessonResponse.ok)throw Error('workshop content fetch failed');const d=await agendaResponse.json(),study=await lessonResponse.json();st.days=d.days;st.lessons=study.lessons;if(st.days.length!==5||st.lessons.length!==18)throw Error('Five workshop days and eighteen lessons expected');let day=new URLSearchParams(location.search).get('day'),i=st.days.findIndex(v=>v.date===day);if(i!==-1)st.day=i;
  let theme=read('theme');if(theme)document.documentElement.dataset.theme=theme;
  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));$('theme-button').onclick=()=>{let v=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=v;store('theme',v)};
  $('previous-day').onclick=()=>choose(st.day-1);$('next-day').onclick=()=>choose(st.day+1);$('jump-last-day').onclick=()=>choose(4);
