@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1329">
+  <meta name="description" content="Workshop Quantum Cohort Zero — an interactive five-day agenda and study companion aligned to the November 9, 10, 12, 13 and 14, 2026 Palm Beach State College Cohort Zero agenda.">
+  <title>Workshop Quantum Cohort Zero | November 2026</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  <script type="module" src="/src/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workshop</a>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Workshop Quantum Cohort Zero home">
+      <span class="brand-symbol" aria-hidden="true">✳</span>
+      <span class="brand-title">QUANTUM<span class="brand-slash">/</span><strong>ZERO</strong><small>THE WORKSHOP PORTAL</small></span>
+    </a>
+    <div class="header-right">
+      <span class="header-pbsc">PBSC · COHORT ZERO AGENDA</span>
+      <a class="small-action" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" target="_blank" rel="noopener">Original agenda <span aria-hidden="true">↗</span></a>
+      <button class="icon-action" id="theme-button" aria-label="Switch color theme" title="Switch color theme">◐</button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero container" aria-labelledby="hero-heading">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> NOVEMBER 2026 · FIVE-DAY WORKSHOP</div>
+        <h1 id="hero-heading">Quantum starts <em>here.</em></h1>
+        <p class="hero-description">From the first qubit to quantum cryptography, Python, and applied wave experiments. A focused learning companion for <strong>Palm Beach State College Cohort Zero</strong>.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#workshop">Explore the workshop <span aria-hidden="true">↘</span></a>
+          <a class="secondary-button" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" download="PBSC-Cohort-Zero-Agenda.pdf">Download agenda <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-meta"><span><b>09—14</b> NOV 2026</span><i></i><span>MON · TUE · THU · FRI · SAT</span><i></i><span>EASTERN TIME</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a qubit Bloch sphere with axes and quantum states">
+        <div class="art-top"><span class="art-label">STATE SPACE / 01</span><span class="art-dots">● ● ●</span></div>
+        <svg viewBox="0 0 450 405" role="img" aria-labelledby="art-title">
+          <title id="art-title">Stylized three-dimensional Bloch sphere representing a qubit</title>
+          <defs>
+            <radialGradient id="sphere" cx="32%" cy="27%" r="76%"><stop offset="0" stop-color="#1f6888" stop-opacity=".88"/><stop offset=".65" stop-color="#13365a" stop-opacity=".72"/><stop offset="1" stop-color="#09172b" stop-opacity=".25"/></radialGradient>
+            <linearGradient id="vector" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bcf8ee"/><stop offset="1" stop-color="#b9afff"/></linearGradient>
+          </defs>
+          <g transform="translate(225,206)">
+            <circle r="143" fill="url(#sphere)" stroke="#3a9bb1" stroke-opacity=".8" stroke-width="1.4"/>
+            <ellipse rx="143" ry="46" fill="none" stroke="#83d8e5" stroke-opacity=".65" transform="rotate(-20)"/>
+            <ellipse rx="48" ry="143" fill="none" stroke="#83d8e5" stroke-opacity=".34" transform="rotate(18)"/>
+            <ellipse rx="52" ry="143" fill="none" stroke="#83d8e5" stroke-opacity=".34" transform="rotate(-58)"/>
+            <path d="M-170 53 L168 -55 M-35 173 L45 -180 M-125 -108 L137 112" fill="none" stroke="#70a2c0" stroke-dasharray="4 7" stroke-opacity=".48"/>
+            <path d="M0 0 L89 -91" stroke="url(#vector)" stroke-width="4" stroke-linecap="round"/><path d="M89 -91 L68 -84 L80 -69 Z" fill="#b8fff0" transform="rotate(15 89 -91)"/>
+            <path d="M0 0 L89 -91 L85 4" stroke="#a2f7e8" stroke-width="1" stroke-dasharray="5 6" fill="none" opacity=".6"/>
+            <circle cx="89" cy="-91" r="8" fill="#c5fff3"/><circle cx="89" cy="-91" r="20" fill="#a6fbeb" fill-opacity=".12"/><circle r="4" fill="#e0f9ff"/>
+            <g font-size="18" font-family="system-ui,sans-serif" fill="#e5ffff"><text x="45" y="-158">|0⟩</text><text x="-15" y="175">|1⟩</text><text x="158" y="8">X</text><text x="-158" y="-92">Y</text></g>
+          </g>
+        </svg>
+        <div class="art-bottom"><span>α|0⟩ + β|1⟩</span><small>EXPLORE THE POSSIBILITIES</small></div>
+      </div>
+    </section>
+    <section class="feature-strip container" aria-label="Workshop highlights">
+      <div><strong>05</strong><span>Workshop days</span></div>
+      <div><strong>15+</strong><span>Agenda items</span></div>
+      <div><strong>05</strong><span>Interactive concept labs</span></div>
+      <div class="feature-note"><span class="mini-orbit" aria-hidden="true">◎</span> Learn · Experiment · Reflect</div>
+    </section>
+    <section class="workshop container" id="workshop" aria-label="Workshop agenda and activities">
+      <div class="section-heading"><div><span class="eyebrow plain">THE LEARNING JOURNEY</span><h2>Five days. One foundation.</h2><p>Select a day to explore its original sessions and a short topic demonstration.</p></div><span class="section-number">01 / 05</span></div>
+      <div class="workspace">
+        <nav class="day-nav" aria-label="Workshop dates" id="day-nav"></nav>
+        <div class="workshop-main">
+          <div id="day-heading"></div>
+          <div class="panel-tabs" role="tablist" aria-label="Day content tabs">
+            <button role="tab" id="tab-agenda" data-tab="agenda" aria-selected="true" aria-controls="panel-agenda">01 · Agenda</button>
+            <button role="tab" id="tab-explore" data-tab="explore" aria-selected="false" aria-controls="panel-explore">02 · Explore</button>
+            <button role="tab" id="tab-notes" data-tab="notes" aria-selected="false" aria-controls="panel-notes">03 · My Notes</button>
+          </div>
+          <section id="panel-agenda" class="tab-content" role="tabpanel" aria-labelledby="tab-agenda"><div id="timeline"></div></section>
+          <section id="panel-explore" class="tab-content" role="tabpanel" aria-labelledby="tab-explore" hidden><div id="explorer"></div></section>
+          <section id="panel-notes" class="tab-content" role="tabpanel" aria-labelledby="tab-notes" hidden>
+            <div class="notes-header"><span class="eyebrow plain">REFLECT AND RETAIN</span><h3>Your workshop notebook</h3><p>Capture a concept, question, or next step. Notes stay in this browser only.</p></div>
+            <label for="workshop-notes">Notes for this day</label>
+            <textarea id="workshop-notes" rows="9" placeholder="What did I learn? What can I explain? What should I test next?"></textarea>
+            <div class="notes-actions"><label class="checkline"><input type="checkbox" id="day-complete"> I've reviewed this day's material</label><span class="saved-indicator" id="note-status" aria-live="polite">Saved in this browser</span></div>
+            <button class="secondary-button notes-download" id="download-notes">Download my notes <span aria-hidden="true">↓</span></button>
+          </section>
+          <div class="day-footer"><button class="text-button" id="previous-day">← Previous day</button><div class="day-indicator" id="day-position">01 / 05</div><button class="text-button" id="next-day">Next day →</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="footer-banner container"><div class="footer-symbol" aria-hidden="true">∿</div><div><span class="eyebrow plain">THE NEXT EXPERIMENT</span><h2>From ideas to evidence.</h2><p>On Saturday, apply wave concepts and document what your instruments actually show. Classical wave demonstrations are analogies for quantum interference—not quantum hardware measurements.</p></div><a href="#workshop" id="jump-last-day" class="secondary-button">Explore Saturday <span aria-hidden="true">↗</span></a></section>
+  </main>
+  <footer class="site-footer container"><div><b>QUANTUM / ZERO</b><span>Workshop companion · Palm Beach State College Cohort Zero agenda</span></div><div>November 9, 10, 12, 13 &amp; 14, 2026 · Eastern Time<br><small>Schedule follows the supplied agenda; educational demos are additional materials.</small></div></footer>
+  <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
+</body>
+</html>
