@@ -6,7 +6,7 @@ A separate, responsive five-day workshop companion aligned to the **Palm Beach S
 
 ## Agenda fidelity
 
-- Sessions, speakers and times are transcribed into `src/agenda.json` from the supplied two-page PBSC document, available to download inside the portal (`/resources/PBSC-Cohort-Zero-Agenda.pdf`).
+- Sessions, speakers and times are stored in `payload/agenda.json.b64` (decoded to `dist/src/agenda.json` during the build) based on the supplied two-page PBSC document. The downloadable `/resources/PBSC-Cohort-Zero-Agenda.pdf` is a **reformatted workshop agenda summary**, not a byte-for-byte copy of the source PDF.
 - November 12: The agenda gives **no start/end time** for `Post Quantum Cryptology Implementation`; this portal does **not** invent one.
 - November 13: `Python for Quantum` speaker is **TBA**.
 - November 14: `Future Projects` has **no stated presenter or time**.
@@ -30,7 +30,7 @@ node --test tests/*.test.mjs
 npm run build
 python3 -m http.server 8080 --directory dist
 ```
-Open http://localhost:8080 in a browser. No JavaScript framework or build tooling is required beyond Node.js for copying assets.
+Open http://localhost:8080 in a browser. No JavaScript framework is needed; the build copies static assets and generates the printable agenda summary.
 
 ## Publish to GitHub and Cloudflare Workers
 
