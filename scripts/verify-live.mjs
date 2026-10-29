@@ -25,7 +25,15 @@ for(let i=1;i<=attempts;i++){
   assert.ok(html.includes('/src/bloch-sphere.css'));
   assert.ok(js.includes("from './bloch-sphere.js'"));
   assert.ok(blochJs.includes('THE BLOCH SPHERE')&&blochJs.includes('measureBloch('));
-  assert.ok(blochJs.includes('data-basis=')&&blochJs.includes('data-state='));
+  // Import the published component itself and test the actual generated HTML,
+  // not templates whose data attributes are dynamically interpolated.
+  const liveModule=await import('data:text/javascript;base64,'+Buffer.from(blochJs,'utf8').toString('base64'));
+  const sphereHtml=liveModule.renderBlochSphere({vector:[1,0,0],basis:'X',trace:['Start','H']});
+  for(const state of ['|0⟩','|1⟩','|+⟩','|−⟩','|+i⟩','|−i⟩'])assert.ok(sphereHtml.includes('data-state="'+state+'"'),state+' control not rendered');
+  for(const basis of ['X','Y','Z'])assert.ok(sphereHtml.includes('data-basis="'+basis+'"'),basis+' measurement basis missing');
+  for(const gate of ['H','X','Y','Z','Reset'])assert.ok(sphereHtml.includes('data-gate="'+gate+'"'),gate+' gate missing');
+  assert.ok(sphereHtml.includes('Measure |+⟩ in X basis')&&sphereHtml.includes('100%'));
+  assert.deepEqual(liveModule.applyBlochGate(liveModule.applyBlochGate(liveModule.applyBlochGate([0,0,1],'H'),'Z'),'H'),[0,0,-1]);
   assert.ok(blochCss.includes('.public-bloch-panel'));
 
   const actual=a.days.flatMap(d=>d.sessions.filter(s=>s.kind!=='break').map(s=>d.date+'|'+s.title)).sort();
