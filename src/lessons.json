@@ -215,7 +215,7 @@
         "result": "A final ideal Z measurement gives 1 with probability 1."
       },
       "practice": {
-        "question": "What does qc.draw() do?",
+        "question": "In a one-qubit Qiskit example, what is the purpose of calling qc.draw()?",
         "answer": "It shows the circuit; it does not run an experiment."
       },
       "misconception": "A diagram cannot establish hardware performance.",
@@ -365,7 +365,7 @@
     {
       "date": "2026-11-12",
       "title": "Review of previous day",
-      "overview": "Review Tuesday's networking, polarization, and BB84 foundations.",
+      "overview": "Review Tuesday's networking, polarization, and BB84 foundations. This recap connects the three topics before the post-quantum cryptology sessions.",
       "concepts": [
         {
           "heading": "Network security recap",
