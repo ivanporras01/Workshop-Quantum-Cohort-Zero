@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {inflateSync} from 'node:zlib';
+const root=new URL('../',import.meta.url);
+async function read(name){return inflateSync(Buffer.from((await readFile(new URL('payload/'+name+'.b64',root),'utf8')).trim(),'base64')).toString('utf8')}
+test('agenda contains exactly November 9, 10, 12, 13, 14',async()=>{const d=JSON.parse(await read('agenda.json'));assert.equal(d.days.length,5);assert.deepEqual(d.days.map(x=>x.day),[9,10,12,13,14]);});
+test('portal interactivity exists and points to real workshop activities',async()=>{const js=await read('app.js');assert.match(js,/Bloch|bloch/i);assert.match(js,/polarization|polarisation/i);assert.match(js,/BB84|QKD/i);assert.match(js,/Python/i);});
+test('all source assets unpack and HTML references them',async()=>{const html=await readFile(new URL('index.html',root),'utf8');const css=await read('styles.css');assert.ok(css.length>10000);assert.match(html,/src\/app.js/);assert.match(html,/src\/styles.css/);});
