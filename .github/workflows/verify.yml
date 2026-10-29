@@ -20,3 +20,15 @@ jobs:
           test -s dist/src/styles.css
           test -s dist/src/agenda.json
           test -s dist/src/lessons.json
+  live-production-check:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Confirm Cloudflare serves all 18 lesson resources and workshop UI
+        run: node scripts/verify-live.mjs
+        env:
+          WORKSHOP_URL: https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev
