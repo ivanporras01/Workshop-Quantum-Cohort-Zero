@@ -20,6 +20,8 @@ jobs:
           test -s dist/src/styles.css
           test -s dist/src/agenda.json
           test -s dist/src/lessons.json
+          test -s dist/src/bloch-sphere.js
+          test -s dist/src/bloch-sphere.css
   live-production-check:
     needs: verify
     runs-on: ubuntu-24.04
