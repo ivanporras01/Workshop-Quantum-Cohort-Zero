@@ -12,9 +12,11 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: '22'}
       - run: npm test
+      - run: node --check src/app.js
       - run: npm run build
       - run: |
           test -s dist/index.html
           test -s dist/src/app.js
           test -s dist/src/styles.css
           test -s dist/src/agenda.json
+          test -s dist/src/lessons.json
