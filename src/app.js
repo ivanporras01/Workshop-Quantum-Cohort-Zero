@@ -83,6 +83,7 @@ async function boot(){try{const [agendaResponse,lessonResponse]=await Promise.al
  $('previous-day').onclick=()=>choose(st.day-1);$('next-day').onclick=()=>choose(st.day+1);$('jump-last-day').onclick=()=>choose(4);
  $('workshop-notes').oninput=e=>{store(notesKey(),e.target.value);$('note-status').textContent='Saved in this browser'};
  $('day-complete').onchange=e=>{store(doneKey(),e.target.checked?'yes':'no');nav()};
+ $('copy-public-link').onclick=async()=>{const clean=location.origin+'/';try{await navigator.clipboard.writeText(clean);toast('Public Cloudflare link copied — paste it directly into your browser or share it');}catch{const el=document.createElement('textarea');el.value=clean;document.body.appendChild(el);el.select();const ok=document.execCommand('copy');el.remove();toast(ok?'Public Cloudflare link copied':'Copy this address: '+clean);}};
  $('download-notes').onclick=()=>{let d=st.days[st.day];download('Cohort-Zero-'+d.date+'-notes.md','# Workshop Quantum Cohort Zero\n## '+d.day+', '+d.date+'\n\n'+$('workshop-notes').value);toast('Notes saved as a file')};
  render();tab('agenda');
  }catch(e){$('day-heading').innerHTML='<p role="alert">Could not load the workshop agenda. Please refresh the page.</p>';console.error(e)}}
