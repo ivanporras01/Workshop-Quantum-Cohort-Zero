@@ -55,7 +55,7 @@ try{
 
  await page.locator('#day-nav [data-day="1"]').click();
  await page.locator('#tab-explore').click();
- await page.locator('#pol-angle').fill('60');
+ await page.locator('#pol-angle').evaluate(el=>{el.value='60';el.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal((await page.locator('#pol-result').innerText()).trim(),'25.0%');
  await page.locator('#bb84').click();
  assert.ok((await page.locator('#bb84-result').innerText()).includes('simulated'));
@@ -63,7 +63,7 @@ try{
 
  await page.locator('#day-nav [data-day="4"]').click();
  await page.locator('#tab-explore').click();
- await page.locator('#wave-phase').fill('180');
+ await page.locator('#wave-phase').evaluate(el=>{el.value='180';el.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.ok((await page.locator('#wave-status').innerText()).includes('0.000'));
  console.log('PASS BROWSER: Saturday interference simulator at 180°');
 
