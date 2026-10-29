@@ -1,6 +1,29 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {inflateSync} from 'node:zlib';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {inflateSync} from 'node:zlib';
 const root=new URL('../',import.meta.url);
-async function read(name){return inflateSync(Buffer.from((await readFile(new URL('payload/'+name+'.b64',root),'utf8')).trim(),'base64')).toString('utf8')}
-test('agenda contains exactly November 9, 10, 12, 13, 14',async()=>{const d=JSON.parse(await read('agenda.json'));assert.equal(d.days.length,5);assert.deepEqual(d.days.map(x=>x.day),[9,10,12,13,14]);});
-test('portal interactivity exists and points to real workshop activities',async()=>{const js=await read('app.js');assert.match(js,/Bloch|bloch/i);assert.match(js,/polarization|polarisation/i);assert.match(js,/BB84|QKD/i);assert.match(js,/Python/i);});
-test('all source assets unpack and HTML references them',async()=>{const html=await readFile(new URL('index.html',root),'utf8');const css=await read('styles.css');assert.ok(css.length>10000);assert.match(html,/src\/app.js/);assert.match(html,/src\/styles.css/);});
+const read=async path=>readFile(new URL(path,root),'utf8');
+const agenda=async()=>JSON.parse(inflateSync(Buffer.from((await read('payload/agenda.json.b64')).trim(),'base64')).toString('utf8'));
+test('exact five days with original workshop presenters and unassigned sessions',async()=>{
+ const d=await agenda();
+ assert.equal(d.days.length,5);
+ assert.deepEqual(d.dates,['2026-11-09','2026-11-10','2026-11-12','2026-11-13','2026-11-14']);
+ assert.equal(d.days[0].sessions.find(s=>s.title.includes('Qiskit')).end,'21:00');
+ assert.equal(d.days[2].sessions.find(s=>s.title.includes('Implementation')).start,null);
+ assert.equal(d.days[3].sessions.find(s=>s.title==='Python for Quantum').speaker,'TBA');
+ assert.equal(d.days[4].sessions.find(s=>s.title==='Applied energy waves').speaker,'Prof Hector Porras, PBSC');
+});
+test('interactive learning activities cover all five days',async()=>{
+ const s=await read('src/app.js');
+ for(const keyword of ['Bloch','Qiskit','polarization','BB84','Python','wave-phase','post-quantum'])assert.match(s,new RegExp(keyword,'i'));
+ assert.match(s,/localStorage/);
+ assert.match(s,/download-notes/);
+ assert.ok(s.length>11000);
+});
+test('static markup references locally generated script, styles and agenda',async()=>{
+ const h=await read('index.html'),c=await read('src/styles.css');
+ assert.match(h,/\/src\/app.js/);assert.match(h,/\/src\/styles.css/);assert.match(h,/\/resources\/PBSC-Cohort-Zero-Agenda.pdf/);
+ assert.ok(c.length>9000);
+ assert.match(c,/@media/);
+});
