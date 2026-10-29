@@ -4,7 +4,7 @@ import {inflateSync} from 'node:zlib';
 const base=new URL('../',import.meta.url).pathname,dist=join(base,'dist');
 await mkdir(join(dist,'src'),{recursive:true});await mkdir(join(dist,'resources'),{recursive:true});
 await copyFile(join(base,'index.html'),join(dist,'index.html'));
-for(const name of ['app.js','styles.css'])await copyFile(join(base,'src',name),join(dist,'src',name));
+for(const name of ['app.js','styles.css','lessons.json'])await copyFile(join(base,'src',name),join(dist,'src',name));
 const compressed=(await readFile(join(base,'payload/agenda.json.b64'),'utf8')).trim();
 const decoded=inflateSync(Buffer.from(compressed,'base64')).toString('utf8');
 const agenda=JSON.parse(decoded);
