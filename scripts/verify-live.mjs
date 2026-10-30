@@ -12,10 +12,10 @@ async function get(path){
 let last='';
 for(let i=1;i<=attempts;i++){
  try{
-  const [main,study,agenda,code,styles,pdf,bloch,design,learning,learningCss]=await Promise.all([
-   get('/'),get('/src/lessons.json'),get('/src/agenda.json'),get('/src/app.js'),get('/src/styles.css'),get('/resources/PBSC-Cohort-Zero-Agenda.pdf'),get('/src/bloch-sphere.js'),get('/src/bloch-sphere.css'),get('/src/learning-experiences.js'),get('/src/learning-experiences.css')
+  const [main,study,agenda,code,styles,pdf,bloch,design,learning,learningCss,lab,labStyle,schematic]=await Promise.all([
+   get('/'),get('/src/lessons.json'),get('/src/agenda.json'),get('/src/app.js'),get('/src/styles.css'),get('/resources/PBSC-Cohort-Zero-Agenda.pdf'),get('/src/bloch-sphere.js'),get('/src/bloch-sphere.css'),get('/src/learning-experiences.js'),get('/src/learning-experiences.css'),get('/src/applied-waves-lab.js'),get('/src/applied-waves-lab.css'),get('/src/applied-waves-circuit.svg')
   ]);
-  const html=await main.text(),lessons=await study.json(),a=await agenda.json(),js=await code.text(),css=await styles.text(),blochJs=await bloch.text(),blochCss=await design.text(),learningJs=await learning.text(),learningStyles=await learningCss.text();
+  const html=await main.text(),lessons=await study.json(),a=await agenda.json(),js=await code.text(),css=await styles.text(),blochJs=await bloch.text(),blochCss=await design.text(),learningJs=await learning.text(),learningStyles=await learningCss.text(),labJs=await lab.text(),labCss=await labStyle.text(),svg=await schematic.text();
   assert.equal(a.days.length,5);
   assert.equal(lessons.lessons.length,18);
   assert.ok(html.includes('id="tab-learn"'));
@@ -26,6 +26,16 @@ for(let i=1;i<=attempts;i++){
   assert.ok(js.includes("from './learning-experiences.js'"));
   assert.ok(js.includes('concept-opening')&&js.includes('guided-worked'));
   assert.ok(learningStyles.includes('.learning-hero')&&learningStyles.includes('.visual-exhibit'));
+  assert.ok(html.includes('/src/applied-waves-lab.css'));
+  assert.ok(js.includes("from './applied-waves-lab.js'"));
+  assert.ok(labCss.includes('.lab-guide')&&labCss.includes('.lab-connection-step'));
+  assert.ok(svg.includes('R1 = 10 kΩ')&&svg.includes('R2 = 10 kΩ')&&svg.includes('Vout'));
+  const labModule=await import('data:text/javascript;base64,'+Buffer.from(labJs,'utf8').toString('base64'));
+  const labHtml=labModule.renderLabGuide();
+  assert.equal(labModule.LAB_STEPS.length,8);
+  assert.ok(labHtml.includes('data-lab-step="7"')&&labHtml.includes('H → P(φ) → H'));
+  assert.ok(Math.abs(labModule.idealLabOutcome(90).vpp-Math.SQRT2)<1e-10);
+
   const learningModule=await import('data:text/javascript;base64,'+Buffer.from(learningJs,'utf8').toString('base64'));
   assert.equal(Object.keys(learningModule.DESIGNS).length,18);
   const demo=learningModule.renderLessonExperience(lessons.lessons[0]);
