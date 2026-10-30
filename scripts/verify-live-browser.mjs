@@ -96,21 +96,21 @@ try{
  console.log('PASS BROWSER: beginner bit vs qubit teaching, Bloch θ/φ controls, S/T gates, X/Y/Z bases, live probabilities');
 
  await page.locator('#tab-explore').click();
- await page.locator('.public-bloch-svg').waitFor();
+ await page.locator('#panel-explore .public-bloch-svg').waitFor();
  assert.equal(await page.locator('#bloch-presets [data-state]').count(),6);
  assert.equal(await page.locator('#bloch-basis [data-basis]').count(),3);
  await page.locator('#bloch-presets [data-state="|+⟩"]').click();
  await page.locator('#bloch-basis [data-basis="X"]').click();
- assert.equal((await page.locator('.public-measure-row strong').first().innerText()).trim(),'100%');
+ assert.equal((await page.locator('#panel-explore .public-measure-row strong').first().innerText()).trim(),'100%');
  await page.locator('#bloch-basis [data-basis="Z"]').click();
- assert.equal((await page.locator('.public-measure-row strong').first().innerText()).trim(),'50%');
- assert.ok((await page.locator('.public-state-formula').innerText()).includes('√2'));
+ assert.equal((await page.locator('#panel-explore .public-measure-row strong').first().innerText()).trim(),'50%');
+ assert.ok((await page.locator('#panel-explore .public-state-formula').innerText()).includes('√2'));
  console.log('PASS BROWSER: Bloch six-state presets, X/Z bases and probability values');
 
  for(const gate of ['Reset','H','Z','H'])await page.locator('#bloch-gates [data-gate="'+gate+'"]').click();
- assert.equal((await page.locator('.public-measure-row strong').first().innerText()).trim(),'0%');
- assert.equal((await page.locator('.public-measure-row strong').nth(1).innerText()).trim(),'100%');
- assert.ok((await page.locator('.public-bloch-trace').innerText()).includes('H → Z → H'));
+ assert.equal((await page.locator('#panel-explore .public-measure-row strong').first().innerText()).trim(),'0%');
+ assert.equal((await page.locator('#panel-explore .public-measure-row strong').nth(1).innerText()).trim(),'100%');
+ assert.ok((await page.locator('#panel-explore .public-bloch-trace').innerText()).includes('H → Z → H'));
  console.log('PASS BROWSER: Reset → H → Z → H produces |1⟩ in Z basis');
 
  await page.locator('#tab-agenda').click();
@@ -177,10 +177,10 @@ try{
  await page.goto(origin+'/?day=2026-11-09',{waitUntil:'domcontentloaded'});
  await page.locator('#day-nav [data-day]').first().waitFor();
  await page.locator('#tab-explore').click();
- await page.locator('.public-bloch-svg').waitFor();
+ await page.locator('#panel-explore .public-bloch-svg').waitFor();
  await page.locator('#bloch-presets [data-state="|−i⟩"]').click();
  await page.locator('#bloch-basis [data-basis="Y"]').click();
- assert.equal((await page.locator('.public-measure-row strong').nth(1).innerText()).trim(),'100%');
+ assert.equal((await page.locator('#panel-explore .public-measure-row strong').nth(1).innerText()).trim(),'100%');
  const mobile=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,width:window.innerWidth}));
  assert.ok(mobile.scrollWidth<=mobile.width+8,'Mobile document overflows horizontally: '+JSON.stringify(mobile));
  console.log('PASS BROWSER: mobile view, Y measurement and no horizontal overflow');
