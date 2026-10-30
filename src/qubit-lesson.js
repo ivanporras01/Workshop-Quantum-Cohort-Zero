@@ -39,7 +39,7 @@ export function wireInteractiveBlochLessons(root){
    const b=Math.sin(state.theta*Math.PI/360);
    const re=b*Math.cos(state.phi*Math.PI/180),im=b*Math.sin(state.phi*Math.PI/180);
    section.querySelector('[data-qubit-amplitudes]').textContent='α='+a.toFixed(2)+' · β='+re.toFixed(2)+(im>=0?' + ':' − ')+Math.abs(im).toFixed(2)+'i';
-   section.querySelector('[data-qubit-mount]').innerHTML=renderBlochSphere({vector:state.vector,basis:state.basis,trace:state.trace});
+   section.querySelector('[data-qubit-mount]').innerHTML=renderBlochSphere({vector:state.vector,basis:state.basis,trace:state.trace,embedded:true});
   };
   thetaSlider.addEventListener('input',()=>{
    state.vector=blochVector(+thetaSlider.value,state.phi);
