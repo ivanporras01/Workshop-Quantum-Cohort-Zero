@@ -72,7 +72,7 @@ try{
  await guided.locator('[data-guided-reset]').click();
  assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 1 of 4/);
  console.log('PASS BROWSER: concept-first welcome, four vivid visuals and guided examples with revealed results');
- await page.locator('#topic-0-1 details').evaluate(el=>el.open=true);
+ await page.locator('#topic-0-1 > details').evaluate(el=>el.open=true);
  await page.locator('#topic-0-1 [data-demo-slider="qubit"]').evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal((await page.locator('#topic-0-1 #qubit-p0').innerText()).trim(),'100%');
  assert.equal((await page.locator('#topic-0-1 #qubit-p1').innerText()).trim(),'0%');
