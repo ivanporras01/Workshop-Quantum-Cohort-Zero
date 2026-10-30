@@ -1,0 +1,71 @@
+/* Applied Energy Waves — instructor-led hands-on lab guide */
+.lab-guide{display:grid;gap:19px;margin-top:19px;color:#e8f9fb;font-size:14px}
+.lab-guide h5,.lab-guide h6{line-height:1.23;letter-spacing:-.025em;margin:7px 0 11px;color:#f2fffb}
+.lab-guide h5{font-size:clamp(25px,3.6vw,37px)}.lab-guide h6{font-size:clamp(19px,2.7vw,26px)}
+.lab-guide p{line-height:1.75;margin:6px 0 12px;color:#d1e9ec}
+.lab-kicker{display:block;color:#aef5de;letter-spacing:.14em;font-size:11px;font-weight:850}
+.lab-hero{background:radial-gradient(circle at 92% 17%,#326b69,transparent 47%),linear-gradient(115deg,#164960,#163452);border:1px solid #64a39b;border-radius:19px;padding:24px 26px}
+.lab-hero>p{max-width:800px;font-size:14px}
+.lab-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.lab-tags span{border-radius:30px;border:1px solid #78c1bc;background:#1a5b63;padding:7px 11px;color:#e7fff9;font-size:11px;font-weight:700}
+.lab-bridge,.lab-diagram-block,.lab-materials,.lab-parameters,.lab-connections,.lab-results,.lab-notebook{background:#102c42;border:1px solid #456e81;border-radius:18px;padding:24px}
+.lab-bridge{background:linear-gradient(105deg,#203c57,#163e4d);border-color:#668ca5}
+.lab-analogy-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:17px 0}
+.lab-analogy-pair>div{border:1px solid #4e8592;border-radius:12px;padding:17px;background:#123147}
+.lab-analogy-pair strong{color:#cbfcb7;font-size:15px}
+.lab-analogy-pair p{font-size:13px;line-height:1.75;margin:7px 0}
+.lab-guide code{background:#061f34;padding:2px 5px;color:#d9ffb9;border-radius:5px;white-space:normal;overflow-wrap:anywhere}
+.lab-analogy-note{font-size:12px;padding:12px 14px;border-left:3px solid #d4bfff;background:#282d4b;border-radius:0 8px 8px 0}
+.lab-diagram-block{background:linear-gradient(150deg,#12364c,#0e263c)}
+.lab-subhead>p{font-size:13px;color:#b9dbe3}
+.lab-diagram-link{display:block;background:#061d30;border-radius:13px;border:1px solid #487c86;overflow:hidden;margin:17px 0 11px}
+.lab-diagram-link img{display:block;width:100%;height:auto}
+.lab-diagram-link:hover{border-color:#a1f0db}
+.lab-diagram-actions{display:flex;gap:11px;flex-wrap:wrap}
+.lab-diagram-actions a{display:inline-flex;align-items:center;background:#1e5361;border:1px solid #65aaae;color:#e3ffff;padding:9px 13px;border-radius:10px;font-size:12px;font-weight:800}
+.lab-diagram-actions a:hover{background:#2c6e78}
+.lab-critical{border-left:4px solid #f7b978;background:#553923;padding:13px 14px;border-radius:0 10px 10px 0;font-size:13px}
+.lab-critical strong{color:#ffe0b0}
+.lab-two-column{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lab-materials ul{list-style:none;padding:0;margin:11px 0 0;display:grid;gap:10px}
+.lab-material{display:flex;align-items:start;gap:12px;border:1px solid #385e75;background:#17374f;padding:12px;border-radius:10px;line-height:1.5;font-size:12px;color:#dbf1f6}
+.lab-material-count{width:24px;height:24px;border-radius:50%;background:#2d6869;display:grid;place-items:center;color:#d9ffcb;font-weight:800;flex-shrink:0}
+.lab-parameters dl{margin:13px 0 0}.lab-parameters dl>div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #3a5d70;padding:10px 0;font-size:12px}
+.lab-parameters dt{color:#a3d7df}.lab-parameters dd{margin:0;text-align:right;font-weight:750;color:#eaffed}
+.lab-check-progress{background:#255a5f;color:#eaffda;font-weight:800;border-radius:10px;padding:11px 14px;font-size:13px;margin:13px 0}
+.lab-connections ol{padding:0;margin:0;display:grid;gap:10px;list-style:none}
+.lab-connection-step{border:1px solid #416b7c;background:#17394f;border-radius:12px;padding:12px}
+.lab-connection-step label{display:grid;grid-template-columns:22px 36px minmax(0,1fr);align-items:start;gap:11px;cursor:pointer}
+.lab-connection-step input{width:18px;height:18px;accent-color:#a7f0d5;margin-top:10px}
+.lab-step-index{width:33px;height:33px;border-radius:10px;display:grid;place-items:center;background:#2b656a;color:#dfffcf;font-weight:850}
+.lab-step-copy{display:grid;gap:5px;line-height:1.65}
+.lab-step-copy strong{color:#ecffeb}.lab-step-copy>span{color:#c2dfe7;font-size:12px}
+.lab-connection-step:has(input:checked){background:#1e554e;border-color:#79bda7}
+.lab-reset{border:1px solid #70a7b1;background:#1d4d59;color:#e3ffff;font-weight:800;padding:10px 14px;border-radius:10px;margin-top:15px}
+.lab-expected-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.lab-result-card{padding:16px;border:1px solid #4a7585;border-radius:12px;background:#1a3a52}
+.lab-result-card:nth-child(1){border-color:#8ddcbb}.lab-result-card:nth-child(2){border-color:#e2d38f}.lab-result-card:nth-child(3){border-color:#cd9fba}
+.lab-phase{font-size:11px;letter-spacing:.1em;font-weight:850;color:#b7eee1;display:block}
+.lab-result-card strong{display:block;font-size:26px;color:#eeffdc;margin:8px 0}
+.lab-result-card p{font-size:12px;line-height:1.65;color:#c6e0e6}
+.lab-equations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:17px}
+.lab-equations>div{background:#0e3246;border:1px solid #457784;padding:13px;border-radius:10px}
+.lab-equations strong{display:block;font-size:12px;color:#bcecdf;margin-bottom:10px}
+.lab-equations code{font-size:14px;font-weight:750}
+.lab-interactive-phase{border:1px solid #75ab9f;border-radius:13px;background:#1b4856;padding:17px;margin-top:17px}
+.lab-interactive-phase label{font-size:14px;font-weight:800}
+.lab-interactive-phase input{display:block;width:100%;accent-color:#b4f4d2;margin-top:15px}
+.lab-live-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:17px 0}
+.lab-live-stats>div{border-radius:10px;background:#133348;padding:12px}
+.lab-live-stats small{display:block;color:#b7d6df;font-size:11px}
+.lab-live-stats strong{display:block;font-size:26px;color:#d8ffb3}
+.lab-quantum-takeaway{margin-top:17px;background:#24344c;border-left:3px solid #c4b9fa;border-radius:0 10px 10px 0;padding:17px;font-size:13px;line-height:1.8;color:#e6e5ff}
+.lab-notebook .lab-table-wrap{width:100%;overflow-x:auto}
+.lab-notebook table{width:100%;border-collapse:collapse;min-width:550px;margin:12px 0}
+.lab-notebook th,.lab-notebook td{text-align:left;border:1px solid #457385;padding:11px;font-size:12px}
+.lab-notebook thead{background:#1e5561}.lab-notebook tbody{background:#14384e}
+.lab-notebook>p{font-size:12px}
+.lab-safety{border:1px solid #cfaa72;background:#4e382a;color:#ffe8cc;border-radius:13px;padding:16px;font-size:13px;line-height:1.8}
+@media(max-width:920px){.lab-two-column,.lab-analogy-pair{grid-template-columns:1fr}}
+@media(max-width:700px){.lab-guide{gap:14px}.lab-hero,.lab-bridge,.lab-diagram-block,.lab-materials,.lab-parameters,.lab-connections,.lab-results,.lab-notebook{padding:16px}.lab-expected-grid,.lab-equations{grid-template-columns:1fr}.lab-live-stats{grid-template-columns:1fr}.lab-parameters dl>div{flex-wrap:wrap}}
+@media(max-width:430px){.lab-connection-step label{gap:7px;grid-template-columns:20px 28px minmax(0,1fr)}.lab-step-index{width:27px;height:27px}.lab-guide h5{font-size:25px}}
