@@ -1,5 +1,6 @@
 import {REFERENCE_STATES,applyBlochGate,renderBlochSphere} from './bloch-sphere.js';
 import {getDesign,renderLessonExperience,wireLessonExperiences} from './learning-experiences.js';
+import {renderBeginnerGuide,wireBeginnerGuides} from './beginner-path.js';
 import {renderLabGuide,wireLabGuide} from './applied-waves-lab.js';
 // Workshop Quantum Cohort Zero — interactive five-day learning companion.
 // Official schedule is read from agenda.json. Educational models are supplementary.
@@ -31,9 +32,9 @@ function learn(){
  const intro=st.day===0?{
  eyebrow:'WELCOME TO COHORT ZERO',
  heading:'This is where curiosity becomes discovery.',
- sub:'No quantum background needed. Start with a simple question, explore a scientific idea, see the result, and gradually build confidence.',
+ sub:'No science, math or coding background is assumed. We begin with the difference between a classical bit and a quantum qubit, explain each new word, and build understanding with interactive diagrams before any questions.',
  steps:['DISCOVER','VISUALIZE','EXPERIMENT','EXPLAIN'],
- note:'Our promise: every question follows an explanation—never the other way around.'
+ note:'Start with the explanations. Then watch the picture, move the controls, follow the example, and only after that answer a question.'
  }:{
  eyebrow:'WELCOME TO DAY '+String(st.day+1).padStart(2,'0'),
  heading:['','Understand secure quantum communication.','Build a foundation for quantum-safe security.','Develop practical workforce skills.','Turn wave theory into visible evidence.'][st.day],
@@ -47,6 +48,7 @@ function learn(){
   const when=session.start?time(session.start)+(session.end?' – '+time(session.end):''):'Time not specified in source agenda';
   if(!lesson)return '<article class="topic-card" id="topic-'+st.day+'-'+i+'"><h4>'+safe(session.title)+'</h4><p>Lesson unavailable.</p></article>';
   const design=getDesign(lesson);
+  const beginner=renderBeginnerGuide(lesson);
   const opening=design?'<section class="concept-opening"><span class="concept-opening-eyebrow">01 · UNDERSTAND THE BIG IDEA</span><h5>'+safe(design.idea)+'</h5><p>'+safe(lesson.overview)+'</p><div class="concept-why"><span class="why-icon">✳</span><div><strong>Why this matters</strong><p>'+safe(design.why)+'</p></div></div></section>':'<p class="topic-overview">'+safe(lesson.overview)+'</p>';
   const concepts='<section class="concept-teaching"><div class="lesson-section-title"><span>02 · BUILD YOUR UNDERSTANDING</span><h5>Three concepts to know before you experiment</h5></div><div class="concept-tiles">'+lesson.concepts.map((p,j)=>'<section class="lesson-concept"><span class="concept-number">'+String(j+1).padStart(2,'0')+'</span><div><h5>'+safe(p.heading)+'</h5><p>'+safe(p.text)+'</p></div></section>').join('')+'</div></section>';
   const visual=(design?renderLessonExperience(lesson):'')+(lesson.date==='2026-11-14'&&lesson.title==='Applied energy waves'?renderLabGuide():'');
@@ -56,12 +58,13 @@ function learn(){
   const vocab=lesson.terms.length?'<section class="lesson-vocab"><strong>Key vocabulary</strong><div>'+lesson.terms.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div></section>':'';
   const refs=lesson.resources.length?'<div class="lesson-resources"><strong>Additional reference materials:</strong> '+lesson.resources.map(r=>'<a href="'+safe(r.url)+'" target="_blank" rel="noopener noreferrer">'+safe(r.label)+' ↗</a>').join(' · ')+'</div>':'';
   const closing='<section class="lesson-takeaway"><span>06 · TAKE THIS WITH YOU</span><h5>'+safe(design?.take||lesson.worked.result)+'</h5><p><strong>Common misunderstanding to avoid:</strong> '+safe(lesson.misconception)+'</p>'+vocab+refs+'<button class="lesson-explore-link" type="button" data-open-explore="true">Open the full day’s interactive laboratory ↗</button></section>';
-  return '<article class="topic-card enhanced-topic" id="topic-'+st.day+'-'+i+'"><details '+(i===0?'open':'')+'><summary><span class="topic-number">'+String(i+1).padStart(2,'0')+'</span><span class="topic-summary"><small>'+safe(when)+'</small><strong>'+safe(session.title)+'</strong><span>'+safe(session.speaker||'Presenter not specified in agenda')+'</span></span><span class="topic-toggle" aria-hidden="true">+</span></summary><div class="topic-details">'+opening+concepts+visual+worked+practice+closing+'</div></details></article>';
+  return '<article class="topic-card enhanced-topic" data-lesson-date="'+safe(lesson.date)+'" id="topic-'+st.day+'-'+i+'"><details +(i===0?'open':'')+'><summary><span class="topic-number">'+String(i+1).padStart(2,'0')+'</span><span class="topic-summary"><small>'+safe(when)+'</small><strong>'+safe(session.title)+'</strong><span>'+safe(session.speaker||'Presenter not specified in agenda')+'</span></span><span class="topic-toggle" aria-hidden="true">+</span></summary><div class="topic-details">'+beginner+opening+concepts+visual+worked+practice+closing+'</div></details></article>';
  }).join('');
  $('learning-content').innerHTML=introMarkup+'<div class="learning-topic-toolbar"><span class="eyebrow plain">THE LEARNING EXPERIENCE</span><h3>Choose your topic and follow the path.</h3><p>Read the concepts first. Interact with the visual. Work through the example. Then practice.</p></div><nav class="lesson-jump-list" aria-label="Topics for this workshop day">'+list+'</nav>'+cards+'<p class="lesson-origin">All 18 lessons are supplementary educational material, not presenter transcripts. The original program times and speaker credits remain in the Agenda tab.</p>';
  const root=$('learning-content');
  const openExplore=()=>{tab('explore');document.getElementById('workshop')?.scrollIntoView({behavior:'smooth',block:'start'});};
  root.querySelectorAll('[data-open-explore]').forEach(b=>b.addEventListener('click',openExplore));
+ wireBeginnerGuides(root);
  wireLessonExperiences(root,openExplore);
  wireLabGuide(root);
  root.querySelectorAll('[data-guided-example]').forEach(ex=>{
