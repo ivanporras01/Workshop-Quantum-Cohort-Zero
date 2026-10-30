@@ -52,8 +52,31 @@ try{
  await page.locator('#tab-learn').click();
  await page.locator('#learning-content .topic-card').first().waitFor();
  assert.ok(await page.locator('#learning-content .topic-card').count()>=3);
- await page.locator('#learning-content .worked-exercise').first().waitFor();
- console.log('PASS BROWSER: detailed learning lessons and worked examples render');
+ await page.locator('#learning-content .guided-worked').first().waitFor();
+ const teachingOrder=await page.locator('#topic-0-0').evaluate(node=>{
+   const selectors=['.concept-opening','.concept-teaching','.visual-exhibit','.guided-worked','.lesson-practice','.lesson-takeaway'];
+   return selectors.map(selector=>node.querySelector(selector)?.getBoundingClientRect().top ?? -1);
+ });
+ assert.ok(teachingOrder.every((x,i)=>x>=0&&(i===0||x>teachingOrder[i-1])),'Concept-first instructional order');
+ assert.match(await page.locator('#learning-content .learning-hero h3').innerText(),/curiosity becomes discovery/i);
+ assert.equal(await page.locator('#learning-content .visual-exhibit').count(),4);
+ await page.locator('#topic-0-0 .visual-choice').nth(1).click();
+ assert.match(await page.locator('#topic-0-0 .visual-reveal').innerText(),/model/i);
+ const guided=page.locator('#topic-0-0 [data-guided-example]');
+ assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 1 of 4/);
+ await guided.locator('[data-guided-next]').click();
+ assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 2 of 4/);
+ await guided.locator('[data-guided-next]').click();
+ await guided.locator('[data-guided-next]').click();
+ assert.ok(await guided.locator('[data-guided-result]').isVisible());
+ await guided.locator('[data-guided-reset]').click();
+ assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 1 of 4/);
+ console.log('PASS BROWSER: concept-first welcome, four vivid visuals and guided examples with revealed results');
+ await page.locator('#topic-0-1 details').evaluate(el=>el.open=true);
+ await page.locator('#topic-0-1 [data-demo-slider="qubit"]').evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
+ assert.equal((await page.locator('#topic-0-1 #qubit-p0').innerText()).trim(),'100%');
+ assert.equal((await page.locator('#topic-0-1 #qubit-p1').innerText()).trim(),'0%');
+ console.log('PASS BROWSER: Day 1 concept visual qubit slider calculates correct probabilities');
 
  await page.locator('#tab-explore').click();
  await page.locator('.public-bloch-svg').waitFor();
