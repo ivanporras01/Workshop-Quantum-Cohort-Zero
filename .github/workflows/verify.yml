@@ -13,6 +13,7 @@ jobs:
         with: {node-version: '22'}
       - run: npm test
       - run: node --check src/app.js
+      - run: node --check src/learning-experiences.js
       - run: npm run build
       - run: |
           test -s dist/index.html
@@ -22,6 +23,8 @@ jobs:
           test -s dist/src/lessons.json
           test -s dist/src/bloch-sphere.js
           test -s dist/src/bloch-sphere.css
+          test -s dist/src/learning-experiences.js
+          test -s dist/src/learning-experiences.css
   live-production-check:
     needs: verify
     runs-on: ubuntu-24.04
