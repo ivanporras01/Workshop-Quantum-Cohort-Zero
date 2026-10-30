@@ -38,7 +38,7 @@ test('concepts and visualization come before worked example and practice in less
  assert.match(app,/guided-example/);
  assert.match(app,/wireLessonExperiences/);
  assert.match(app,/WELCOME TO COHORT ZERO/);
- assert.match(app,/No quantum background needed/);
+ assert.match(app,/No science, math or coding background is assumed/);
 });
 test('every interactive teaching type renders a distinguishable activity',async()=>{
  const ls=await lessons();
@@ -47,9 +47,9 @@ test('every interactive teaching type renders a distinguishable activity',async(
   const html=renderLessonExperience(l);
   assert.ok(html.length>550,design.type+' lesson lacks visual substance');
   switch(design.type){
-   case 'qubit':case 'polar':case 'python':case 'wave':case 'interference':
+   case 'polar':case 'python':case 'wave':case 'interference':
     assert.match(html,/data-demo-slider=/);break;
-   case 'sphere':assert.match(html,/sphere-lesson-graphic/);break;
+   case 'qubit':case 'sphere':assert.match(html,/data-qubit-lesson/);assert.match(html,/data-qubit-theta/);assert.match(html,/data-qubit-phi/);break;
    case 'circuit':assert.match(html,/circuit-stage/);assert.match(html,/data-demo-option/);break;
    case 'bb84':assert.match(html,/bb84-demo-grid/);break;
    default:assert.match(html,/data-demo-option/);
