@@ -49,6 +49,10 @@ try{
  await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
  await page.locator('#day-nav [data-day]').first().waitFor();
 
+ await page.locator('#start-beginner-learning').click();
+ assert.equal(await page.locator('#tab-learn').getAttribute('aria-selected'),'true','Primary button should open beginner learning');
+ assert.match(await page.locator('#topic-0-0 [data-beginner-title]').innerText(),/computing/i);
+ console.log('PASS BROWSER: homepage Start learning from zero opens the first beginner explanation');
  await page.locator('#tab-learn').click();
  await page.locator('#learning-content .topic-card').first().waitFor();
  assert.ok(await page.locator('#learning-content .topic-card').count()>=3);
