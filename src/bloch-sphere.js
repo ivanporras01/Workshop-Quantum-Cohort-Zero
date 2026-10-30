@@ -28,6 +28,8 @@ export function applyBlochGate(vector,gate){
     case 'X': result=[x,-y,-z];break;
     case 'Y': result=[-x,y,-z];break;
     case 'Z': result=[-x,-y,z];break;
+    case 'S': result=[-y,x,z];break;
+    case 'T': result=[(x-y)/Math.SQRT2,(x+y)/Math.SQRT2,z];break;
     case 'H': result=[z,-y,x];break;
     case 'Reset': result=[0,0,1];break;
     default: throw Error('Unknown quantum gate: '+gate);
@@ -104,7 +106,7 @@ export function renderBlochSphere({vector=[0,0,1],basis='Z',trace=['Start']}={})
         ${bars}
       </div>
       <div class="public-bloch-control-group"><p class="public-bloch-step">03 · APPLY A GATE AND EXPLAIN</p>
-        <div class="public-bloch-gates" id="bloch-gates">${['H','X','Y','Z','Reset'].map(g=>button(g,'gate',false)).join('')}</div>
+        <div class="public-bloch-gates" id="bloch-gates">${['H','X','Y','Z','S','T','Reset'].map(g=>button(g,'gate',false)).join('')}</div>
         <p class="public-bloch-vector">Bloch vector r = (${vector.map(n=>n.toFixed(2)).join(', ')})</p>
         <p class="public-bloch-trace">State changes: ${trace.join(' → ')}</p>
       </div>
