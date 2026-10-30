@@ -56,7 +56,7 @@ test('Learn section loads and renders all agenda topics in production assets',as
  const build=await read('scripts/build.mjs');
  assert.match(h,/id="tab-learn"/);assert.match(h,/id="panel-learn"/);
  assert.match(js,/function learn\(/);assert.match(js,/st\.lessons/);
- assert.match(js,/lesson-practice/);assert.match(js,/worked-exercise/);
+ assert.match(js,/lesson-practice/);assert.match(js,/guided-worked/);assert.match(js,/renderLessonExperience/);assert.match(js,/wireLessonExperiences/);
  assert.match(js,/data-open-explore/);
  assert.match(js,/\/src\/lessons\.json/);assert.match(build,/'lessons\.json'/);
 });
