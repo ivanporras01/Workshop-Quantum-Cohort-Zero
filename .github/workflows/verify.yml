@@ -17,6 +17,9 @@ jobs:
       - run: node --check src/applied-waves-lab.js
       - run: node --check src/beginner-path.js
       - run: node --check src/qubit-lesson.js
+      - run: node --check src/quantum-atlas.js
+      - run: node --check src/quantum-models.js
+      - run: node --check src/day-learning-map.js
       - run: npm run build
       - run: |
           test -s dist/index.html
@@ -34,6 +37,11 @@ jobs:
           test -s dist/src/beginner-path.js
           test -s dist/src/beginner-path.css
           test -s dist/src/qubit-lesson.js
+          test -s dist/src/quantum-atlas.js
+          test -s dist/src/quantum-atlas.css
+          test -s dist/src/quantum-models.js
+          test -s dist/src/quantum-concept-content.js
+          test -s dist/src/day-learning-map.js
   live-production-check:
     needs: verify
     runs-on: ubuntu-24.04
@@ -63,3 +71,4 @@ jobs:
         run: node scripts/verify-live-browser.mjs
         env:
           WORKSHOP_URL: https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev
+

@@ -194,6 +194,58 @@ try{
  assert.ok(mobile.scrollWidth<=mobile.width+8,'Mobile document overflows horizontally: '+JSON.stringify(mobile));
  console.log('PASS BROWSER: mobile view, Y measurement and no horizontal overflow');
 
+ // Exercise the new concept lessons on the mobile viewport as well.
+ assert.equal(await page.locator('[data-concept]').count(),8);
+ await page.locator('[data-concept="superposition"]').click();
+ await page.locator('#qa-basis').selectOption('X');
+ await page.locator('[data-qa-action="sample"]').click();
+ assert.match(await page.locator('[data-qa-visual]').innerText(),/200 shots/);
+ assert.equal(await page.locator('.qa-bars').first().locator('strong').first().innerText(),'100.0%');
+ await page.locator('[data-concept="entanglement"]').click();
+ await page.locator('#qa-basisA').selectOption('X');
+ await page.locator('#qa-basisB').selectOption('X');
+ assert.deepEqual(await page.locator('.qa-bars').first().locator('strong').allTextContents(),['50.0%','0.0%','0.0%','50.0%']);
+ await page.locator('#qa-kind').selectOption('mixture');
+ assert.deepEqual(await page.locator('.qa-bars').first().locator('strong').allTextContents(),['25.0%','25.0%','25.0%','25.0%']);
+ await page.locator('[data-concept="teleportation"]').click();
+ for(let branch=0;branch<4;branch++){
+   await page.locator('#qa-outcome').selectOption(String(branch));
+   for(let step=0;step<4;step++)await page.locator('[data-qa-action="next"]').click();
+   assert.match(await page.locator('.qa-teleport-scene').innerText(),/Ideal fidelity = 100.0%/);
+   assert.ok(await page.locator('[data-qa-action="next"]').isDisabled());
+ }
+ await page.locator('[data-concept="interference"]').click();
+ await page.locator('[data-qa-action="phase180"]').click();
+ assert.deepEqual(await page.locator('.qa-bars').last().locator('strong').allTextContents(),['0.0%','100.0%']);
+ await page.locator('[data-concept="gates"]').click();
+ await page.locator('[data-qa-action="HZH"]').click();
+ assert.deepEqual(await page.locator('.qa-bars strong').allTextContents(),['0.0%','100.0%']);
+ await page.locator('[data-concept="nocloning"]').click();
+ assert.match(await page.locator('.qa-result').innerText(),/Bell pair/);
+ await page.locator('[data-concept="noise"]').click();
+ await page.locator('[data-qa-action="noise50"]').click();
+ assert.deepEqual(await page.locator('.qa-bars').last().locator('strong').allTextContents(),['75.0%','25.0%']);
+ await page.locator('[data-concept="security"]').click();
+ await page.locator('#qa-eve').selectOption('on');
+ assert.match(await page.locator('.qa-stat-grid').innerText(),/25.0%/);
+ console.log('PASS BROWSER: eight concept lessons, fresh shots, Bell comparison, four teleportation branches, phase, gates, no-cloning, dephasing and QKD');
+ for(let d=0;d<5;d++){
+   await page.locator('[data-journey-day="'+d+'"]').click();
+   assert.match(await page.locator('.day-plan-purpose').innerText(),/./);
+   await page.locator('.day-plan-details summary').click();
+   assert.equal(await page.locator('.day-sequence article').count(),expectedCounts[d]);
+   await page.locator('[data-day-study="0"]').click();
+   assert.ok(await page.locator('#panel-learn').isVisible());
+   await page.locator('.day-concept-links button').first().click();
+   assert.ok(await page.locator('#qa-panel h3').isVisible());
+ }
+ for(const concept of ['superposition','entanglement','teleportation','interference','gates','nocloning','noise','security']){
+   await page.locator('[data-concept="'+concept+'"]').click();
+   const size=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth}));
+   assert.ok(size.scrollWidth<=size.width+8,concept+' overflows mobile viewport: '+JSON.stringify(size));
+ }
+ console.log('PASS BROWSER: five daily plans, lesson links, concept links and mobile layout for all eight models');
+
  assert.deepEqual(jsErrors,[],'Browser should not encounter uncaught JavaScript errors');
  console.log('PASS LIVE BROWSER: all public workshop interactions verified on desktop and mobile.');
 } finally {

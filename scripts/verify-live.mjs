@@ -50,6 +50,13 @@ for(let i=1;i<=attempts;i++){
     const expected=await readFile(new URL('../'+relative,import.meta.url),'utf8');
     assert.equal(remote,expected,'Cloudflare has not deployed latest '+relative);
   }
+  // Require the deployed concept explorer to match this revision, not just exist.
+  for(const relative of ['index.html','src/app.js','src/quantum-atlas.js','src/quantum-atlas.css','src/quantum-models.js','src/quantum-concept-content.js','src/day-learning-map.js']){
+    const actual=await (await get('/'+relative)).text();
+    const expected=await readFile(new URL('../'+relative,import.meta.url),'utf8');
+    assert.equal(actual,expected,'Cloudflare has not deployed latest '+relative);
+  }
+  console.log('PASS LIVE: all eight quantum concept lessons and five detailed daily plans match the committed source.');
   assert.ok(html.includes('/src/beginner-path.css'));
   assert.ok(beginnerStyle.includes('.beginner-guide')&&beginnerStyle.includes('.qubit-live-lesson'));
   assert.ok(js.includes("from './beginner-path.js'"));
@@ -88,3 +95,4 @@ for(let i=1;i<=attempts;i++){
  }
 }
 throw Error('Cloudflare content not verified: '+last);
+

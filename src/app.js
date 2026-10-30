@@ -1,3 +1,6 @@
+import {renderQuantumAtlas,wireQuantumAtlas} from './quantum-atlas.js';
+import {renderJourney,renderDayPlan} from './day-learning-map.js';
+let quantumAtlas;
 import {REFERENCE_STATES,applyBlochGate,renderBlochSphere} from './bloch-sphere.js';
 import {getDesign,renderLessonExperience,wireLessonExperiences} from './learning-experiences.js';
 import {renderBeginnerGuide,wireBeginnerGuides} from './beginner-path.js';
@@ -17,6 +20,9 @@ function choose(i){if(i<0||i>=st.days.length)return;st.day=i;st.tab='agenda';st.
 function tab(t){st.tab=t;for(const name of ['agenda','learn','explore','notes']){$('panel-'+name).hidden=name!==t;$('tab-'+name).setAttribute('aria-selected',String(t===name))}if(t==='explore'&&st.day===4)draw()}
 function render(){let d=st.days[st.day],date=new Date(d.date+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
  $('day-heading').innerHTML='<div class="day-heading"><div class="day-topline"><span class="day-pill">DAY '+pad(st.day+1)+' · '+date.toUpperCase()+'</span><span class="day-ordinal">'+(st.day+1)+' OF 5</span></div><h3>'+safe(d.theme)+'</h3><p>'+safe(d.focus)+'</p></div>';
+ $('day-heading').insertAdjacentHTML('beforeend',renderDayPlan(st.day));
+ $('day-heading').querySelectorAll('[data-open-concept]').forEach(b=>b.addEventListener('click',()=>quantumAtlas?.open(b.dataset.openConcept,{scroll:true})));
+ $('day-heading').querySelectorAll('[data-day-study]').forEach(b=>b.addEventListener('click',()=>{tab('learn');const card=$('topic-'+st.day+'-'+b.dataset.dayStudy);if(card){card.querySelector('details').open=true;card.scrollIntoView({behavior:'instant',block:'start'});}}));
  $('day-position').textContent=pad(st.day+1)+' / 05';$('previous-day').disabled=st.day===0;$('next-day').disabled=st.day===4;
  $('timeline').innerHTML='<p class="session-intro">Official program times and presenters, transcribed from the supplied agenda.</p><div class="timeline">'+d.sessions.map(s=>'<article class="session '+(s.kind==='break'?'break':'')+'"><div class="session-time">'+(s.start?time(s.start):'TBA')+'<small>'+(s.end?'to '+time(s.end):'Time not specified')+'</small></div><div class="timeline-rail"><span class="timeline-dot"></span></div><div class="session-card"><h4>'+safe(s.title)+'</h4>'+(s.speaker?'<p>'+safe(s.speaker)+'</p>':'')+(s.note?'<p class="session-note">'+safe(s.note)+'</p>':'')+(s.kind!=='break'?'<button class="agenda-learn" type="button" data-agenda-lesson="'+safe(s.title)+'">Study this topic ↗</button>':'')+'</div></article>').join('')+'</div><p class="original-note">The Explore activities are additional educational demonstrations; the schedule above follows the source agenda. <a href="/resources/PBSC-Cohort-Zero-Agenda.pdf" target="_blank">Download agenda PDF</a>.</p>';
  $('workshop-notes').value=read(notesKey())||'';$('day-complete').checked=read(doneKey())==='yes';$('note-status').textContent='Stored locally in this browser';nav();learn();explore();
@@ -138,6 +144,10 @@ function removeTrackingParameters(){
   if(changed)history.replaceState(null,'',url.pathname+url.search+url.hash);
 }
 async function boot(){try{removeTrackingParameters();const [agendaResponse,lessonResponse]=await Promise.all([fetch('/src/agenda.json'),fetch('/src/lessons.json')]);if(!agendaResponse.ok||!lessonResponse.ok)throw Error('workshop content fetch failed');const d=await agendaResponse.json(),study=await lessonResponse.json();st.days=d.days;st.lessons=study.lessons;if(st.days.length!==5||st.lessons.length!==18)throw Error('Five workshop days and eighteen lessons expected');let day=new URLSearchParams(location.search).get('day'),i=st.days.findIndex(v=>v.date===day);if(i!==-1)st.day=i;
+ $('quantum-concepts').innerHTML=renderQuantumAtlas();
+ quantumAtlas=wireQuantumAtlas($('quantum-concepts'),{onDay:i=>{choose(i);$('workshop').scrollIntoView({behavior:'instant',block:'start'});}});
+ $('day-learning-map').innerHTML=renderJourney();
+ $('day-learning-map').querySelectorAll('[data-journey-day]').forEach(b=>b.addEventListener('click',()=>{choose(+b.dataset.journeyDay);$('workshop').scrollIntoView({behavior:'instant',block:'start'});}));
  let theme=read('theme');if(theme)document.documentElement.dataset.theme=theme;
  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));$('theme-button').onclick=()=>{let v=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=v;store('theme',v)};
  $('previous-day').onclick=()=>choose(st.day-1);$('next-day').onclick=()=>choose(st.day+1);$('jump-last-day').onclick=()=>choose(4);

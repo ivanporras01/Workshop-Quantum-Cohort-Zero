@@ -66,3 +66,15 @@ Do not change the existing project's Workers or account routes. A new Worker is 
 ## Maintain the session lessons
 
 `src/lessons.json` contains the 18 substantive learning guides. Each item is identified by the source agenda date and exact session title. The original agenda is stored separately in `payload/agenda.json.b64`; do not change session times or speaker credits when editing educational explanations. The build copies the lessons into `dist/src/lessons.json`. CI verifies complete coverage, step-by-step content, and the website's Learn tab.
+
+
+
+## Visual concept update · 1.1.0
+
+The homepage now provides eight accessible interactive lessons: superposition and measurement, entanglement, teleportation, phase and interference, quantum gates, no-cloning, dephasing, and QKD versus PQC. Each includes an explanation, an adjustable ideal model, a guided experiment, a conceptual checkpoint and a primary reference.
+
+Five daily learning plans map objectives, practice and evidence to the unchanged official sessions on November 9, 10, 12, 13 and 14. Entanglement and teleportation are explicitly marked as companion enrichment for the communication and Python days, not additional scheduled presenter sessions.
+
+The quantum math tests cover state normalization, basis dependence, Bell versus mixture correlations, no-signaling marginals, all four teleportation branches for complex inputs, no-cloning, dephasing and sampling. Production checks compare the new source assets byte for byte; browser checks exercise the controls and all five daily plans on a mobile viewport.
+
+All models are instructional software. No QPU is connected. The oscilloscope/resistor activity remains a classical analogy, not a physical quantum experiment.
