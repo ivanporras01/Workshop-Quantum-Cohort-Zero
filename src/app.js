@@ -137,6 +137,7 @@ async function boot(){try{removeTrackingParameters();const [agendaResponse,lesso
  let theme=read('theme');if(theme)document.documentElement.dataset.theme=theme;
  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));$('theme-button').onclick=()=>{let v=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=v;store('theme',v)};
  $('previous-day').onclick=()=>choose(st.day-1);$('next-day').onclick=()=>choose(st.day+1);$('jump-last-day').onclick=()=>choose(4);
+ $('start-beginner-learning')?.addEventListener('click',()=>{choose(0);tab('learn');$('topic-0-0')?.querySelector('details')?.setAttribute('open','');});
  $('workshop-notes').oninput=e=>{store(notesKey(),e.target.value);$('note-status').textContent='Saved in this browser'};
  $('day-complete').onchange=e=>{store(doneKey(),e.target.checked?'yes':'no');nav()};
  $('copy-public-link').onclick=async()=>{const clean=location.origin+'/';try{await navigator.clipboard.writeText(clean);toast('Public Cloudflare link copied — paste it directly into your browser or share it');}catch{const el=document.createElement('textarea');el.value=clean;document.body.appendChild(el);el.select();const ok=document.execCommand('copy');el.remove();toast(ok?'Public Cloudflare link copied':'Copy this address: '+clean);}};
