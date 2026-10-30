@@ -73,10 +73,27 @@ try{
  assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 1 of 4/);
  console.log('PASS BROWSER: concept-first welcome, four vivid visuals and guided examples with revealed results');
  await page.locator('#topic-0-1 > details').evaluate(el=>el.open=true);
- await page.locator('#topic-0-1 [data-demo-slider="qubit"]').evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
- assert.equal((await page.locator('#topic-0-1 #qubit-p0').innerText()).trim(),'100%');
- assert.equal((await page.locator('#topic-0-1 #qubit-p1').innerText()).trim(),'0%');
- console.log('PASS BROWSER: Day 1 concept visual qubit slider calculates correct probabilities');
+ const firstConcept=page.locator('#topic-0-1 [data-beginner-guide]');
+ assert.match(await firstConcept.locator('[data-beginner-title]').innerText(),/classical bit/i);
+ await firstConcept.locator('[data-beginner-next]').click();
+ assert.match(await firstConcept.locator('[data-beginner-title]').innerText(),/qubit/i);
+ assert.match(await firstConcept.locator('[data-beginner-text]').innerText(),/probability amplitudes/i);
+ await firstConcept.locator('[data-beginner-step="4"]').click();
+ assert.match(await firstConcept.locator('[data-beginner-text]').innerText(),/Hadamard/i);
+ const sphere=page.locator('#topic-0-1 [data-qubit-lesson]');
+ await sphere.locator('.public-bloch-svg').waitFor();
+ assert.equal(await sphere.locator('[data-state]').count(),6);
+ for(const g of ['H','X','Y','Z','S','T','Reset'])assert.equal(await sphere.locator('[data-gate="'+g+'"]').count(),1);
+ await sphere.locator('[data-qubit-theta]').evaluate(el=>{el.value='90';el.dispatchEvent(new Event('input',{bubbles:true}));});
+ assert.equal((await sphere.locator('[data-qubit-p0]').innerText()).trim(),'50%');
+ assert.equal((await sphere.locator('[data-qubit-p1]').innerText()).trim(),'50%');
+ await sphere.locator('[data-qubit-phi]').evaluate(el=>{el.value='90';el.dispatchEvent(new Event('input',{bubbles:true}));});
+ await sphere.locator('[data-basis="Y"]').click();
+ assert.equal((await sphere.locator('.public-measure-row strong').first().innerText()).trim(),'100%');
+ await sphere.locator('[data-state="|0⟩"]').click();
+ await sphere.locator('[data-gate="H"]').click();
+ assert.equal((await sphere.locator('[data-qubit-p0]').innerText()).trim(),'50%');
+ console.log('PASS BROWSER: beginner bit vs qubit teaching, Bloch θ/φ controls, S/T gates, X/Y/Z bases, live probabilities');
 
  await page.locator('#tab-explore').click();
  await page.locator('.public-bloch-svg').waitFor();
@@ -124,7 +141,7 @@ try{
    await page.locator('#tab-learn').click();
    const num=await page.locator('#learning-content .enhanced-topic').count();
    assert.equal(num,expectedCounts[day],'Unexpected number of lessons on workshop day '+day);
-   for(const selector of ['.concept-opening','.concept-teaching','.visual-exhibit','.guided-worked','.lesson-practice','.lesson-takeaway']){
+   for(const selector of ['.beginner-guide','.concept-opening','.concept-teaching','.visual-exhibit','.guided-worked','.lesson-practice','.lesson-takeaway']){
      assert.equal(await page.locator('#learning-content .enhanced-topic '+selector).count(),num,'Incomplete learning progression: '+selector+' on day '+day);
    }
  }
