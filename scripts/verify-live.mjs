@@ -12,16 +12,25 @@ async function get(path){
 let last='';
 for(let i=1;i<=attempts;i++){
  try{
-  const [main,study,agenda,code,styles,pdf,bloch,design]=await Promise.all([
-   get('/'),get('/src/lessons.json'),get('/src/agenda.json'),get('/src/app.js'),get('/src/styles.css'),get('/resources/PBSC-Cohort-Zero-Agenda.pdf'),get('/src/bloch-sphere.js'),get('/src/bloch-sphere.css')
+  const [main,study,agenda,code,styles,pdf,bloch,design,learning,learningCss]=await Promise.all([
+   get('/'),get('/src/lessons.json'),get('/src/agenda.json'),get('/src/app.js'),get('/src/styles.css'),get('/resources/PBSC-Cohort-Zero-Agenda.pdf'),get('/src/bloch-sphere.js'),get('/src/bloch-sphere.css'),get('/src/learning-experiences.js'),get('/src/learning-experiences.css')
   ]);
-  const html=await main.text(),lessons=await study.json(),a=await agenda.json(),js=await code.text(),css=await styles.text(),blochJs=await bloch.text(),blochCss=await design.text();
+  const html=await main.text(),lessons=await study.json(),a=await agenda.json(),js=await code.text(),css=await styles.text(),blochJs=await bloch.text(),blochCss=await design.text(),learningJs=await learning.text(),learningStyles=await learningCss.text();
   assert.equal(a.days.length,5);
   assert.equal(lessons.lessons.length,18);
   assert.ok(html.includes('id="tab-learn"'));
   assert.ok(html.includes('id="panel-learn"'));
   assert.ok(js.includes('function learn(')&&js.includes('data-agenda-lesson'));
   assert.ok(css.includes('.topic-card'));
+  assert.ok(html.includes('/src/learning-experiences.css'));
+  assert.ok(js.includes("from './learning-experiences.js'"));
+  assert.ok(js.includes('concept-opening')&&js.includes('guided-worked'));
+  assert.ok(learningStyles.includes('.learning-hero')&&learningStyles.includes('.visual-exhibit'));
+  const learningModule=await import('data:text/javascript;base64,'+Buffer.from(learningJs,'utf8').toString('base64'));
+  assert.equal(Object.keys(learningModule.DESIGNS).length,18);
+  const demo=learningModule.renderLessonExperience(lessons.lessons[0]);
+  assert.ok(demo.includes('data-visual-type="journey"')&&demo.includes('data-demo-option'));
+
   assert.ok(html.includes('/src/bloch-sphere.css'));
   assert.ok(js.includes("from './bloch-sphere.js'"));
   assert.ok(blochJs.includes('THE BLOCH SPHERE')&&blochJs.includes('measureBloch('));
@@ -40,7 +49,7 @@ for(let i=1;i<=attempts;i++){
   const provided=lessons.lessons.map(l=>l.date+'|'+l.title).sort();
   assert.deepEqual(provided,actual);
   assert.ok(Number(pdf.headers.get('Content-Length')||0)!==0);
-  console.log('PASS LIVE: Cloudflare serves all 18 detailed lessons, original 5-day agenda, enhanced Bloch sphere controls, interactive JS, responsive styling, and agenda PDF.');
+  console.log('PASS LIVE: Cloudflare serves all 18 detailed lessons, original 5-day agenda, enhanced Bloch sphere, 18 concept-first visual experiences, guided examples, responsive styling and agenda PDF.');
   process.exit(0);
  }catch(error){
   last=String(error);
