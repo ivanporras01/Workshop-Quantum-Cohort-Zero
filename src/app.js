@@ -1,5 +1,6 @@
 import {REFERENCE_STATES,applyBlochGate,renderBlochSphere} from './bloch-sphere.js';
 import {getDesign,renderLessonExperience,wireLessonExperiences} from './learning-experiences.js';
+import {renderLabGuide,wireLabGuide} from './applied-waves-lab.js';
 // Workshop Quantum Cohort Zero — interactive five-day learning companion.
 // Official schedule is read from agenda.json. Educational models are supplementary.
 const $=id=>document.getElementById(id),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])),pad=n=>String(n).padStart(2,'0');
@@ -48,7 +49,7 @@ function learn(){
   const design=getDesign(lesson);
   const opening=design?'<section class="concept-opening"><span class="concept-opening-eyebrow">01 · UNDERSTAND THE BIG IDEA</span><h5>'+safe(design.idea)+'</h5><p>'+safe(lesson.overview)+'</p><div class="concept-why"><span class="why-icon">✳</span><div><strong>Why this matters</strong><p>'+safe(design.why)+'</p></div></div></section>':'<p class="topic-overview">'+safe(lesson.overview)+'</p>';
   const concepts='<section class="concept-teaching"><div class="lesson-section-title"><span>02 · BUILD YOUR UNDERSTANDING</span><h5>Three concepts to know before you experiment</h5></div><div class="concept-tiles">'+lesson.concepts.map((p,j)=>'<section class="lesson-concept"><span class="concept-number">'+String(j+1).padStart(2,'0')+'</span><div><h5>'+safe(p.heading)+'</h5><p>'+safe(p.text)+'</p></div></section>').join('')+'</div></section>';
-  const visual=design?renderLessonExperience(lesson):'';
+  const visual=(design?renderLessonExperience(lesson):'')+(lesson.date==='2026-11-14'&&lesson.title==='Applied energy waves'?renderLabGuide():'');
   const steps=lesson.worked.steps;
   const worked='<section class="guided-worked" data-guided-example="true"><div class="lesson-section-title"><span>04 · FOLLOW A GUIDED EXAMPLE</span><h5>'+safe(lesson.worked.title)+'</h5><p>Follow the logic one step at a time. Make a prediction before revealing the next step.</p></div><div class="guided-progress"><span data-guided-progress>Step 1 of '+steps.length+'</span><div class="guided-dots">'+steps.map((x,k)=>'<span class="'+(k===0?'active':'')+'" data-guided-dot="'+k+'">'+String(k+1)+'</span>').join('')+'</div></div><div class="guided-steps">'+steps.map((x,k)=>'<div class="guided-step" data-guided-step="'+k+'" '+(k?'hidden':'')+'><span class="step-big">'+String(k+1).padStart(2,'0')+'</span><p>'+safe(x)+'</p></div>').join('')+'</div><div class="guided-result" data-guided-result hidden><strong>What the example shows</strong><p>'+safe(lesson.worked.result)+'</p></div><div class="guided-actions"><button type="button" data-guided-reset class="guided-button secondary">Start again</button><button type="button" data-guided-next class="guided-button primary">Next step <span aria-hidden="true">→</span></button></div></section>';
   const practice='<section class="lesson-practice"><div class="lesson-section-title"><span>05 · CHECK YOUR UNDERSTANDING</span><h5>Now you try</h5><p>You have already studied the concept, explored a visual and followed an example. Try this one independently.</p></div><p class="practice-question">'+safe(lesson.practice.question)+'</p><details><summary>Reveal the answer and explanation</summary><p>'+safe(lesson.practice.answer)+'</p></details></section>';
@@ -62,6 +63,7 @@ function learn(){
  const openExplore=()=>{tab('explore');document.getElementById('workshop')?.scrollIntoView({behavior:'smooth',block:'start'});};
  root.querySelectorAll('[data-open-explore]').forEach(b=>b.addEventListener('click',openExplore));
  wireLessonExperiences(root,openExplore);
+ wireLabGuide(root);
  root.querySelectorAll('[data-guided-example]').forEach(ex=>{
    const steps=[...ex.querySelectorAll('[data-guided-step]')], dots=[...ex.querySelectorAll('[data-guided-dot]')],result=ex.querySelector('[data-guided-result]');
    const label=ex.querySelector('[data-guided-progress]'),next=ex.querySelector('[data-guided-next]');
@@ -101,7 +103,7 @@ function explore(){
  if(st.day===1)body=box('Polarization and quantum key distribution','Change a classical polarization angle, then simulate basis sifting','<label class="range-label">Angle between polarizers: <output id="pol-label">0°</output><input type="range" id="pol-angle" min="0" max="90" value="0"></label><div class="stat-readout"><strong id="pol-result">100.0%</strong><div class="progress-bar"><div id="pol-bar" style="width:100%"></div></div><small>Malus law: transmitted fraction = cos²(θ). Classical optical intensity, not a single-photon guarantee.</small></div><button class="primary-button" id="bb84">Simulate BB84 bases</button><p class="lab-output" id="bb84-result">The simulation illustrates basis matching only.</p>');
  if(st.day===2)body=box('Post-quantum cryptography','Compare a practical migration sequence','<p>Post-quantum cryptography protects classical networks using algorithms designed to resist quantum attacks. It is different from quantum key distribution.</p><div class="control-row">'+['Inventory','Prioritize','Test','Deploy'].map((s,i)=>'<button class="chip-button" data-pqc="'+i+'">'+s+'</button>').join('')+'</div><p class="lab-output" id="pqc-out">Choose a stage to see its purpose.</p>');
  if(st.day===3)body=box('Python for quantum','Run and modify this example in a Python environment','<pre class="code-block" id="python-demo">from math import sqrt\namplitudes = [1/sqrt(2), 1/sqrt(2)]\nprobabilities = [abs(a)**2 for a in amplitudes]\nprint(probabilities)</pre><button id="python-show" class="chip-button">Show expected output</button><p class="lab-output" id="python-result">Predict the output before revealing it.</p><p>Experiment: change the amplitudes and check that the sum of probabilities equals 1.</p>');
- if(st.day===4)body=box('Applied energy waves','Explore a classical phase interference model for Saturday’s lab',wave()+'<p>On an oscilloscope, compare waveforms at 0°, 90° and 180°. Document frequency, amplitude, measured phase and uncertainty. This visualization does not measure a qubit.</p>');
+ if(st.day===4)body=box('Applied energy waves','Explore a classical phase interference model for Saturday’s lab',wave()+'<p>On an oscilloscope, compare waveforms at 0°, 90° and 180°. Document frequency, amplitude, measured phase and uncertainty. This visualization does not measure a qubit.</p><button type="button" class="visual-link-action" id="open-full-waves-lab">Open the circuit diagram, materials, wiring guide and expected results ↗</button>');
  $('explorer').innerHTML=body+quiz();
  document.querySelectorAll('[data-state]').forEach(b=>b.onclick=()=>chooseState(b.dataset.state));
  document.querySelectorAll('[data-basis]').forEach(b=>b.onclick=()=>chooseBasis(b.dataset.basis));
@@ -113,6 +115,7 @@ function explore(){
  if($('python-show'))$('python-show').onclick=()=>{$('python-result').textContent='[0.4999999999999999, 0.4999999999999999] (floating point approximation to [0.5, 0.5])'};
  for(const id of ['wave-phase','wave-frequency'])$(id)?.addEventListener('input',e=>{st[id==='wave-phase'?'phase':'frequency']=+e.target.value;draw()});
  document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{let q=quizzes[st.day];$('feedback').hidden=false;$('feedback').textContent=(+b.dataset.choice===q[2]?'Correct. ':'Review: ')+q[3];document.querySelectorAll('[data-choice]').forEach(el=>el.setAttribute('aria-pressed',el===b?'true':'false'))});
+ if($('open-full-waves-lab'))$('open-full-waves-lab').onclick=()=>{tab('learn');const d=$('learning-content');const section=[...d.querySelectorAll('.topic-card')].find(card=>card.textContent.includes('Applied energy waves'));if(section){const details=section.querySelector('details');if(details)details.open=true;section.scrollIntoView({behavior:'smooth',block:'start'});}};
  if(st.day===4&&st.tab==='explore')draw();
 }
 function download(name,contents){let u=URL.createObjectURL(new Blob([contents],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),5000)}
