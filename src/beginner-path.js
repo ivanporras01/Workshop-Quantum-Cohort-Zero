@@ -26,7 +26,7 @@ export const BEGINNER_GUIDES={
     "steps": [
       {
         "title": "Start with the classical bit",
-        "explanation": "A bit is a basic unit of ordinary digital information. Its logical value is either 0 or 1. Many bits can encode numbers, text, and pictures. Think of a switch that is OFF or ON—an analogy for two definite values."
+        "explanation": "A classical bit is the basic unit of ordinary digital information. Its logical value is either 0 or 1. Many bits can encode numbers, text, and pictures. Think of a switch that is OFF or ON—an analogy for two definite values."
       },
       {
         "title": "Meet the qubit",
