@@ -14,6 +14,7 @@ jobs:
       - run: npm test
       - run: node --check src/app.js
       - run: node --check src/learning-experiences.js
+      - run: node --check src/applied-waves-lab.js
       - run: npm run build
       - run: |
           test -s dist/index.html
@@ -25,6 +26,9 @@ jobs:
           test -s dist/src/bloch-sphere.css
           test -s dist/src/learning-experiences.js
           test -s dist/src/learning-experiences.css
+          test -s dist/src/applied-waves-lab.js
+          test -s dist/src/applied-waves-lab.css
+          test -s dist/src/applied-waves-circuit.svg
   live-production-check:
     needs: verify
     runs-on: ubuntu-24.04
