@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 570" role="img" aria-labelledby="title desc">
+<title id="title">Applied Energy Waves - Passive Two-Input Resistor Averaging Circuit</title>
+<desc id="desc">Two synchronized function generator outputs each feed a ten kilohm resistor. The resistors meet at Vout, measured with a high-impedance oscilloscope input. All generator BNC shields and oscilloscope probe ground share the common ground. The signal outputs must not be tied together directly.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#082139"/><stop offset="1" stop-color="#12384a"/></linearGradient>
+ <linearGradient id="wireA" x1="0" x2="1"><stop stop-color="#70e7de"/><stop offset="1" stop-color="#b4f4d1"/></linearGradient>
+ <style>
+ .panel{fill:#12334a;stroke:#457c8b;stroke-width:2}
+ .lbl{font:700 19px Arial, sans-serif;fill:#ecfcff}
+ .sm{font:15px Arial, sans-serif;fill:#bcd6e0}
+ .tiny{font:13px Arial, sans-serif;fill:#b0e2e3}
+ .number{font:700 19px Arial,sans-serif;fill:#d4ffb1}
+ .source{stroke:#91e6ed;stroke-width:5;stroke-linecap:round;fill:none}
+ .other{stroke:#b4acfc;stroke-width:5;stroke-linecap:round;fill:none}
+ .output{stroke:#e5f6a2;stroke-width:5;stroke-linecap:round;fill:none}
+ .ground{stroke:#afc9d6;stroke-width:3.5;stroke-linecap:round;fill:none}
+ .symbol{stroke:#e4f9ff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+ </style>
+</defs>
+<rect width="1050" height="570" rx="19" fill="url(#bg)"/>
+<text x="32" y="40" font-size="25" font-family="Arial,sans-serif" font-weight="700" fill="#f1fcff">Passive resistive combiner — oscilloscope lab</text>
+<text x="32" y="65" font-size="15" font-family="Arial,sans-serif" fill="#a8dcd9">Presented by Hector Porras · 1 kHz sine waves · 2 Vpp per source · R1 = R2 = 10 kΩ</text>
+<rect class="panel" x="32" y="110" width="240" height="112" rx="13"/>
+<text class="lbl" x="48" y="140">Generator output A</text>
+<text class="sm" x="48" y="171">Function generator CH1</text>
+<text class="tiny" x="48" y="194">Sine · 1 kHz · 2 Vpp · 0 V offset</text>
+<rect class="panel" x="32" y="293" width="240" height="112" rx="13"/>
+<text class="lbl" x="48" y="323">Generator output B</text>
+<text class="sm" x="48" y="354">Function generator CH2</text>
+<text class="tiny" x="48" y="377">Sine · 1 kHz · 2 Vpp · 0 V offset</text>
+<circle cx="272" cy="171" r="8" fill="#70e7de"/>
+<circle cx="272" cy="354" r="8" fill="#b4acfc"/>
+<path d="M280 171 H316 M446 171 H562 V254 H610" class="source"/>
+<path d="M280 354 H316 M446 354 H562 V254 H610" class="other"/>
+<path d="M316 171 h12 l9 -14 l14 28 l14 -28 l14 28 l14 -28 l14 28 l14 -28 l9 14 h12" class="symbol"/>
+<path d="M316 354 h12 l9 -14 l14 28 l14 -28 l14 28 l14 -28 l14 28 l14 -28 l9 14 h12" class="symbol"/>
+<text x="363" y="129" text-anchor="middle" class="number">R1 = 10 kΩ</text>
+<text x="363" y="316" text-anchor="middle" class="number">R2 = 10 kΩ</text>
+<circle cx="610" cy="254" r="9" fill="#e4faa7" stroke="#fff" stroke-width="2"/>
+<path d="M610 254 H797" class="output"/>
+<text x="610" y="220" text-anchor="middle" font-family="Arial" font-weight="700" font-size="23" fill="#edffb5">Vout</text>
+<text x="610" y="239" text-anchor="middle" class="tiny">Resistor junction</text>
+<rect class="panel" x="797" y="124" width="220" height="175" rx="14"/>
+<text class="lbl" x="816" y="153">Oscilloscope</text>
+<rect x="818" y="168" width="179" height="74" rx="8" fill="#041727" stroke="#4f8091"/>
+<path d="M827 204 C841 156 855 252 870 204 S902 156 919 204 S951 252 966 204 S985 156 991 204" stroke="#d3ffae" stroke-width="3" fill="none"/>
+<circle cx="797" cy="254" r="7" fill="#e4faa7"/>
+<text x="824" y="276" class="tiny">CH1 input: 1 MΩ</text>
+<text x="814" y="311" class="sm">Probe tip → Vout</text>
+<path d="M155 222 V467 M155 405 V467 M855 299 V467 M155 467 H855" class="ground"/>
+<path d="M142 479 H168 M147 486 H163 M152 492 H158 M842 479 H868 M847 486 H863 M852 492 H858" class="ground"/>
+<text class="lbl" x="497" y="453" text-anchor="middle">Common ground / BNC shields</text>
+<text class="sm" x="497" y="485" text-anchor="middle">Generator CH1 GND · Generator CH2 GND · Oscilloscope probe GND</text>
+<rect x="32" y="516" width="985" height="39" rx="9" fill="#1d4b55" stroke="#75beb0"/>
+<text x="48" y="541" font-size="15" font-weight="700" font-family="Arial,sans-serif" fill="#e6ffdf">IMPORTANT: Connect outputs only through R1 and R2. Never short two active generator outputs together.</text>
+</svg>
