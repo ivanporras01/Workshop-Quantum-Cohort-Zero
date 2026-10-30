@@ -1,3 +1,4 @@
+import {renderInteractiveBlochLesson,wireInteractiveBlochLessons} from './qubit-lesson.js';
 // Workshop Quantum Cohort Zero — professionally sequenced, public-facing concept experiences.
 // Companion visualizations are instructional models, not claims of hardware measurements.
 export const DESIGNS={
@@ -221,8 +222,8 @@ export function renderLessonExperience(lesson){
  const type=d.type;
  const map={
   journey:()=>choiceCard('journey','Explore the five stages of scientific inquiry'),
-  qubit:()=>sliderLab('qubit'),
-  sphere:()=>sphereDiagram(),
+  qubit:()=>renderInteractiveBlochLesson(),
+  sphere:()=>renderInteractiveBlochLesson(),
   circuit:()=>circuitDiagram()+choiceCard('circuit','What happens when you change the gate?'),
   review:()=>visualSvg('Review steps')+choiceCard('review','Revisit the learning cycle'),
   network:()=>visualSvg('Secure communications')+choiceCard('network','What protection is needed?'),
@@ -275,6 +276,7 @@ function generateBB84(bb){
  if(result)result.textContent=`Kept ${kept.length} of 8 matching-basis positions. This demo omits authentication, eavesdropping detection, error correction and privacy amplification.`;
 }
 export function wireLessonExperiences(root,openExplore){
+ wireInteractiveBlochLessons(root);
  root.querySelectorAll('.visual-exhibit').forEach(exhibit=>{
   exhibit.querySelectorAll('[data-demo-option]').forEach(button=>{
    button.addEventListener('click',()=>{
