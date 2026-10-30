@@ -2,7 +2,7 @@
 
 A separate, responsive five-day workshop companion aligned to the **Palm Beach State College Cohort Zero agenda**, held **November 9, 10, 12, 13 and 14, 2026** (Eastern Time).
 
-**Scope:** This is a new standalone static educational portal, *not* a change to MathHub, Python Practice or Quantum Computing for Workforce.
+**Scope:** This standalone workshop portal is maintained separately from MathHub, Python Practice and Quantum Computing for Workforce.
 
 ## Agenda fidelity
 
@@ -15,10 +15,10 @@ A separate, responsive five-day workshop companion aligned to the **Palm Beach S
 
 ## Learning features
 
-1. Monday: Bloch sphere six reference states, X/H/Z gates, measurement probabilities and a copyable Qiskit starter.
-2. Tuesday: polarization angle explorer (Malus's law) and conceptual BB84 basis-matching example.
+1. Monday: Bloch sphere six reference states, θ/φ controls, X/Y/Z measurement bases, H/X/Y/Z/S/T gates, superposition, interference and a Qiskit starter.
+2. Tuesday: polarization angle explorer (Malus's law), BB84, and supplementary entanglement, teleportation and no-cloning lessons.
 3. Thursday: PQC vs QKD explainer with implementation migration workflow.
-4. Friday: copyable Python exercise connecting amplitudes to probabilities.
+4. Friday: Python exercises connecting amplitudes to probabilities, Bell-pair sampling, teleportation circuit logic and a dephasing model.
 5. Saturday: interactive *classical* two-signal interference oscilloscope simulator, including phase controls. It is not quantum hardware.
 
 Each day has its exact **Agenda**, **Learn**, **Explore**, and **My Notes** tabs. The Learn tab contains 18 session-matched lessons across the five dates: substantive explanations, guided worked examples, common mistakes, vocabulary, independent practice with revealed reasoning, and relevant official external resources. Click **Study this topic** beside an agenda item to jump to its full lesson. These lessons are supplemental preparation, **not official presenter transcripts**. Notes/completion checkmarks are saved **only in that browser's local storage**. No user accounts, server, tracking or student-grade collection. The portal works on desktop and mobile and includes light/dark display.
@@ -42,7 +42,7 @@ By Dr. Luis Pentzke and Professor Hector Porras. All 18 teaching sessions includ
 
 Source repository: `ivanporras01/Workshop-Quantum-Cohort-Zero`. Maintain the existing repository and Worker when applying updates.
 
-Cloudflare dashboard → **Workers & Pages** → **Create application** → **Connect GitHub** → select the new repository. Configure:
+The existing Cloudflare Worker is already connected to this repository. Push verified updates to `main`; Cloudflare builds and deploys them automatically. Keep these settings on the existing Worker:
 
 | Setting | Value |
 | --- | --- |
@@ -52,7 +52,7 @@ Cloudflare dashboard → **Workers & Pages** → **Create application** → **Co
 | Root directory | `/` |
 | Worker name | `workshop-quantum-cohort-zero` |
 
-The Worker config specifies the `dist` directory as its static asset directory. A successful deployment should provide a URL shaped like `https://workshop-quantum-cohort-zero.<YOUR-WORKERS-SUBDOMAIN>.workers.dev/`. **This is an example URL shape, not a verified live link.** In Cloudflare, open **Deployments** and **Visit** to copy the actual address and verify the agenda and all interactive controls. Confirm the `src/agenda.json` request and the PDF resolve in the published build.
+The Worker serves the generated `dist` directory at the existing public URL above. The published 1.1.0 update passed the build, all 27 automated tests, byte-for-byte production asset checks, and browser checks on desktop and mobile on October 30, 2026. After future changes, wait for the Cloudflare build, `verify`, `live-production-check`, and `live-browser-check` jobs to succeed before confirming completion.
 
 Alternatively, in a terminal authenticated to your Cloudflare account:
 
@@ -62,7 +62,7 @@ npm run check
 npm run deploy
 ```
 
-Do not change the existing project's Workers or account routes. A new Worker is published independently.
+Maintain the existing Worker, repository connection, public URL and account routes. Do not create another Worker or portal for routine updates.
 ## Maintain the session lessons
 
 `src/lessons.json` contains the 18 substantive learning guides. Each item is identified by the source agenda date and exact session title. The original agenda is stored separately in `payload/agenda.json.b64`; do not change session times or speaker credits when editing educational explanations. The build copies the lessons into `dist/src/lessons.json`. CI verifies complete coverage, step-by-step content, and the website's Learn tab.
