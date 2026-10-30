@@ -82,7 +82,7 @@ function blochIllustration(vector,preset){
 function matchedState(vector){
   return Object.entries(REFERENCE_STATES).find(([,s])=>s.v.every((v,i)=>Math.abs(v-vector[i])<1e-8));
 }
-export function renderBlochSphere({vector=[0,0,1],basis='Z',trace=['Start']}={}){
+export function renderBlochSphere({vector=[0,0,1],basis='Z',trace=['Start'],embedded=false}={}){
   const matched=matchedState(vector),current=matched?.[0]||'Custom state';
   const stateData=matched?.[1]||{formula:'α|0⟩ + β|1⟩',explanation:'The vector shows a pure single-qubit state. Compare different measurement bases to see why relative phase matters.'};
   const p=measureBloch(vector,basis);
@@ -95,18 +95,18 @@ export function renderBlochSphere({vector=[0,0,1],basis='Z',trace=['Start']}={})
   return `<section class="public-bloch-panel" aria-label="Interactive Bloch sphere explorer">
     <div class="public-bloch-main">
       <p class="public-bloch-step">01 · CHOOSE A REFERENCE STATE</p>
-      <div class="public-bloch-presets" id="bloch-presets">${Object.keys(REFERENCE_STATES).map(s=>button(s,'state',s===current)).join('')}</div>
+      <div class="public-bloch-presets" ${embedded?'':'id="bloch-presets"'}>${Object.keys(REFERENCE_STATES).map(s=>button(s,'state',s===current)).join('')}</div>
       ${blochIllustration(vector,current)}
       ${summary}
     </div>
     <div class="public-bloch-controls">
       <div class="public-bloch-control-group"><p class="public-bloch-step">02 · CHOOSE A MEASUREMENT BASIS</p>
-        <div class="public-bloch-basis" id="bloch-basis">${['Z','X','Y'].map(b=>button(b+' basis','basis',b===basis).replace('data-basis="'+b+' basis"','data-basis="'+b+'"')).join('')}</div>
+        <div class="public-bloch-basis" ${embedded?'':'id="bloch-basis"'}>${['Z','X','Y'].map(b=>button(b+' basis','basis',b===basis).replace('data-basis="'+b+' basis"','data-basis="'+b+'"')).join('')}</div>
         <p class="public-bloch-help">A single measurement returns one outcome. The bars show ideal probabilities over many identically prepared qubits.</p>
         ${bars}
       </div>
       <div class="public-bloch-control-group"><p class="public-bloch-step">03 · APPLY A GATE AND EXPLAIN</p>
-        <div class="public-bloch-gates" id="bloch-gates">${['H','X','Y','Z','S','T','Reset'].map(g=>button(g,'gate',false)).join('')}</div>
+        <div class="public-bloch-gates" ${embedded?'':'id="bloch-gates"'}>${['H','X','Y','Z','S','T','Reset'].map(g=>button(g,'gate',false)).join('')}</div>
         <p class="public-bloch-vector">Bloch vector r = (${vector.map(n=>n.toFixed(2)).join(', ')})</p>
         <p class="public-bloch-trace">State changes: ${trace.join(' → ')}</p>
       </div>
