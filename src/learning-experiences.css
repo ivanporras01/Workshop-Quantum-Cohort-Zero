@@ -84,3 +84,9 @@
 @media(max-width:860px){.learning-hero{grid-template-columns:1fr}.learning-hero-orbit{display:none}.enhanced-topic .topic-details{padding:15px}.sphere-lesson-graphic{grid-template-columns:1fr}}
 @media(max-width:520px){.learning-hero{padding:21px}.concept-opening,.visual-exhibit,.guided-worked,.lesson-takeaway{padding:16px}.stage-stats,.concept-comparison{grid-template-columns:1fr}.bb84-grid{grid-template-columns:repeat(2,1fr)}.guided-progress{flex-wrap:wrap}.enhanced-topic .lesson-concept{grid-template-columns:30px 1fr;padding:12px}}
 @media(prefers-reduced-motion:reduce){.polar-filter{transition:none}}
+
+/* Topic-specific visual maps replace generic input/process/output placeholders */
+.concept-flow-diagram{border:1px solid #477987;background:#0b2b42;border-radius:15px;padding:10px;margin:12px 0}
+.concept-flow-diagram .exhibit-diagram{display:block;width:100%;height:auto}
+.concept-flow-caption{margin:2px 7px 8px!important;color:#d4ebe5;font-size:12px;line-height:1.7}
+@media(max-width:520px){.concept-flow-diagram{padding:5px}}
