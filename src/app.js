@@ -1,4 +1,5 @@
 import {REFERENCE_STATES,applyBlochGate,renderBlochSphere} from './bloch-sphere.js';
+import {getDesign,renderLessonExperience,wireLessonExperiences} from './learning-experiences.js';
 // Workshop Quantum Cohort Zero — interactive five-day learning companion.
 // Official schedule is read from agenda.json. Educational models are supplementary.
 const $=id=>document.getElementById(id),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])),pad=n=>String(n).padStart(2,'0');
@@ -25,20 +26,58 @@ function render(){let d=st.days[st.day],date=new Date(d.date+'T12:00:00Z').toLoc
  }));
 }
 function learn(){
-  const d=st.days[st.day],items=d.sessions.filter(s=>s.kind!=='break').map(s=>({session:s,lesson:st.lessons.find(l=>l.date===d.date&&l.title===s.title)}));
-  const list=items.map(({session},i)=>'<a href="#topic-'+st.day+'-'+i+'" class="lesson-jump-link">'+(i+1).toString().padStart(2,'0')+' · '+safe(session.title)+'</a>').join('');
-  $('learning-content').innerHTML='<div class="lesson-opening"><span class="eyebrow plain">DETAILED WORKSHOP LESSONS</span><h3>Understand the science. Practice the reasoning.</h3><p>Supplementary instructional materials for the original schedule. These are not transcripts or official presenter slides. Use the exercises to prepare for each session.</p></div><nav class="lesson-jump-list" aria-label="Topics for this workshop day">'+list+'</nav>'+
-  items.map(({session,lesson},i)=>{
-    const when=session.start?time(session.start)+(session.end?' – '+time(session.end):''):'Time not specified in source agenda';
-    if(!lesson)return '<article class="topic-card" id="topic-'+st.day+'-'+i+'"><h4>'+safe(session.title)+'</h4><p>Lesson is not yet available for this agenda item.</p></article>';
-    const concepts=lesson.concepts.map((p,j)=>'<section class="lesson-concept"><span class="concept-number">'+String(j+1).padStart(2,'0')+'</span><div><h5>'+safe(p.heading)+'</h5><p>'+safe(p.text)+'</p></div></section>').join('');
-    const worked='<section class="worked-exercise"><span class="eyebrow plain">WORKED EXAMPLE</span><h5>'+safe(lesson.worked.title)+'</h5><ol>'+lesson.worked.steps.map(x=>'<li>'+safe(x)+'</li>').join('')+'</ol><p class="worked-result"><strong>Result:</strong> '+safe(lesson.worked.result)+'</p></section>';
-    const practice='<section class="lesson-practice"><span class="eyebrow plain">YOUR TURN</span><p>'+safe(lesson.practice.question)+'</p><details><summary>Reveal the answer and explanation</summary><p>'+safe(lesson.practice.answer)+'</p></details></section>';
-    const vocab=lesson.terms.length?'<section class="lesson-vocab"><strong>Key vocabulary</strong><div>'+lesson.terms.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div></section>':'';
-    const refs=lesson.resources.length?'<div class="lesson-resources"><strong>Study further:</strong> '+lesson.resources.map(r=>'<a href="'+safe(r.url)+'" target="_blank" rel="noopener noreferrer">'+safe(r.label)+' ↗</a>').join(' · ')+'</div>':'';
-    return '<article class="topic-card" id="topic-'+st.day+'-'+i+'"><details '+(i===0?'open':'')+'><summary><span class="topic-number">'+String(i+1).padStart(2,'0')+'</span><span class="topic-summary"><small>'+safe(when)+'</small><strong>'+safe(session.title)+'</strong><span>'+safe(session.speaker||'Presenter not listed in agenda')+'</span></span><span class="topic-toggle" aria-hidden="true">+</span></summary><div class="topic-details"><p class="topic-overview">'+safe(lesson.overview)+'</p>'+concepts+worked+practice+'<p class="lesson-pitfall"><strong>Common misconception:</strong> '+safe(lesson.misconception)+'</p>'+vocab+refs+'<button class="lesson-explore-link" type="button" data-open-explore="true">Open this day’s interactive demonstration ↗</button></div></details></article>';
-  }).join('')+'<p class="lesson-origin">Agenda sessions and presenters follow the supplied PBSC document. All explanations, exercises, and external references are additional study materials.</p>';
-  $('learning-content').querySelectorAll('[data-open-explore]').forEach(b=>b.addEventListener('click',()=>{tab('explore');document.getElementById('workshop')?.scrollIntoView({behavior:'smooth',block:'start'})}));
+ const d=st.days[st.day],items=d.sessions.filter(s=>s.kind!=='break').map(s=>({session:s,lesson:st.lessons.find(l=>l.date===d.date&&l.title===s.title)}));
+ const intro=st.day===0?{
+ eyebrow:'WELCOME TO COHORT ZERO',
+ heading:'This is where curiosity becomes discovery.',
+ sub:'No quantum background needed. Start with a simple question, explore a scientific idea, see the result, and gradually build confidence.',
+ steps:['DISCOVER','VISUALIZE','EXPERIMENT','EXPLAIN'],
+ note:'Our promise: every question follows an explanation—never the other way around.'
+ }:{
+ eyebrow:'WELCOME TO DAY '+String(st.day+1).padStart(2,'0'),
+ heading:['','Understand secure quantum communication.','Build a foundation for quantum-safe security.','Develop practical workforce skills.','Turn wave theory into visible evidence.'][st.day],
+ sub:'Each topic begins with its key idea and why it matters. Explore the interactive visual, work through the example, and only then try the practice.',
+ steps:['LEARN','SEE IT','WORK IT','TRY IT'],
+ note:'Navigate the lessons in order, or choose a topic from the list below.'
+ };
+ const introMarkup='<section class="learning-hero"><div class="learning-hero-main"><span class="learning-hero-kicker">'+safe(intro.eyebrow)+'</span><h3>'+safe(intro.heading)+'</h3><p>'+safe(intro.sub)+'</p><div class="learning-hero-steps">'+intro.steps.map((t,i)=>'<span><em>'+String(i+1).padStart(2,'0')+'</em>'+safe(t)+'</span>').join('')+'</div><p class="learning-hero-note">'+safe(intro.note)+'</p></div><div class="learning-hero-orbit" aria-hidden="true"><svg viewBox="0 0 240 240"><circle cx="120" cy="120" r="85" fill="#103953" stroke="#73e1d9" stroke-width="1.5"/><ellipse cx="120" cy="120" rx="88" ry="29" fill="none" stroke="#9cd7eb"/><ellipse cx="120" cy="120" rx="32" ry="85" fill="none" stroke="#9bc5ff"/><path d="M120 120 172 69" stroke="#d8ff9e" stroke-width="5" stroke-linecap="round"/><circle cx="172" cy="69" r="8" fill="#d8ff9e"/><circle cx="120" cy="120" r="4" fill="#fff"/></svg><span>LEARN BY DISCOVERY</span></div></section>';
+ const list=items.map(({session},i)=>'<a href="#topic-'+st.day+'-'+i+'" class="lesson-jump-link"><span>'+String(i+1).padStart(2,'0')+'</span>'+safe(session.title)+'</a>').join('');
+ const cards=items.map(({session,lesson},i)=>{
+  const when=session.start?time(session.start)+(session.end?' – '+time(session.end):''):'Time not specified in source agenda';
+  if(!lesson)return '<article class="topic-card" id="topic-'+st.day+'-'+i+'"><h4>'+safe(session.title)+'</h4><p>Lesson unavailable.</p></article>';
+  const design=getDesign(lesson);
+  const opening=design?'<section class="concept-opening"><span class="concept-opening-eyebrow">01 · UNDERSTAND THE BIG IDEA</span><h5>'+safe(design.idea)+'</h5><p>'+safe(lesson.overview)+'</p><div class="concept-why"><span class="why-icon">✳</span><div><strong>Why this matters</strong><p>'+safe(design.why)+'</p></div></div></section>':'<p class="topic-overview">'+safe(lesson.overview)+'</p>';
+  const concepts='<section class="concept-teaching"><div class="lesson-section-title"><span>02 · BUILD YOUR UNDERSTANDING</span><h5>Three concepts to know before you experiment</h5></div><div class="concept-tiles">'+lesson.concepts.map((p,j)=>'<section class="lesson-concept"><span class="concept-number">'+String(j+1).padStart(2,'0')+'</span><div><h5>'+safe(p.heading)+'</h5><p>'+safe(p.text)+'</p></div></section>').join('')+'</div></section>';
+  const visual=design?renderLessonExperience(lesson):'';
+  const steps=lesson.worked.steps;
+  const worked='<section class="guided-worked" data-guided-example="true"><div class="lesson-section-title"><span>04 · FOLLOW A GUIDED EXAMPLE</span><h5>'+safe(lesson.worked.title)+'</h5><p>Follow the logic one step at a time. Make a prediction before revealing the next step.</p></div><div class="guided-progress"><span data-guided-progress>Step 1 of '+steps.length+'</span><div class="guided-dots">'+steps.map((x,k)=>'<span class="'+(k===0?'active':'')+'" data-guided-dot="'+k+'">'+String(k+1)+'</span>').join('')+'</div></div><div class="guided-steps">'+steps.map((x,k)=>'<div class="guided-step" data-guided-step="'+k+'" '+(k?'hidden':'')+'><span class="step-big">'+String(k+1).padStart(2,'0')+'</span><p>'+safe(x)+'</p></div>').join('')+'</div><div class="guided-result" data-guided-result hidden><strong>What the example shows</strong><p>'+safe(lesson.worked.result)+'</p></div><div class="guided-actions"><button type="button" data-guided-reset class="guided-button secondary">Start again</button><button type="button" data-guided-next class="guided-button primary">Next step <span aria-hidden="true">→</span></button></div></section>';
+  const practice='<section class="lesson-practice"><div class="lesson-section-title"><span>05 · CHECK YOUR UNDERSTANDING</span><h5>Now you try</h5><p>You have already studied the concept, explored a visual and followed an example. Try this one independently.</p></div><p class="practice-question">'+safe(lesson.practice.question)+'</p><details><summary>Reveal the answer and explanation</summary><p>'+safe(lesson.practice.answer)+'</p></details></section>';
+  const vocab=lesson.terms.length?'<section class="lesson-vocab"><strong>Key vocabulary</strong><div>'+lesson.terms.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div></section>':'';
+  const refs=lesson.resources.length?'<div class="lesson-resources"><strong>Additional reference materials:</strong> '+lesson.resources.map(r=>'<a href="'+safe(r.url)+'" target="_blank" rel="noopener noreferrer">'+safe(r.label)+' ↗</a>').join(' · ')+'</div>':'';
+  const closing='<section class="lesson-takeaway"><span>06 · TAKE THIS WITH YOU</span><h5>'+safe(design?.take||lesson.worked.result)+'</h5><p><strong>Common misunderstanding to avoid:</strong> '+safe(lesson.misconception)+'</p>'+vocab+refs+'<button class="lesson-explore-link" type="button" data-open-explore="true">Open the full day’s interactive laboratory ↗</button></section>';
+  return '<article class="topic-card enhanced-topic" id="topic-'+st.day+'-'+i+'"><details '+(i===0?'open':'')+'><summary><span class="topic-number">'+String(i+1).padStart(2,'0')+'</span><span class="topic-summary"><small>'+safe(when)+'</small><strong>'+safe(session.title)+'</strong><span>'+safe(session.speaker||'Presenter not specified in agenda')+'</span></span><span class="topic-toggle" aria-hidden="true">+</span></summary><div class="topic-details">'+opening+concepts+visual+worked+practice+closing+'</div></details></article>';
+ }).join('');
+ $('learning-content').innerHTML=introMarkup+'<div class="learning-topic-toolbar"><span class="eyebrow plain">THE LEARNING EXPERIENCE</span><h3>Choose your topic and follow the path.</h3><p>Read the concepts first. Interact with the visual. Work through the example. Then practice.</p></div><nav class="lesson-jump-list" aria-label="Topics for this workshop day">'+list+'</nav>'+cards+'<p class="lesson-origin">All 18 lessons are supplementary educational material, not presenter transcripts. The original program times and speaker credits remain in the Agenda tab.</p>';
+ const root=$('learning-content');
+ const openExplore=()=>{tab('explore');document.getElementById('workshop')?.scrollIntoView({behavior:'smooth',block:'start'});};
+ root.querySelectorAll('[data-open-explore]').forEach(b=>b.addEventListener('click',openExplore));
+ wireLessonExperiences(root,openExplore);
+ root.querySelectorAll('[data-guided-example]').forEach(ex=>{
+   const steps=[...ex.querySelectorAll('[data-guided-step]')], dots=[...ex.querySelectorAll('[data-guided-dot]')],result=ex.querySelector('[data-guided-result]');
+   const label=ex.querySelector('[data-guided-progress]'),next=ex.querySelector('[data-guided-next]');
+   let current=0;
+   const update=()=>{
+     steps.forEach((el,i)=>el.hidden=i!==current);
+     dots.forEach((el,i)=>el.classList.toggle('active',i<=current));
+     label.textContent='Step '+(current+1)+' of '+steps.length;
+     result.hidden=current!==steps.length-1;
+     next.disabled=current===steps.length-1;
+     next.textContent=current===steps.length-1?'Example complete ✓':'Next step →';
+   };
+   next.addEventListener('click',()=>{current=Math.min(steps.length-1,current+1);update();});
+   ex.querySelector('[data-guided-reset]').addEventListener('click',()=>{current=0;update();});
+   update();
+ });
 }
 
 const box=(title,description,body)=>'<header class="explore-header"><span class="explore-icon">✳</span><div><h3>'+title+'</h3><p>'+description+'</p></div></header><p class="disclaimer">Additional instructional demonstration, not an official agenda session or physical quantum experiment.</p>'+body;
