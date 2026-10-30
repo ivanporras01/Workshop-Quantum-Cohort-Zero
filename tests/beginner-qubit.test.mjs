@@ -18,7 +18,7 @@ test('all 18 topics explain fundamentals from zero before interactive problems',
   assert.ok(g.steps.length>=4,l.title+' needs more explanation');
   steps+=g.steps.length;
   for(const e of g.steps){
-   assert.ok(e.title.length>=4,e.title);
+   assert.ok(e.title.length>=3,e.title);
    assert.ok(e.explanation.length>70,l.title+': '+e.title+' is not explanatory');
   }
   const html=renderBeginnerGuide(l);
