@@ -61,7 +61,7 @@ try{
  assert.match(await page.locator('#learning-content .learning-hero h3').innerText(),/curiosity becomes discovery/i);
  assert.equal(await page.locator('#learning-content .visual-exhibit').count(),4);
  await page.locator('#topic-0-0 .visual-choice').nth(1).click();
- assert.match(await page.locator('#topic-0-0 .visual-reveal').innerText(),/model/i);
+ assert.match(await page.locator('#topic-0-0 .visual-reveal').innerText(),/ideal qubit.*operation.*basis/i);
  const guided=page.locator('#topic-0-0 [data-guided-example]');
  assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 1 of 4/);
  await guided.locator('[data-guided-next]').click();
