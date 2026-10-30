@@ -30,7 +30,7 @@ test('concepts and visualization come before worked example and practice in less
  const app=await read('src/app.js');
  const concept=app.indexOf("const opening=design?");
  const tiles=app.indexOf("const concepts=");
- const visual=app.indexOf("const visual=design?");
+ const visual=app.indexOf("const visual=(design?");
  const steps=app.indexOf("const worked=");
  const practice=app.indexOf("const practice=");
  const takeaway=app.indexOf("const closing=");
