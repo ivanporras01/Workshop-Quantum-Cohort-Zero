@@ -244,7 +244,7 @@ export const BEGINNER_GUIDES={
     "steps": [
       {
         "title": "Encryption",
-        "explanation": "Encryption helps protect content confidentiality."
+        "explanation": "Encryption helps protect the confidentiality of information by transforming readable plaintext into ciphertext using a suitable algorithm and secret key material. Encryption alone does not verify who sent a message."
       },
       {
         "title": "KEM",
