@@ -1,0 +1,48 @@
+
+/* Beginner-first teaching path — legible, paced, guided and approachable */
+.beginner-guide{border:1px solid #5b9d9c;border-radius:17px;background:linear-gradient(145deg,#173c55,#12334b);padding:24px;display:grid;gap:16px}
+.beginner-kicker{display:block;color:#b6f9db;font-size:11px;font-weight:850;letter-spacing:.145em}
+.beginner-heading h5{font-size:clamp(23px,3.4vw,32px);letter-spacing:-.025em;line-height:1.25;margin:12px 0 10px;color:#f2fffa}
+.beginner-heading p{font-size:14px;line-height:1.8;color:#cce7ec;margin:0}
+.beginner-step-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.beginner-step-nav button{border:1px solid #4a7585;background:#173a50;border-radius:12px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:9px;cursor:pointer;color:#e7f9fd;min-height:93px}
+.beginner-step-nav button span{font-size:12px;color:#b6e8c2;font-weight:850}
+.beginner-step-nav button strong{font-size:13px;line-height:1.4}
+.beginner-step-nav button[aria-pressed=true]{background:#2d615f;border-color:#b9f8cb;box-shadow:0 0 0 1px #b9f8cb6a}
+.beginner-step-nav button:hover{background:#245a60}
+.beginner-step-body{border-radius:14px;background:radial-gradient(circle at 100% 0%,#225966,transparent 55%),#0b2a40;border:1px solid #588b95;padding:24px;min-height:175px}
+.beginner-step-count{display:block;font-size:11px;letter-spacing:.13em;font-weight:850;color:#adf3dd}
+.beginner-step-body h6{font-size:clamp(20px,2.8vw,26px);margin:12px 0 10px;line-height:1.25;color:#f1fffb}
+.beginner-step-body p{color:#deedf4;font-size:15px;line-height:1.95;margin:0;max-width:850px}
+.beginner-controls{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.beginner-controls button{background:#256268;color:#effff7;border:1px solid #82c4bc;padding:11px 13px;border-radius:10px;font-size:12px;font-weight:800}
+.beginner-controls button:disabled{opacity:.5}
+.beginner-controls>span{font-size:12px;color:#c9f6e6;font-weight:800}
+.beginner-reassurance{margin:0;font-size:12px;color:#acd9d7;line-height:1.7;border-left:3px solid #9be5da;padding-left:13px}
+.enhanced-topic .topic-details{gap:21px}
+.qubit-live-lesson{display:grid;gap:16px;padding:3px}
+.qubit-live-intro{background:radial-gradient(circle at 92% 0%,#1d6172,transparent 50%),#123349;border-radius:14px;border:1px solid #497d8b;padding:22px}
+.qubit-live-intro>span{display:block;font-size:11px;font-weight:850;letter-spacing:.12em;color:#baf3e3}
+.qubit-live-intro h6{font-size:clamp(21px,3vw,29px);margin:10px 0;color:#e9fff6;line-height:1.25}
+.qubit-live-intro>p{color:#cae4ed;font-size:14px;line-height:1.8}
+.qubit-live-comparison{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.qubit-live-comparison>div{background:#143d52;border:1px solid #527b8d;border-radius:12px;padding:14px}
+.qubit-live-comparison small{font-size:10px;font-weight:850;letter-spacing:.13em;color:#a1dfd6;display:block}
+.qubit-live-comparison strong{font-size:clamp(19px,2.7vw,26px);display:block;color:#d8ffab;margin:7px 0}
+.qubit-live-comparison p{font-size:12px;line-height:1.65;color:#bbdce3;margin:0}
+.qubit-live-controls{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.qubit-live-angle{background:#103148;border:1px solid #4a7f89;border-radius:13px;padding:17px}
+.qubit-live-angle label{display:block;font-size:14px;font-weight:850;color:#e3fef7}
+.qubit-live-angle output{color:#b5ffaf}
+.qubit-live-angle input{display:block;width:100%;margin:17px 0 12px;accent-color:#9feccf}
+.qubit-live-angle p{font-size:12px;color:#b4dbe4;line-height:1.6;margin:0}
+.qubit-angle-readout{display:grid;grid-template-columns:1fr 1fr 1.55fr;gap:10px}
+.qubit-angle-readout>div{background:#1a4859;border:1px solid #4d8e8d;border-radius:12px;padding:14px}
+.qubit-angle-readout span{font-size:11px;color:#b7e0df;display:block}
+.qubit-angle-readout strong{font-size:clamp(15px,2.6vw,25px);display:block;color:#e1ffbe;margin-top:8px;overflow-wrap:anywhere}
+.qubit-sphere-mount>.public-bloch-panel{margin:0}
+.qubit-guide-caption{background:#204e56;border-left:4px solid #b5ffbc;border-radius:0 12px 12px 0;padding:17px;font-size:13px;line-height:1.8;color:#f0fff3}
+.qubit-science-note{font-size:12px;line-height:1.75;color:#afd1d9;margin:0}
+.qubit-basics-divider{font-size:12px;font-weight:800;color:#c4f5e1}
+@media(max-width:740px){.qubit-live-controls,.qubit-live-comparison{grid-template-columns:1fr}.qubit-angle-readout{grid-template-columns:1fr 1fr}.qubit-angle-readout>div:last-child{grid-column:1/-1}}
+@media(max-width:520px){.beginner-guide,.beginner-step-body{padding:15px}.beginner-step-nav{grid-template-columns:1fr 1fr}.beginner-step-nav button{min-height:80px;padding:10px}.beginner-step-nav button strong{font-size:11px}.beginner-step-body p{font-size:14px}.beginner-controls button{font-size:11px}.qubit-live-intro{padding:14px}}
