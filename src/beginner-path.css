@@ -46,3 +46,21 @@
 .qubit-basics-divider{font-size:12px;font-weight:800;color:#c4f5e1}
 @media(max-width:740px){.qubit-live-controls,.qubit-live-comparison{grid-template-columns:1fr}.qubit-angle-readout{grid-template-columns:1fr 1fr}.qubit-angle-readout>div:last-child{grid-column:1/-1}}
 @media(max-width:520px){.beginner-guide,.beginner-step-body{padding:15px}.beginner-step-nav{grid-template-columns:1fr 1fr}.beginner-step-nav button{min-height:80px;padding:10px}.beginner-step-nav button strong{font-size:11px}.beginner-step-body p{font-size:14px}.beginner-controls button{font-size:11px}.qubit-live-intro{padding:14px}}
+
+/* A first-principles classical-vs-quantum gateway, before the five-day agenda */
+.first-concepts{margin-top:0;margin-bottom:48px}
+.first-concepts-heading{max-width:770px;margin-bottom:23px}
+.first-concepts-heading>span{color:#a0ead4;font-size:12px;letter-spacing:.14em;font-weight:850}
+.first-concepts-heading h2{color:#f2fffd;font-size:clamp(28px,4vw,40px);line-height:1.16;letter-spacing:-.04em;margin:10px 0}
+.first-concepts-heading p{font-size:14px;color:#c1dbe3;line-height:1.8}
+.first-concepts-grid{display:grid;grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr);gap:13px;align-items:center}
+.first-concept-card{background:linear-gradient(135deg,#153a55,#1a4761);border:1px solid #547b93;border-radius:19px;padding:27px;min-height:230px}
+.first-concept-card.quantum{border-color:#90d3bd;background:linear-gradient(125deg,#214856,#184b56)}
+.first-icon{font-size:clamp(25px,4vw,35px);font-weight:900;color:#d1ffab;letter-spacing:.025em;min-height:48px}
+.first-icon small{font-size:12px;color:#c5e3e6;letter-spacing:.1em}
+.first-concept-card h3{font-size:20px;color:#fff;margin:14px 0 9px}
+.first-concept-card p{font-size:13px;line-height:1.8;color:#d7e9ed}
+.first-concept-card>small{font-size:11px;color:#aad6df;line-height:1.65;display:block}
+.first-concept-arrow{text-align:center;font-size:31px;font-weight:900;color:#aef1d9}
+.first-concepts-footer{margin-top:15px;font-size:13px;line-height:1.8;color:#c5e8df;border-left:3px solid #8cdec9;padding-left:14px}
+@media(max-width:680px){.first-concepts-grid{grid-template-columns:1fr;gap:9px}.first-concept-card{min-height:0;padding:18px}.first-concept-arrow{transform:rotate(90deg)}}
