@@ -118,7 +118,39 @@ try{
  assert.ok((await page.locator('#bb84-result').innerText()).includes('simulated'));
  console.log('PASS BROWSER: polarization and BB84 educational demos');
 
+ const expectedCounts=[4,4,3,3,4];
+ for(let day=0;day<5;day++){
+   await page.locator('#day-nav [data-day="'+day+'"]').click();
+   await page.locator('#tab-learn').click();
+   const num=await page.locator('#learning-content .enhanced-topic').count();
+   assert.equal(num,expectedCounts[day],'Unexpected number of lessons on workshop day '+day);
+   for(const selector of ['.concept-opening','.concept-teaching','.visual-exhibit','.guided-worked','.lesson-practice','.lesson-takeaway']){
+     assert.equal(await page.locator('#learning-content .enhanced-topic '+selector).count(),num,'Incomplete learning progression: '+selector+' on day '+day);
+   }
+ }
+ console.log('PASS BROWSER: every one of 18 lessons follows concept → explanation → visualization → guided example → questions → takeaway');
+
  await page.locator('#day-nav [data-day="4"]').click();
+ await page.locator('#tab-learn').click();
+ await page.locator('#topic-4-2 > details').evaluate(el=>el.open=true);
+ const lab=page.locator('#topic-4-2 [data-lab-guide]');
+ await lab.locator('.lab-diagram-link img').waitFor();
+ assert.ok((await lab.locator('.lab-diagram-link').getAttribute('href')).includes('/src/applied-waves-circuit.svg'));
+ assert.equal(await lab.locator('[data-lab-step]').count(),8);
+ assert.equal(await lab.locator('.lab-material').count(),7);
+ assert.equal(await lab.locator('.lab-result-card').count(),3);
+ await lab.locator('[data-lab-step="0"]').check();
+ assert.match(await lab.locator('[data-lab-progress]').innerText(),/1 of 8/);
+ await lab.locator('[data-lab-reset]').click();
+ assert.match(await lab.locator('[data-lab-progress]').innerText(),/0 of 8/);
+ await lab.locator('[data-lab-phase]').evaluate(el=>{el.value='90';el.dispatchEvent(new Event('input',{bubbles:true}));});
+ assert.equal((await lab.locator('[data-lab-vpp]').innerText()).trim(),'1.414 Vpp');
+ assert.equal((await lab.locator('[data-lab-ratio]').innerText()).trim(),'0.500');
+ await lab.locator('[data-lab-phase]').evaluate(el=>{el.value='180';el.dispatchEvent(new Event('input',{bubbles:true}));});
+ assert.equal((await lab.locator('[data-lab-vpp]').innerText()).trim(),'0.000 Vpp');
+ assert.match(await lab.locator('.lab-quantum-takeaway').innerText(),/cos²/);
+ console.log('PASS BROWSER: full Saturday circuit diagram, materials, guided wiring, checklist, numerical results and quantum analogy');
+
  await page.locator('#tab-explore').click();
  await page.locator('#wave-phase').evaluate(el=>{el.value='180';el.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.ok((await page.locator('#wave-status').innerText()).includes('0.000'));
