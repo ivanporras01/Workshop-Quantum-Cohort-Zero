@@ -62,6 +62,10 @@ function learn(){
  }).join('');
  $('learning-content').innerHTML=introMarkup+'<div class="learning-topic-toolbar"><span class="eyebrow plain">THE LEARNING EXPERIENCE</span><h3>Choose your topic and follow the path.</h3><p>Read the concepts first. Interact with the visual. Work through the example. Then practice.</p></div><nav class="lesson-jump-list" aria-label="Topics for this workshop day">'+list+'</nav>'+cards+'<p class="lesson-origin">All 18 lessons are supplementary educational material, not presenter transcripts. The original program times and speaker credits remain in the Agenda tab.</p>';
  const root=$('learning-content');
+ root.querySelectorAll('.lesson-jump-link').forEach(link=>link.addEventListener('click',()=>{
+   const card=document.getElementById(link.hash.slice(1));
+   if(card)card.querySelector('details').open=true;
+ }));
  const openExplore=()=>{tab('explore');document.getElementById('workshop')?.scrollIntoView({behavior:'smooth',block:'start'});};
  root.querySelectorAll('[data-open-explore]').forEach(b=>b.addEventListener('click',openExplore));
  wireBeginnerGuides(root);
@@ -108,9 +112,9 @@ function explore(){
  if(st.day===3)body=box('Python for quantum','Run and modify this example in a Python environment','<pre class="code-block" id="python-demo">from math import sqrt\namplitudes = [1/sqrt(2), 1/sqrt(2)]\nprobabilities = [abs(a)**2 for a in amplitudes]\nprint(probabilities)</pre><button id="python-show" class="chip-button">Show expected output</button><p class="lab-output" id="python-result">Predict the output before revealing it.</p><p>Experiment: change the amplitudes and check that the sum of probabilities equals 1.</p>');
  if(st.day===4)body=box('Applied energy waves','Explore a classical phase interference model for Saturday’s lab',wave()+'<p>On an oscilloscope, compare waveforms at 0°, 90° and 180°. Document frequency, amplitude, measured phase and uncertainty. This visualization does not measure a qubit.</p><button type="button" class="visual-link-action" id="open-full-waves-lab">Open the circuit diagram, materials, wiring guide and expected results ↗</button>');
  $('explorer').innerHTML=body+quiz();
- document.querySelectorAll('[data-state]').forEach(b=>b.onclick=()=>chooseState(b.dataset.state));
- document.querySelectorAll('[data-basis]').forEach(b=>b.onclick=()=>chooseBasis(b.dataset.basis));
- document.querySelectorAll('[data-gate]').forEach(b=>b.onclick=()=>gate(b.dataset.gate));
+ $('explorer').querySelectorAll('[data-state]').forEach(b=>b.onclick=()=>chooseState(b.dataset.state));
+ $('explorer').querySelectorAll('[data-basis]').forEach(b=>b.onclick=()=>chooseBasis(b.dataset.basis));
+ $('explorer').querySelectorAll('[data-gate]').forEach(b=>b.onclick=()=>gate(b.dataset.gate));
  $('pol-angle')?.addEventListener('input',e=>{let theta=+e.target.value,p=Math.cos(theta*Math.PI/180)**2;$('pol-label').textContent=theta+'°';$('pol-result').textContent=(p*100).toFixed(1)+'%';$('pol-bar').style.width=(p*100)+'%'});
  if($('bb84'))$('bb84').onclick=bb84;
  const info=['Review current protocols, certificates, long-lived data and their dependencies.','Prioritize assets by sensitivity and the time their data must remain confidential.','Test approved PQC implementations for interoperability, key lifecycle and failure recovery.','Roll out gradually, monitor performance and retain a tested rollback plan.'];

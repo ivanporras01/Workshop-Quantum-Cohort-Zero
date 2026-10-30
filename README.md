@@ -32,9 +32,15 @@ python3 -m http.server 8080 --directory dist
 ```
 Open http://localhost:8080 in a browser. No JavaScript framework is needed; the build copies static assets and generates the printable agenda summary.
 
-## Publish to GitHub and Cloudflare Workers
+## Published portal
 
-Create a **new** repository named `Workshop-Quantum-Cohort-Zero` under your GitHub account (for example `ivanporras01/Workshop-Quantum-Cohort-Zero`). Upload/push this project's files without changing the other repositories.
+https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev/
+
+By Dr. Luis Pentzke and Professor Hector Porras. All 18 teaching sessions include beginner explanations, a visual activity, a guided example, independent practice and a takeaway.
+
+## Deployment configuration
+
+Source repository: `ivanporras01/Workshop-Quantum-Cohort-Zero`. Maintain the existing repository and Worker when applying updates.
 
 Cloudflare dashboard → **Workers & Pages** → **Create application** → **Connect GitHub** → select the new repository. Configure:
 

@@ -76,7 +76,9 @@ try{
  await guided.locator('[data-guided-reset]').click();
  assert.match(await guided.locator('[data-guided-progress]').innerText(),/Step 1 of 4/);
  console.log('PASS BROWSER: concept-first welcome, four vivid visuals and guided examples with revealed results');
- await page.locator('#topic-0-1 > details').evaluate(el=>el.open=true);
+ await page.locator('.lesson-jump-link[href="#topic-0-1"]').click();
+ assert.ok(await page.locator('#topic-0-1 > details').evaluate(el=>el.open),'Topic navigation must expand the selected lesson');
+
  const firstConcept=page.locator('#topic-0-1 [data-beginner-guide]');
  assert.match(await firstConcept.locator('[data-beginner-title]').innerText(),/classical bit/i);
  await firstConcept.locator('[data-beginner-next]').click();
@@ -99,8 +101,11 @@ try{
  assert.equal((await sphere.locator('[data-qubit-p0]').innerText()).trim(),'50%');
  console.log('PASS BROWSER: beginner bit vs qubit teaching, Bloch θ/φ controls, S/T gates, X/Y/Z bases, live probabilities');
 
+ // Embedded sphere changes must not alter the independent Explore experiment.
  await page.locator('#tab-explore').click();
  await page.locator('#panel-explore .public-bloch-svg').waitFor();
+ assert.equal((await page.locator('#panel-explore .public-measure-row strong').first().innerText()).trim(),'100%','Explore keeps its initial state after embedded lesson interactions');
+
  assert.equal(await page.locator('#bloch-presets [data-state]').count(),6);
  assert.equal(await page.locator('#bloch-basis [data-basis]').count(),3);
  await page.locator('#bloch-presets [data-state="|+⟩"]').click();
