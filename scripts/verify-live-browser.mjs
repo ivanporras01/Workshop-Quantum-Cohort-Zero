@@ -35,6 +35,9 @@ try{
  await page.locator('.hq-advanced summary').click();
  await page.locator('#tab-agenda').click();
  console.log('PASS BROWSER: hero H, basis, six states, measurement collapse, camera invariance, full-lab link and eight diagrams');
+ // Restore the initial route before testing canonical identity and referral cleanup.
+ await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
+ await page.locator('#day-nav [data-day]').first().waitFor();
 
  await page.locator('#tab-agenda').press('ArrowRight');
  assert.equal(await page.locator('#tab-learn').getAttribute('aria-selected'),'true');
