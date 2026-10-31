@@ -15,6 +15,24 @@ try{
  assert.equal(await page.locator('#day-nav [data-day]').count(),5);
  console.log('PASS BROWSER: five-day agenda renders in Chromium');
  assert.equal(await page.locator('.concept-art svg').count(),8);
+ assert.equal(await page.locator('#hero-quantum .public-bloch-svg').count(),1,'Hero must use the laboratory sphere');
+ assert.equal(await page.locator('#hero-quantum .bloch-reference-name').count(),6);
+ assert.equal(await page.locator('#bit-qubit-comparison .bloch-reference-name').count(),6);
+ await page.locator('[data-bit="1"]').click();
+ assert.ok((await page.locator('[data-bit-result]').innerText()).includes('Stored bit = 1'));
+ await page.locator('[data-bit="flip"]').click();
+ assert.ok((await page.locator('[data-bit-result]').innerText()).includes('Stored bit = 0'));
+ await page.locator('[data-bq="H"]').click();
+ assert.deepEqual(await page.locator('.bq-probabilities em').allTextContents(),['50%','50%']);
+ await page.locator('#compare-basis').selectOption('X');
+ assert.deepEqual(await page.locator('.bq-probabilities em').allTextContents(),['100%','0%']);
+ await page.locator('[data-bq="Z"]').click();
+ assert.deepEqual(await page.locator('.bq-probabilities em').allTextContents(),['0%','100%']);
+ await page.locator('[data-bq="measure"]').click();
+ assert.ok((await page.locator('[data-qubit-result]').innerText()).includes('collapsed'));
+ await page.locator('[data-bq="reset"]').click();
+ console.log('PASS BROWSER: shared six-state sphere, classical NOT, quantum H/Z phase experiment and measurement collapse');
+
  await page.locator('#hero-quantum [data-hq-action="H"]').first().click();
  assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['50%','50%']);
  await page.locator('.hq-advanced summary').click();

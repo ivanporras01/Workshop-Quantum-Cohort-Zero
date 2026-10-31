@@ -86,3 +86,7 @@ Replaced the generated plain-text PDF with the approved dark navy and teal two-p
 ## Visual learning update · 1.2.0
 
 The homepage now has an active Bloch sphere using the same tested gate and measurement math as the full laboratory. A three-action beginner path introduces preparation, H and measurement. Expand controls for six reference states, all seven existing gate/reset actions, X/Y/Z measurements, angle preparation, fresh-preparation sampling and a separate camera rotation. Measurement collapses the displayed state; camera rotation preserves the state. Eight lightweight vector scenes now illustrate the concept cards. Existing agenda, lesson order, PDF and workshop branding are retained.
+
+## Consistent sphere and bit comparison · 1.3.0
+
+Homepage, bit/qubit comparison and full laboratory now use the same six-reference-state SVG renderer with unique gradient/filter IDs per instance. The classical card includes an interactive switch, memory cell and logic-level trace. The quantum card includes preparation, H/Z operations, Z/X probabilities and actual simulated state collapse. The guided phase experiment distinguishes superposition from a classical 50/50 mixture. Browser checks cover both cards and shared sphere labels.

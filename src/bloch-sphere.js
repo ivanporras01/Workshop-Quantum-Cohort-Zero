@@ -37,8 +37,9 @@ export function applyBlochGate(vector,gate){
   // Signed zero has no physical significance; normalize it for tests and readouts.
   return result.map(v=>Object.is(v,-0)?0:v);
 }
-function vecPoint(v){
-  const [x,y,z]=v;
+function vecPoint(v,rotation=0){
+  const a=rotation*Math.PI/180;
+  const x=v[0]*Math.cos(a)-v[1]*Math.sin(a),y=v[0]*Math.sin(a)+v[1]*Math.cos(a),z=v[2];
   return {x:260+127*x-72*y,y:260-126*z+49*y};
 }
 const REFERENCES=[
@@ -49,16 +50,16 @@ const REFERENCES=[
   ['|+i⟩','+Y',[0,1,0],-22,27],
   ['|−i⟩','−Y',[0,-1,0],25,-8]
 ];
-function labelMarkup(v,preset){
+function labelMarkup(v,preset,rotation=0){
   return REFERENCES.map(([name,axis,position,dx,dy])=>{
-    const p=vecPoint(position), on=name===preset;
+    const p=vecPoint(position,rotation), on=name===preset;
     return `<g class="bloch-reference ${on?'selected':''}"><circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="${on?7.5:5}"/>
       <text x="${(p.x+dx).toFixed(2)}" y="${(p.y+dy).toFixed(2)}" text-anchor="middle" class="bloch-reference-name">${name}</text>
       <text x="${(p.x+dx).toFixed(2)}" y="${(p.y+dy+17).toFixed(2)}" text-anchor="middle" class="bloch-reference-axis">${axis}</text></g>`;
   }).join('');
 }
-function blochIllustration(vector,preset){
-  const tip=vecPoint(vector);
+export function renderBlochIllustration(vector,preset,{rotation=0,idPrefix="publicBloch"}={}){
+  const tip=vecPoint(vector,rotation);
   return `<svg class="public-bloch-svg" viewBox="0 0 520 518" role="img" aria-label="Bloch sphere with six labeled reference states and the selected qubit state vector">
     <defs>
       <radialGradient id="publicBlochFill" cx="34%" cy="23%" r="80%"><stop stop-color="#236479" stop-opacity=".84"/><stop offset="1" stop-color="#092139" stop-opacity=".55"/></radialGradient>
@@ -72,12 +73,12 @@ function blochIllustration(vector,preset){
     <ellipse cx="260" cy="260" rx="51" ry="148" fill="none" stroke="#83b6c3" stroke-opacity=".43"/>
     <ellipse cx="260" cy="260" rx="51" ry="148" transform="rotate(31 260 260)" fill="none" stroke="#82afc3" stroke-opacity=".32"/>
     <path d="M260 109V411 M109 260H411 M170 200L350 321" fill="none" stroke="#87b7cb" stroke-dasharray="5 8" stroke-opacity=".46"/>
-    ${labelMarkup(vector,preset)}
+    ${labelMarkup(vector,preset,rotation)}
     <path d="M260 260 L${tip.x.toFixed(2)} ${tip.y.toFixed(2)}" stroke="#c0ff88" stroke-width="5" stroke-linecap="round"/>
     <circle cx="${tip.x.toFixed(2)}" cy="${tip.y.toFixed(2)}" r="14" fill="#b8ff86" opacity=".28" filter="url(#publicBlochGlow)"/>
     <circle cx="${tip.x.toFixed(2)}" cy="${tip.y.toFixed(2)}" r="7.3" fill="#d2ff86"/>
     <circle cx="260" cy="260" r="4" fill="#ddf9ff"/>
-  </svg>`;
+  </svg>`.replaceAll("publicBloch",idPrefix);
 }
 function matchedState(vector){
   return Object.entries(REFERENCE_STATES).find(([,s])=>s.v.every((v,i)=>Math.abs(v-vector[i])<1e-8));
@@ -96,7 +97,7 @@ export function renderBlochSphere({vector=[0,0,1],basis='Z',trace=['Start'],embe
     <div class="public-bloch-main">
       <p class="public-bloch-step">01 · CHOOSE A REFERENCE STATE</p>
       <div class="public-bloch-presets" ${embedded?'':'id="bloch-presets"'}>${Object.keys(REFERENCE_STATES).map(s=>button(s,'state',s===current)).join('')}</div>
-      ${blochIllustration(vector,current)}
+      ${renderBlochIllustration(vector,current)}
       ${summary}
     </div>
     <div class="public-bloch-controls">

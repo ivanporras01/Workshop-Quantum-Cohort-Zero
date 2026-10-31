@@ -56,7 +56,9 @@ test('Bloch angles and measurement probabilities behave correctly',()=>{
 });
 test('the public site includes beginner gateway and production bundles',async()=>{
  const html=await read('index.html'),build=await read('scripts/build.mjs');
- assert.match(html,/From a classical bit to a quantum qubit/);
+ const {renderBitQubit}=await import('../src/bit-qubit.js');
+ assert.match(renderBitQubit(),/From a classical bit to a quantum qubit/);
+ assert.match(html,/id="bit-qubit-comparison"/);
  assert.match(html,/Start learning from zero/);
  assert.match(html,/beginner-path.css/);
  for(const name of ['beginner-path.js','beginner-path.css','qubit-lesson.js'])assert.ok(build.includes("'"+name+"'"));
