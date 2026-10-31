@@ -14,6 +14,28 @@ try{
  await page.locator('#day-nav [data-day]').first().waitFor();
  assert.equal(await page.locator('#day-nav [data-day]').count(),5);
  console.log('PASS BROWSER: five-day agenda renders in Chromium');
+ assert.equal(await page.locator('.concept-art svg').count(),8);
+ await page.locator('#hero-quantum [data-hq-action="H"]').first().click();
+ assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['50%','50%']);
+ await page.locator('.hq-advanced summary').click();
+ await page.locator('#hero-basis').selectOption('X');
+ const beforeCamera=await page.locator('.hq-probabilities').innerText();
+ assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['100%','0%']);
+ await page.locator('#hero-camera').fill('85');
+ assert.equal(await page.locator('.hq-probabilities').innerText(),beforeCamera,'Camera must not change probabilities');
+ await page.locator('#hero-quantum [data-hq-action="measure"]').click();
+ assert.ok((await page.locator('.hq-message').innerText()).includes('collapsed'));
+ await page.locator('#hero-quantum [data-hq-action="measure"]').click();
+ assert.ok((await page.locator('.hq-message').innerText()).includes('|+⟩'));
+ await page.locator('#hero-quantum [data-hq-preset="5"]').click();
+ await page.locator('#hero-basis').selectOption('Y');
+ assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['0%','100%']);
+ await page.locator('#hero-quantum [data-hq-action="full"]').click();
+ assert.equal(await page.locator('#tab-explore').getAttribute('aria-selected'),'true');
+ await page.locator('.hq-advanced summary').click();
+ await page.locator('#tab-agenda').click();
+ console.log('PASS BROWSER: hero H, basis, six states, measurement collapse, camera invariance, full-lab link and eight diagrams');
+
  await page.locator('#tab-agenda').press('ArrowRight');
  assert.equal(await page.locator('#tab-learn').getAttribute('aria-selected'),'true');
  assert.equal(await page.locator('[data-tab][tabindex="0"]').count(),1);
@@ -209,6 +231,15 @@ try{
  const mobile=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,width:window.innerWidth}));
  assert.ok(mobile.scrollWidth<=mobile.width+8,'Mobile document overflows horizontally: '+JSON.stringify(mobile));
  console.log('PASS BROWSER: mobile view, Y measurement and no horizontal overflow');
+ await page.locator('#hero-quantum [data-hq-action="Reset"]').first().click();
+ await page.locator('#hero-quantum [data-hq-action="H"]').first().click();
+ assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['50%','50%']);
+ await page.locator('.hq-advanced summary').click();
+ const heroMobile=await page.evaluate(()=>({w:innerWidth,scroll:document.documentElement.scrollWidth}));
+ assert.ok(heroMobile.scroll<=heroMobile.w+8,'Expanded hero controls must fit mobile');
+ await page.locator('.hq-advanced summary').click();
+ console.log('PASS BROWSER: mobile hero controls and eight graphical cards fit the screen');
+
 
  // Exercise the new concept lessons on the mobile viewport as well.
  assert.equal(await page.locator('[data-concept]').count(),8);

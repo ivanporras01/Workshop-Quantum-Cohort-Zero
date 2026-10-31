@@ -82,3 +82,7 @@ All models are instructional software. No QPU is connected. The oscilloscope/res
 ## Completion update · 1.1.1
 
 Replaced the generated plain-text PDF with the approved dark navy and teal two-page agenda. Added arrow/Home/End keyboard navigation and one tab stop for the active content tab, visible focus, reduced-motion support, and a complete five-day notebook download. Official unconfirmed times/presenters remain explicitly unconfirmed. Live verification now checks the exact PDF bytes.
+
+## Visual learning update · 1.2.0
+
+The homepage now has an active Bloch sphere using the same tested gate and measurement math as the full laboratory. A three-action beginner path introduces preparation, H and measurement. Expand controls for six reference states, all seven existing gate/reset actions, X/Y/Z measurements, angle preparation, fresh-preparation sampling and a separate camera rotation. Measurement collapses the displayed state; camera rotation preserves the state. Eight lightweight vector scenes now illustrate the concept cards. Existing agenda, lesson order, PDF and workshop branding are retained.

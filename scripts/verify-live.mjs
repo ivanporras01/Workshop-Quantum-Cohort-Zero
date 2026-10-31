@@ -51,7 +51,7 @@ for(let i=1;i<=attempts;i++){
     assert.equal(remote,expected,'Cloudflare has not deployed latest '+relative);
   }
   // Require the deployed concept explorer to match this revision, not just exist.
-  for(const relative of ['index.html','src/app.js','src/quantum-atlas.js','src/quantum-atlas.css','src/quantum-models.js','src/quantum-concept-content.js','src/day-learning-map.js']){
+  for(const relative of ['src/hero-quantum.js','src/hero-quantum.css','src/concept-art.js','index.html','src/app.js','src/quantum-atlas.js','src/quantum-atlas.css','src/quantum-models.js','src/quantum-concept-content.js','src/day-learning-map.js']){
     const actual=await (await get('/'+relative)).text();
     const expected=await readFile(new URL('../'+relative,import.meta.url),'utf8');
     assert.equal(actual,expected,'Cloudflare has not deployed latest '+relative);
