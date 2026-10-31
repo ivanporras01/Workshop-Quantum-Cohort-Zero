@@ -15,8 +15,9 @@ try{
  assert.equal(await page.locator('#day-nav [data-day]').count(),5);
  console.log('PASS BROWSER: five-day agenda renders in Chromium');
  assert.equal(await page.locator('.concept-art svg').count(),8);
- assert.equal(await page.locator('#hero-quantum .public-bloch-svg').count(),1,'Hero must use the laboratory sphere');
- assert.equal(await page.locator('#hero-quantum .bloch-reference-name').count(),6);
+ assert.equal(await page.locator('.hero .public-bloch-svg').count(),0,'Portada must show artwork instead of a sphere');
+ await page.locator('#quantum-future-art').waitFor();
+ assert.ok(await page.locator('#quantum-future-art').evaluate(el=>el.complete&&el.naturalWidth>=1000),'Hero artwork must load');
  assert.equal(await page.locator('#bit-qubit-comparison .bloch-reference-name').count(),6);
  await page.locator('[data-bit="1"]').click();
  assert.ok((await page.locator('[data-bit-result]').innerText()).includes('Stored bit = 1'));
@@ -33,26 +34,7 @@ try{
  await page.locator('[data-bq="reset"]').click();
  console.log('PASS BROWSER: shared six-state sphere, classical NOT, quantum H/Z phase experiment and measurement collapse');
 
- await page.locator('#hero-quantum [data-hq-action="H"]').first().click();
- assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['50%','50%']);
- await page.locator('.hq-advanced summary').click();
- await page.locator('#hero-basis').selectOption('X');
- const beforeCamera=await page.locator('.hq-probabilities').innerText();
- assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['100%','0%']);
- await page.locator('#hero-camera').fill('85');
- assert.equal(await page.locator('.hq-probabilities').innerText(),beforeCamera,'Camera must not change probabilities');
- await page.locator('#hero-quantum [data-hq-action="measure"]').click();
- assert.ok((await page.locator('.hq-message').innerText()).includes('collapsed'));
- await page.locator('#hero-quantum [data-hq-action="measure"]').click();
- assert.ok((await page.locator('.hq-message').innerText()).includes('|+⟩'));
- await page.locator('#hero-quantum [data-hq-preset="5"]').click();
- await page.locator('#hero-basis').selectOption('Y');
- assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['0%','100%']);
- await page.locator('#hero-quantum [data-hq-action="full"]').click();
- assert.equal(await page.locator('#tab-explore').getAttribute('aria-selected'),'true');
- await page.locator('.hq-advanced summary').click();
- await page.locator('#tab-agenda').click();
- console.log('PASS BROWSER: hero H, basis, six states, measurement collapse, camera invariance, full-lab link and eight diagrams');
+ console.log('PASS BROWSER: futuristic hero artwork loaded, teaching spheres remain interactive');
  // Restore the initial route before testing canonical identity and referral cleanup.
  await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
  await page.locator('#day-nav [data-day]').first().waitFor();
@@ -252,15 +234,8 @@ try{
  const mobile=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,width:window.innerWidth}));
  assert.ok(mobile.scrollWidth<=mobile.width+8,'Mobile document overflows horizontally: '+JSON.stringify(mobile));
  console.log('PASS BROWSER: mobile view, Y measurement and no horizontal overflow');
- await page.locator('#hero-quantum [data-hq-action="Reset"]').first().click();
- await page.locator('#hero-quantum [data-hq-action="H"]').first().click();
- assert.deepEqual(await page.locator('.hq-probabilities strong').allTextContents(),['50%','50%']);
- await page.locator('.hq-advanced summary').click();
- const heroMobile=await page.evaluate(()=>({w:innerWidth,scroll:document.documentElement.scrollWidth}));
- assert.ok(heroMobile.scroll<=heroMobile.w+8,'Expanded hero controls must fit mobile');
- await page.locator('.hq-advanced summary').click();
- console.log('PASS BROWSER: mobile hero controls and eight graphical cards fit the screen');
-
+ assert.ok(await page.locator('#quantum-future-art').evaluate(el=>el.complete&&el.naturalWidth>=1000));
+ console.log('PASS BROWSER: futuristic artwork fits mobile alongside eight concept cards');
 
  // Exercise the new concept lessons on the mobile viewport as well.
  assert.equal(await page.locator('[data-concept]').count(),8);

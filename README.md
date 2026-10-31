@@ -90,3 +90,7 @@ The homepage now has an active Bloch sphere using the same tested gate and measu
 ## Consistent sphere and bit comparison · 1.3.0
 
 Homepage, bit/qubit comparison and full laboratory now use the same six-reference-state SVG renderer with unique gradient/filter IDs per instance. The classical card includes an interactive switch, memory cell and logic-level trace. The quantum card includes preparation, H/Z operations, Z/X probabilities and actual simulated state collapse. The guided phase experiment distinguishes superposition from a classical 50/50 mixture. Browser checks cover both cards and shared sphere labels.
+
+## Futuristic cover artwork · 1.3.1
+
+Replaced only the homepage Bloch experiment with an original futuristic quantum processor illustration in navy, cyan and gold. Artwork is labeled conceptual, optimized as a 1200px WebP and preloaded with high fetch priority. All teaching spheres and interactive bit/qubit lessons remain available. Source artwork was generated with the built-in image generator from the brief: cinematic quantum processor, intricate circuits, midnight navy background, cyan and gold light, no spheres, no text or logos.

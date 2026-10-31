@@ -1,5 +1,4 @@
 import {renderBitQubit,wireBitQubit} from './bit-qubit.js';
-import {renderHeroQuantum,wireHeroQuantum} from './hero-quantum.js';
 import {renderQuantumAtlas,wireQuantumAtlas} from './quantum-atlas.js';
 import {renderJourney,renderDayPlan} from './day-learning-map.js';
 let quantumAtlas;
@@ -148,8 +147,6 @@ function removeTrackingParameters(){
 async function boot(){try{removeTrackingParameters();const [agendaResponse,lessonResponse]=await Promise.all([fetch('/src/agenda.json'),fetch('/src/lessons.json')]);if(!agendaResponse.ok||!lessonResponse.ok)throw Error('workshop content fetch failed');const d=await agendaResponse.json(),study=await lessonResponse.json();st.days=d.days;st.lessons=study.lessons;if(st.days.length!==5||st.lessons.length!==18)throw Error('Five workshop days and eighteen lessons expected');let day=new URLSearchParams(location.search).get('day'),i=st.days.findIndex(v=>v.date===day);if(i!==-1)st.day=i;
  $('bit-qubit-comparison').innerHTML=renderBitQubit();
  wireBitQubit($('bit-qubit-comparison'));
- $('hero-quantum').innerHTML=renderHeroQuantum();
- wireHeroQuantum($('hero-quantum'),{onFull:()=>{choose(0);tab('explore');$('workshop').scrollIntoView({behavior:'instant',block:'start'});}});
  $('quantum-concepts').innerHTML=renderQuantumAtlas();
  quantumAtlas=wireQuantumAtlas($('quantum-concepts'),{onDay:i=>{choose(i);$('workshop').scrollIntoView({behavior:'instant',block:'start'});}});
  $('day-learning-map').innerHTML=renderJourney();

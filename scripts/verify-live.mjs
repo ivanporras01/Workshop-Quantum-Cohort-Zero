@@ -19,6 +19,7 @@ for(let i=1;i<=attempts;i++){
    get('/'),get('/src/lessons.json'),get('/src/agenda.json'),get('/src/app.js'),get('/src/styles.css'),get('/resources/PBSC-Cohort-Zero-Agenda.pdf'),get('/src/bloch-sphere.js'),get('/src/bloch-sphere.css'),get('/src/learning-experiences.js'),get('/src/learning-experiences.css'),get('/src/applied-waves-lab.js'),get('/src/applied-waves-lab.css'),get('/src/applied-waves-circuit.svg'),get('/src/beginner-path.js'),get('/src/beginner-path.css'),get('/src/qubit-lesson.js')
   ]);
   const html=await main.text(),lessons=await study.json(),a=await agenda.json(),js=await code.text(),css=await styles.text(),blochJs=await bloch.text(),blochCss=await design.text(),learningJs=await learning.text(),learningStyles=await learningCss.text(),labJs=await lab.text(),labCss=await labStyle.text(),svg=await schematic.text(),beginnerJs=await beginner.text(),beginnerStyle=await beginnerCss.text(),qubitJs=await qubit.text();
+  assert.deepEqual(Buffer.from(await (await get('/resources/quantum-computing-future.webp')).arrayBuffer()),await readFile(new URL('../resources/quantum-computing-future.webp',import.meta.url)),'Published artwork matches the approved asset');
   assert.equal(a.days.length,5);
   assert.equal(lessons.lessons.length,18);
   assert.ok(html.includes('id="tab-learn"'));
