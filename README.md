@@ -6,7 +6,7 @@ A separate, responsive five-day workshop companion aligned to the **Palm Beach S
 
 ## Agenda fidelity
 
-- Sessions, speakers and times are stored in `payload/agenda.json.b64` (decoded to `dist/src/agenda.json` during the build) based on the supplied two-page PBSC document. The downloadable `/resources/PBSC-Cohort-Zero-Agenda.pdf` is a **reformatted workshop agenda summary**, not a byte-for-byte copy of the source PDF.
+- Sessions, speakers and times are stored in `payload/agenda.json.b64` (decoded to `dist/src/agenda.json` during the build) based on the supplied two-page PBSC document. The downloadable `/resources/PBSC-Cohort-Zero-Agenda.pdf` is the approved, professionally designed two-page agenda, retained in `payload/agenda.pdf.b64` and copied unchanged during each build.
 - November 12: The agenda gives **no start/end time** for `Post Quantum Cryptology Implementation`; this portal does **not** invent one.
 - November 13: `Python for Quantum` speaker is **TBA**.
 - November 14: `Future Projects` has **no stated presenter or time**.
@@ -78,3 +78,7 @@ Five daily learning plans map objectives, practice and evidence to the unchanged
 The quantum math tests cover state normalization, basis dependence, Bell versus mixture correlations, no-signaling marginals, all four teleportation branches for complex inputs, no-cloning, dephasing and sampling. Production checks compare the new source assets byte for byte; browser checks exercise the controls and all five daily plans on a mobile viewport.
 
 All models are instructional software. No QPU is connected. The oscilloscope/resistor activity remains a classical analogy, not a physical quantum experiment.
+
+## Completion update · 1.1.1
+
+Replaced the generated plain-text PDF with the approved dark navy and teal two-page agenda. Added arrow/Home/End keyboard navigation and one tab stop for the active content tab, visible focus, reduced-motion support, and a complete five-day notebook download. Official unconfirmed times/presenters remain explicitly unconfirmed. Live verification now checks the exact PDF bytes.

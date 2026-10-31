@@ -32,7 +32,7 @@
     </a>
     <div class="header-right">
       <span class="header-pbsc">PBSC · COHORT ZERO AGENDA</span>
-      <a class="small-action" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" target="_blank" rel="noopener">Agenda summary <span aria-hidden="true">↗</span></a>
+      <a class="small-action" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" target="_blank" rel="noopener">Agenda PDF <span aria-hidden="true">↗</span></a>
       <button class="icon-action" id="theme-button" aria-label="Switch color theme" title="Switch color theme">◐</button>
     </div>
   </header>
@@ -45,7 +45,7 @@
         <div class="hero-actions">
           <a class="primary-button" href="#workshop" id="start-beginner-learning">Start learning from zero <span aria-hidden="true">↘</span></a>
           <a class="secondary-button" href="#quantum-concepts">Explore quantum concepts ↗</a>
-          <a class="secondary-button" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" download="PBSC-Cohort-Zero-Agenda.pdf">Download agenda summary <span aria-hidden="true">↓</span></a>
+          <a class="secondary-button" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" download="PBSC-Cohort-Zero-Agenda.pdf">Download agenda PDF <span aria-hidden="true">↓</span></a>
           <button class="secondary-button" type="button" id="copy-public-link">Copy public website link <span aria-hidden="true">⧉</span></button>
         </div>
         <p class="hero-authors">By Dr. Luis Pentzke and Professor Hector Porras</p>
@@ -95,20 +95,21 @@
         <div class="workshop-main">
           <div id="day-heading"></div>
           <div class="panel-tabs" role="tablist" aria-label="Day content tabs">
-            <button role="tab" id="tab-agenda" data-tab="agenda" aria-selected="true" aria-controls="panel-agenda">01 · Agenda</button>
-            <button role="tab" id="tab-learn" data-tab="learn" aria-selected="false" aria-controls="panel-learn">02 · Learn</button>
-            <button role="tab" id="tab-explore" data-tab="explore" aria-selected="false" aria-controls="panel-explore">03 · Explore</button>
-            <button role="tab" id="tab-notes" data-tab="notes" aria-selected="false" aria-controls="panel-notes">04 · My Notes</button>
+            <button tabindex="0" role="tab" id="tab-agenda" data-tab="agenda" aria-selected="true" aria-controls="panel-agenda">01 · Agenda</button>
+            <button tabindex="-1" role="tab" id="tab-learn" data-tab="learn" aria-selected="false" aria-controls="panel-learn">02 · Learn</button>
+            <button tabindex="-1" role="tab" id="tab-explore" data-tab="explore" aria-selected="false" aria-controls="panel-explore">03 · Explore</button>
+            <button tabindex="-1" role="tab" id="tab-notes" data-tab="notes" aria-selected="false" aria-controls="panel-notes">04 · My Notes</button>
           </div>
-          <section id="panel-agenda" class="tab-content" role="tabpanel" aria-labelledby="tab-agenda"><div id="timeline"></div></section>
-          <section id="panel-learn" class="tab-content" role="tabpanel" aria-labelledby="tab-learn" hidden><div id="learning-content"></div></section>
-          <section id="panel-explore" class="tab-content" role="tabpanel" aria-labelledby="tab-explore" hidden><div id="explorer"></div></section>
-          <section id="panel-notes" class="tab-content" role="tabpanel" aria-labelledby="tab-notes" hidden>
-            <div class="notes-header"><span class="eyebrow plain">REFLECT AND RETAIN</span><h3>Your workshop notebook</h3><p>Capture a concept, question, or next step. Notes stay in this browser only.</p></div>
+          <section id="panel-agenda" class="tab-content" tabindex="0" role="tabpanel" aria-labelledby="tab-agenda"><div id="timeline"></div></section>
+          <section id="panel-learn" class="tab-content" tabindex="0" role="tabpanel" aria-labelledby="tab-learn" hidden><div id="learning-content"></div></section>
+          <section id="panel-explore" class="tab-content" tabindex="0" role="tabpanel" aria-labelledby="tab-explore" hidden><div id="explorer"></div></section>
+          <section id="panel-notes" class="tab-content" tabindex="0" role="tabpanel" aria-labelledby="tab-notes" hidden>
+            <div class="notes-header"><span class="eyebrow plain">REFLECT AND RETAIN</span><h3>Your workshop notebook</h3><p>Capture a concept, question, or next step. Notes stay in this browser only. Download your complete notebook to keep a personal backup.</p></div>
             <label for="workshop-notes">Notes for this day</label>
             <textarea id="workshop-notes" rows="9" placeholder="What did I learn? What can I explain? What should I test next?"></textarea>
             <div class="notes-actions"><label class="checkline"><input type="checkbox" id="day-complete"> I've reviewed this day's material</label><span class="saved-indicator" id="note-status" aria-live="polite">Saved in this browser</span></div>
             <button class="secondary-button notes-download" id="download-notes">Download my notes <span aria-hidden="true">↓</span></button>
+            <button class="secondary-button notes-download" id="download-all-notes">Download all five days <span aria-hidden="true">↓</span></button>
           </section>
           <div class="day-footer"><button class="text-button" id="previous-day">← Previous day</button><div class="day-indicator" id="day-position">01 / 05</div><button class="text-button" id="next-day">Next day →</button></div>
         </div>

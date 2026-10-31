@@ -48,3 +48,8 @@
 @media(max-width:470px){.panel-tabs{gap:0;justify-content:space-between}.panel-tabs button{font-size:10px;padding:13px 8px}.topic-number{width:32px;height:32px}.topic-details{padding:13px}.lesson-opening h3{font-size:22px}}
 
 .agenda-learn{display:inline-flex;margin-top:12px;padding:7px 11px;border-radius:8px;border:1px solid #68cfc4;background:#21505d;color:#e8fff9;font-size:12px;font-weight:750}.agenda-learn:hover{background:#306b70}.agenda-learn:focus-visible{outline:2px solid #9cf5e5;outline-offset:3px}
+
+/* Visible keyboard navigation in both display themes. */
+:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.tab-content:focus-visible{outline-offset:-4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

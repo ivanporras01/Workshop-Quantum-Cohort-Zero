@@ -14,6 +14,15 @@ try{
  await page.locator('#day-nav [data-day]').first().waitFor();
  assert.equal(await page.locator('#day-nav [data-day]').count(),5);
  console.log('PASS BROWSER: five-day agenda renders in Chromium');
+ await page.locator('#tab-agenda').press('ArrowRight');
+ assert.equal(await page.locator('#tab-learn').getAttribute('aria-selected'),'true');
+ assert.equal(await page.locator('[data-tab][tabindex="0"]').count(),1);
+ await page.locator('#tab-learn').press('End');
+ assert.equal(await page.locator('#tab-notes').getAttribute('aria-selected'),'true');
+ await page.locator('#tab-notes').press('Home');
+ assert.equal(await page.locator('#tab-agenda').getAttribute('aria-selected'),'true');
+ console.log('PASS BROWSER: arrow, Home and End navigation select the correct tab with one tab stop');
+
 
  const identity=await page.evaluate(()=>({
    href:location.href,
@@ -129,6 +138,13 @@ try{
  console.log('PASS BROWSER: agenda Study this topic opens the correct learning tab');
 
  await page.locator('#tab-notes').click();
+ const allNotesDownload=page.waitForEvent('download');
+ await page.locator('#download-all-notes').click();
+ const notebook=await allNotesDownload;
+ const notebookText=await (await import('node:fs/promises')).readFile(await notebook.path(),'utf8');
+ for(const date of ['2026-11-09','2026-11-10','2026-11-12','2026-11-13','2026-11-14'])assert.ok(notebookText.includes(date));
+ console.log('PASS BROWSER: complete notebook exports all five workshop dates');
+
  await page.locator('#workshop-notes').fill('Workshop smoke-test note');
  await page.reload({waitUntil:'domcontentloaded'});
  await page.locator('#day-nav [data-day]').first().waitFor();

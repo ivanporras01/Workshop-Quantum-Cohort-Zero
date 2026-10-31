@@ -17,7 +17,7 @@ function nav(){ $('day-nav').innerHTML=st.days.map((d,i)=>'<button class="day-bu
  $('day-nav').querySelectorAll('[data-day]').forEach(b=>b.addEventListener('click',()=>choose(+b.dataset.day)));
 }
 function choose(i){if(i<0||i>=st.days.length)return;st.day=i;st.tab='agenda';st.v=[0,0,1];st.state='|0⟩';st.basis='Z';st.trace=['Start'];let url=new URL(location.href);url.searchParams.set('day',dayDate(i));history.replaceState(null,'',url.pathname+url.search+url.hash);render();tab('agenda')}
-function tab(t){st.tab=t;for(const name of ['agenda','learn','explore','notes']){$('panel-'+name).hidden=name!==t;$('tab-'+name).setAttribute('aria-selected',String(t===name))}if(t==='explore'&&st.day===4)draw()}
+function tab(t){st.tab=t;for(const name of ['agenda','learn','explore','notes']){$('panel-'+name).hidden=name!==t;$('tab-'+name).setAttribute('aria-selected',String(t===name));$('tab-'+name).tabIndex=t===name?0:-1}if(t==='explore'&&st.day===4)draw()}
 function render(){let d=st.days[st.day],date=new Date(d.date+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
  $('day-heading').innerHTML='<div class="day-heading"><div class="day-topline"><span class="day-pill">DAY '+pad(st.day+1)+' · '+date.toUpperCase()+'</span><span class="day-ordinal">'+(st.day+1)+' OF 5</span></div><h3>'+safe(d.theme)+'</h3><p>'+safe(d.focus)+'</p></div>';
  $('day-heading').insertAdjacentHTML('beforeend',renderDayPlan(st.day));
@@ -149,12 +149,22 @@ async function boot(){try{removeTrackingParameters();const [agendaResponse,lesso
  $('day-learning-map').innerHTML=renderJourney();
  $('day-learning-map').querySelectorAll('[data-journey-day]').forEach(b=>b.addEventListener('click',()=>{choose(+b.dataset.journeyDay);$('workshop').scrollIntoView({behavior:'instant',block:'start'});}));
  let theme=read('theme');if(theme)document.documentElement.dataset.theme=theme;
- document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));$('theme-button').onclick=()=>{let v=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=v;store('theme',v)};
+ document.querySelectorAll('[data-tab]').forEach(b=>{
+ b.addEventListener('click',()=>tab(b.dataset.tab));
+ b.addEventListener('keydown',e=>{
+  const names=['agenda','learn','explore','notes'],current=names.indexOf(b.dataset.tab);
+  let next;if(e.key==='ArrowRight')next=(current+1)%names.length;
+  else if(e.key==='ArrowLeft')next=(current+names.length-1)%names.length;
+  else if(e.key==='Home')next=0;else if(e.key==='End')next=names.length-1;else return;
+  e.preventDefault();tab(names[next]);$('tab-'+names[next]).focus();
+ });
+});$('theme-button').onclick=()=>{let v=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=v;store('theme',v)};
  $('previous-day').onclick=()=>choose(st.day-1);$('next-day').onclick=()=>choose(st.day+1);$('jump-last-day').onclick=()=>choose(4);
  $('start-beginner-learning')?.addEventListener('click',()=>{choose(0);tab('learn');$('topic-0-0')?.querySelector('details')?.setAttribute('open','');});
  $('workshop-notes').oninput=e=>{store(notesKey(),e.target.value);$('note-status').textContent='Saved in this browser'};
  $('day-complete').onchange=e=>{store(doneKey(),e.target.checked?'yes':'no');nav()};
  $('copy-public-link').onclick=async()=>{const clean=location.origin+'/';try{await navigator.clipboard.writeText(clean);toast('Public Cloudflare link copied — paste it directly into your browser or share it');}catch{const el=document.createElement('textarea');el.value=clean;document.body.appendChild(el);el.select();const ok=document.execCommand('copy');el.remove();toast(ok?'Public Cloudflare link copied':'Copy this address: '+clean);}};
+ $('download-all-notes').onclick=()=>{download('Cohort-Zero-complete-notebook.md','# Workshop Quantum Cohort Zero\nBy Dr. Luis Pentzke and Professor Hector Porras\n\n'+st.days.map(d=>'## '+d.day+', '+d.date+' - '+d.theme+'\nReviewed: '+(read('done-'+d.date)==='yes'?'Yes':'Not yet')+'\n\n'+(read('notes-'+d.date)||'No notes saved for this day.')).join('\n\n---\n\n'));toast('All five days exported')};
  $('download-notes').onclick=()=>{let d=st.days[st.day];download('Cohort-Zero-'+d.date+'-notes.md','# Workshop Quantum Cohort Zero\n## '+d.day+', '+d.date+'\n\n'+$('workshop-notes').value);toast('Notes saved as a file')};
  render();tab('agenda');
  }catch(e){$('day-heading').innerHTML='<p role="alert">Could not load the workshop agenda. Please refresh the page.</p>';console.error(e)}}

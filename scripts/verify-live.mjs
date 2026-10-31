@@ -85,7 +85,7 @@ for(let i=1;i<=attempts;i++){
   const actual=a.days.flatMap(d=>d.sessions.filter(s=>s.kind!=='break').map(s=>d.date+'|'+s.title)).sort();
   const provided=lessons.lessons.map(l=>l.date+'|'+l.title).sort();
   assert.deepEqual(provided,actual);
-  assert.ok(Number(pdf.headers.get('Content-Length')||0)!==0);
+  assert.deepEqual(Buffer.from(await pdf.arrayBuffer()),Buffer.from((await readFile(new URL('../payload/agenda.pdf.b64',import.meta.url),'utf8')).trim(),'base64'),'Published agenda must match the approved designed PDF');
   console.log('PASS LIVE: Cloudflare serves all 18 beginner-first lessons, original 5-day agenda, enhanced Bloch sphere and angles, 75 foundational explanations, guided examples, responsive styling and agenda PDF.');
   process.exit(0);
  }catch(error){
