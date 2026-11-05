@@ -26,7 +26,7 @@ export const DAY_PATHS = [
       ['Review of previous day','Reconnect state preparation, gates, measurement basis and repeated shots.','Describe what H does to |0⟩ and how X-basis measurement differs from Z.'],
       ['Intro to Computer Networking and Encryption','Trace sender → channel → receiver. Identify a key, a ciphertext and an authenticated exchange.','Explain which security goal encryption addresses and why identity still matters.'],
       ['Energy Polarization','Rotate an ideal analyzer; connect angle to transmitted intensity. Introduce compatible and incompatible bases.','Compare 0°, 45° and 90° and label which observations are classical optics.'],
-      ['Quantum Key Distribution','Follow preparation, transmission, basis comparison, sifting and sample checking. Learn why sifting alone is insufficient.','Compare the ideal intercept-resend error model with the no-eavesdropper model.']
+      ['Quantum Key Distribution','Follow ten visual steps: authenticate, prepare, measure, sift, test, evaluate errors, reconcile, verify, shorten and use key material.','Trace 12 signals, remove public test bits, then compare 4,000 simulated signals with and without Eve.']
     ],
     extension:'Companion enrichment: build a Bell pair, compare Z/Z with X/X results, and walk through teleportation. These are added learning activities, not new official sessions or claims about a presenter’s talk.',
     evidence:'A QKD process sketch and a teleportation explanation naming all three qubits, the two classical bits, and Bob’s correction.',

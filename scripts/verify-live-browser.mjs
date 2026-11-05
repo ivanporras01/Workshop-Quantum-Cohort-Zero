@@ -181,8 +181,14 @@ try{
  await page.locator('#tab-explore').click();
  await page.locator('#pol-angle').evaluate(el=>{el.value='60';el.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal((await page.locator('#pol-result').innerText()).trim(),'25.0%');
- await page.locator('#bb84').click();
- assert.ok((await page.locator('#bb84-result').innerText()).includes('simulated'));
+ await page.locator('#explorer [data-qkd-step="4"]').click();
+ assert.ok((await page.locator('#explorer .qs-notebook').innerText()).includes('Keep candidate'));
+ await page.locator('#explorer [data-qkd-step="5"]').click();
+ assert.ok((await page.locator('#explorer .qs-notebook').innerText()).includes('Public test'));
+ await page.locator('#explorer [data-qkd-step="6"]').click();
+ await page.locator('#explorer [data-qkd-eve]').selectOption('on');
+ await page.locator('#explorer [data-qkd-many]').click();
+ assert.ok((await page.locator('#explorer [data-many-result]').innerText()).includes('Expected: 25%'));
  console.log('PASS BROWSER: polarization and BB84 educational demos');
 
  const expectedCounts=[4,4,3,3,4];
@@ -288,6 +294,41 @@ try{
    assert.ok(size.scrollWidth<=size.width+8,concept+' overflows mobile viewport: '+JSON.stringify(size));
  }
  console.log('PASS BROWSER: five daily plans, lesson links, concept links and mobile layout for all eight models');
+
+ // Every new illustrated explanation advances without losing its matching diagram.
+ for(const concept of ['superposition','entanglement','teleportation','interference','gates','nocloning','noise','security']){
+   await page.locator('[data-concept="'+concept+'"]').click();
+   const story=page.locator('#qa-panel [data-visual-story]');
+   const steps=await story.locator('[data-vs-step]').count();
+   assert.ok(steps>=5);
+   for(let i=0;i<steps;i++){
+     await story.locator('[data-vs-step="'+i+'"]').click();
+     assert.match(await story.locator('[data-vs-position]').innerText(),new RegExp('Step '+(i+1)+' of'));
+     assert.ok((await story.locator('.vs-diagram').innerHTML()).length>100);
+   }
+ }
+ await page.locator('[data-concept="security"]').click();
+ const qkd=page.locator('#qa-panel [data-qkd-lab]');
+ for(let i=0;i<10;i++){
+   await qkd.locator('[data-qkd-step="'+i+'"]').click();
+   assert.equal((await qkd.locator('[data-qkd-position]').innerText()).trim(),'Step '+(i+1)+' of 10');
+   if(i===3){
+     await qkd.locator('[data-single="bit"]').selectOption('1');
+     await qkd.locator('[data-qkd-measure]').click();
+     assert.match(await qkd.locator('[data-single-result]').innerText(),/Bob recorded 1/);
+     await qkd.locator('[data-single="bobBasis"]').selectOption('X');
+     assert.match(await qkd.locator('.qs-single-state').innerText(),/50% probability each/);
+   }
+   if(i===5){assert.equal(await qkd.locator('tr.qs-tested').count(),3);assert.ok(await qkd.locator('tr.qs-kept').count()>0);}
+   if(i===9)assert.match(await qkd.locator('.qs-xor').first().innerText(),/1101/);
+   const size=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth}));
+   assert.ok(size.scrollWidth<=size.width+8,'QKD step '+(i+1)+' overflows mobile viewport: '+JSON.stringify(size));
+ }
+ assert.ok(await qkd.locator('[data-qkd-next]').isDisabled());
+ await qkd.locator('[data-qkd-prev]').click();
+ assert.equal((await qkd.locator('[data-qkd-position]').innerText()).trim(),'Step 9 of 10');
+ console.log('PASS BROWSER: all illustrated concept steps and all ten QKD stages, single-photon measurement, public-sample exclusion and XOR on mobile');
+
 
  assert.deepEqual(jsErrors,[],'Browser should not encounter uncaught JavaScript errors');
  console.log('PASS LIVE BROWSER: all public workshop interactions verified on desktop and mobile.');

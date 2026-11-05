@@ -94,3 +94,11 @@ Homepage, bit/qubit comparison and full laboratory now use the same six-referenc
 ## Futuristic cover artwork · 1.3.1
 
 Replaced only the homepage Bloch experiment with an original futuristic quantum processor illustration in navy, cyan and gold. Artwork is labeled conceptual, optimized as a 1200px WebP and preloaded with high fetch priority. All teaching spheres and interactive bit/qubit lessons remain available. Source artwork was generated with the built-in image generator from the brief: cinematic quantum processor, intricate circuits, midnight navy background, cyan and gold light, no spheres, no text or logos.
+
+## Guided visual learning update · 1.4.0
+
+QKD now has a ten-stage BB84 walkthrough in the concept explorer, Tuesday lesson and Tuesday Explore tab. Learners inspect the four polarization states, measure a single prepared photon in either basis, trace a 12-signal batch, sift by basis, disclose and remove a random test sample, and compare the expected and observed full intercept-resend error rate over 4,000 fresh simulated signals. Authentication, finite-sample uncertainty, reconciliation, verification, privacy amplification and separate encryption are explained explicitly. No final key is generated; the XOR example uses an independent public toy key.
+
+The other quantum concepts now have numbered visual explanations whose diagrams change with each stage. Daily beginner explanations use the same content, before interactive models and practice. Existing agenda, cover, Bloch tools, lab, notes and PDF remain intact.
+
+Validation includes measurement and sifting invariants, the derived intercept-resend error expectation, public-sample exclusion, the XOR round trip, the existing regression suite, desktop/mobile inspection and exact published-source checks.

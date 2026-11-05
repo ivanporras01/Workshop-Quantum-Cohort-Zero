@@ -1,3 +1,4 @@
+import {renderQkdLab,wireQkdLabs} from './qkd-lab.js';
 import {renderInteractiveBlochLesson,wireInteractiveBlochLessons} from './qubit-lesson.js';
 // Workshop Quantum Cohort Zero — professionally sequenced, public-facing concept experiences.
 // Companion visualizations are instructional models, not claims of hardware measurements.
@@ -53,10 +54,10 @@ export const DESIGNS={
  },
  '2026-11-10|Quantum Key Distribution':{
   type:'bb84',eyebrow:'SHARED KEYS USING QUANTUM STATES',
-  idea:'In BB84, two participants independently choose measurement bases and retain matching-basis positions.',
+  idea:'QKD establishes shared key material; BB84 uses random states, independent measurements, public testing and further processing.',
   why:'The basis choices help detect some forms of interception, but key security requires much more than a sifted string.',
-  prompt:'Generate an eight-position example and see which bits survive basis sifting.',
-  take:'BB84 basis sifting is a teaching model—not an operational secure key service.'
+  prompt:'Follow ten visual steps, measure one photon, and track a 12-signal batch through sifting and public testing.',
+  take:'Matching bases are the beginning; authentication, error handling and privacy amplification are also essential.'
  },
  '2026-11-12|Review of previous day':{
   type:'review',eyebrow:'REVIEW THE COMMUNICATION CHAIN',
@@ -215,7 +216,7 @@ function sphereDiagram(){
 function circuitDiagram(){
  return `<div class="circuit-stage"><svg viewBox="0 0 620 174" role="img" aria-label="Qiskit circuit with initial state, one selected gate, and measurement"><rect x="8" y="7" width="604" height="158" rx="18" fill="#0a2941" stroke="#356c7d"/><text x="32" y="64" fill="#c1e9e7" font-size="24">|0⟩</text><path d="M100 60H550" stroke="#b4eae2" stroke-width="3"/><rect x="225" y="28" width="88" height="64" rx="10" fill="#8ae2d5"/><text id="circuit-gate" x="269" y="69" font-size="27" font-weight="bold" text-anchor="middle" fill="#06313e">H</text><rect x="467" y="28" width="76" height="64" rx="10" fill="#a9b7ff"/><text x="505" y="69" font-size="19" text-anchor="middle" fill="#1a2650">M</text><path d="M505 92V139H565" stroke="#a9b7ff" stroke-width="3" stroke-dasharray="5 4"/><text x="32" y="139" font-size="14" fill="#c2d6e3">one qubit</text><text x="566" y="145" font-size="14" fill="#c2d6e3">c[0]</text></svg></div>`;
 }
-function bb84Diagram(){return `<div class="bb84-stage"><p>Illustrative eight-position basis comparison (not a secure QKD implementation).</p><button type="button" class="visual-link-action" id="bb84-try">Generate another basis sample ↻</button><div class="bb84-grid" id="bb84-demo-grid" role="table" aria-label="BB84 sample basis matching"></div><p class="visual-reveal" id="bb84-demo-result">Matching basis positions are retained; different bases are discarded.</p></div>`;}
+function bb84Diagram(){return renderQkdLab();}
 export function renderLessonExperience(lesson){
  const d=getDesign(lesson);
  if(!d)return '';
@@ -266,17 +267,9 @@ function update(bb,type,n){
   out('wave-secondary',type==='wave'?'2.0 V peak':Math.pow(Math.cos(phase/2),2).toFixed(3));
  }
 }
-function generateBB84(bb){
- const r=()=>Math.random()<.5?0:1;
- const rows=Array.from({length:8},()=>({alice:r(),bob:r(),bit:r()}));
- const kept=rows.filter(q=>q.alice===q.bob);
- const grid=bb.querySelector('#bb84-demo-grid');
- if(grid)grid.innerHTML=rows.map((q,i)=>`<div class="bb84-token ${q.alice===q.bob?'keep':'discard'}"><span>#${i+1}</span><strong>${q.alice?'X':'Z'} / ${q.bob?'X':'Z'}</strong><small>${q.alice===q.bob?'Keep '+q.bit:'Discard'}</small></div>`).join('');
- const result=bb.querySelector('#bb84-demo-result');
- if(result)result.textContent=`Kept ${kept.length} of 8 matching-basis positions. This demo omits authentication, eavesdropping detection, error correction and privacy amplification.`;
-}
 export function wireLessonExperiences(root,openExplore){
  wireInteractiveBlochLessons(root);
+ wireQkdLabs(root);
  root.querySelectorAll('.visual-exhibit').forEach(exhibit=>{
   exhibit.querySelectorAll('[data-demo-option]').forEach(button=>{
    button.addEventListener('click',()=>{
@@ -291,8 +284,6 @@ export function wireLessonExperiences(root,openExplore){
    });
   });
   exhibit.querySelectorAll('[data-demo-slider]').forEach(el=>el.addEventListener('input',()=>update(exhibit,el.dataset.demoSlider,+el.value)));
-  const bb=exhibit.querySelector('#bb84-try');
-  if(bb){bb.addEventListener('click',()=>generateBB84(exhibit));generateBB84(exhibit);}
   exhibit.querySelectorAll('[data-demo-open-explore]').forEach(button=>button.addEventListener('click',()=>openExplore?.()));
  });
 }

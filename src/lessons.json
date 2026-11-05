@@ -318,47 +318,56 @@
     {
       "date": "2026-11-10",
       "title": "Quantum Key Distribution",
-      "overview": "Understand the BB84 prepare–measure–sift logic and the need for authenticated classical discussion.",
+      "overview": "Quantum key distribution (QKD) helps Alice and Bob establish shared key material using quantum signals plus authenticated ordinary communication. In the BB84 example, photon polarization carries randomly chosen bits. Follow the ten visual steps to see what is sent, what is revealed publicly, which bits are discarded, and why a sifted string is not yet a secret key.",
       "concepts": [
         {
-          "heading": "The BB84 idea",
-          "text": "Alice encodes randomly selected bits in one of two bases, such as Z and X. Bob independently chooses a measurement basis. Afterward they publicly compare only the bases, not their secret bit values; positions with different bases are discarded."
+          "heading": "A key is different from a message",
+          "text": "A key is a string of bits used by an encryption method. QKD establishes the key material; it does not send your email as quantum text. Alice and Bob must also verify identities and message integrity through an authenticated classical channel."
         },
         {
-          "heading": "Why errors matter",
-          "text": "If Bob matches Alice's basis and there is no noise or eavesdropping, the ideal bit agrees. An intercept–resend eavesdropper who guesses a random basis can cause detectable errors in the sifted bits. The ideal random-basis intercept–resend model gives about 25% sifted error, not a universal QKD security threshold."
+          "heading": "A basis determines the reference outcomes",
+          "text": "Our Z basis uses horizontal/vertical polarization and our X basis uses +45°/−45°. Matching bases give the same bit in an ideal undisturbed channel. Different bases give random outcomes. Alice and Bob disclose bases, then keep only matching positions."
         },
         {
-          "heading": "What is missing from the toy demo",
-          "text": "A complete QKD system requires an authenticated classical channel, parameter estimation, error correction, privacy amplification, trusted equipment assumptions, and implementation security. QKD distributes key material; it does not itself encrypt application messages."
+          "heading": "Testing and post-processing are essential",
+          "text": "A random public sample estimates errors and is removed from the candidates. A real protocol then uses finite-key security analysis, error reconciliation, verification and privacy amplification, or aborts. Noise can cause errors, and a small error-free sample cannot certify security."
         }
       ],
       "worked": {
-        "title": "Sift eight illustrative trials",
+        "title": "Trace 12 signals without confusing candidates with a key",
         "steps": [
-          "Alice bases: Z X Z X Z X Z X.",
-          "Bob bases: Z Z Z X X X Z Z.",
-          "Keep positions 1, 3, 4, 6, and 7 where the bases agree.",
-          "Discard positions 2, 5, and 8, then test a sample of the retained bits for errors."
+          "Open the visual walkthrough. At step 2, identify all four polarization states and the agreed bit labels. A basis is a pair of reference states, not a second secret message.",
+          "At step 3, read Alice’s bit, basis and encoded state for each signal. At step 4, choose matching and different bases for a single photon before looking at Bob’s notebook.",
+          "At step 5, keep matching-basis positions. Discard every different-basis position, including any whose bit values agree by chance. The number kept varies between batches.",
+          "At step 6, count the purple public-test positions. QBER equals disagreements divided by the number tested. Remove every public-test bit from the candidates, even when it agrees.",
+          "At step 7, enable Eve and simulate 4,000 fresh signals. Compare the observed sifted error fraction with 25%, the long-run expectation for this particular attack. This experiment reveals all sifted data for teaching.",
+          "At steps 8–10, explain reconciliation, verification and privacy amplification, then use the separate public XOR example. No final secret key is produced by the classroom simulator."
         ],
-        "result": "Five of eight positions are retained in this illustrative sequence; random long runs retain about half on average."
+        "result": "Basis sifting selects candidates. Error estimation, authentication and further processing determine whether any secret key can be extracted in a real implementation."
       },
       "practice": {
-        "question": "Why must Alice and Bob authenticate their classical discussion?",
-        "answer": "Without authentication an attacker could impersonate participants and perform a man-in-the-middle attack."
+        "question": "Alice and Bob retain 8 matching-basis positions. They publicly reveal 3 of those bits and find 1 disagreement. What is their sample QBER? How many untested candidates remain? Are those candidates a secure key?",
+        "answer": "The sample QBER is 1/3, approximately 33.3%. Remove all 3 public-test bits, leaving 5 untested candidates. These are not a secure key. This tiny example supplies no security guarantee; a real protocol evaluates its security bounds and may abort."
       },
-      "misconception": "Matching bases alone does not prove a secure key was produced.",
+      "misconception": "Zero errors in a tiny sample does not prove nobody listened. An observed error does not by itself prove an attacker was present. BB84 prepare-and-measure does not require entanglement.",
       "terms": [
-        "BB84",
-        "basis sifting",
+        "Photon",
+        "Polarization",
+        "Basis",
+        "Sifting",
         "QBER",
-        "privacy amplification",
-        "authenticated channel"
+        "Authentication",
+        "Reconciliation",
+        "Privacy amplification"
       ],
       "resources": [
         {
-          "label": "NSA — QKD limitations and authentication",
-          "url": "https://www.nsa.gov/Cybersecurity/Quantum-Key-Distribution-QKD-and-Quantum-Cryptography-QC/"
+          "label": "IBM — Quantum key distribution",
+          "url": "https://quantum.cloud.ibm.com/learning/en/modules/computer-science/quantum-key-distribution"
+        },
+        {
+          "label": "NIST — Post-quantum cryptography",
+          "url": "https://www.nist.gov/cybersecurity-and-privacy/what-post-quantum-cryptography"
         }
       ]
     },

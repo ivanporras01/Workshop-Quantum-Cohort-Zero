@@ -51,7 +51,7 @@ test('every interactive teaching type renders a distinguishable activity',async(
     assert.match(html,/data-demo-slider=/);break;
    case 'qubit':case 'sphere':assert.match(html,/data-qubit-lesson/);assert.match(html,/data-qubit-theta/);assert.match(html,/data-qubit-phi/);break;
    case 'circuit':assert.match(html,/circuit-stage/);assert.match(html,/data-demo-option/);break;
-   case 'bb84':assert.match(html,/bb84-demo-grid/);break;
+   case 'bb84':assert.match(html,/data-qkd-lab/);break;
    default:assert.match(html,/data-demo-option/);
   }
  }

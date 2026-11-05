@@ -1,3 +1,4 @@
+import {storyForLesson,renderStepDiagram} from './visual-steps.js';
 // Detailed beginner-first explanations for all 18 original workshop topics.
 export const BEGINNER_GUIDES={
   "2026-11-09|Welcome and Program Introduction": {
@@ -392,14 +393,20 @@ export const BEGINNER_GUIDES={
   }
 };
 
+// Keep the daily lesson path and give every explanation its own changing diagram.
+for(const [key,guide] of Object.entries(BEGINNER_GUIDES)) {
+ const [date,title]=key.split('|');const story=storyForLesson({date,title});
+ if(story){guide.heading=story.title;guide.steps=story.steps.map(s=>({title:s.title,explanation:s.explanation,notice:s.notice,visual:s.visual}));}
+}
+const stepPicture=step=>step.visual?'<div class="beginner-step-visual"><figure class="vs-diagram">'+renderStepDiagram(step.visual)+'</figure><p class="vs-notice"><strong>Notice:</strong> '+escapeHTML(step.notice)+'</p></div>':'';
 export const beginnerGuideFor=lesson=>BEGINNER_GUIDES[lesson.date+'|'+lesson.title]||null;
 const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 export function renderBeginnerGuide(lesson){
  const d=beginnerGuideFor(lesson);if(!d)return '';
  return '<section class="beginner-guide" data-beginner-guide aria-label="Step-by-step beginner explanation">'+
- '<header class="beginner-heading"><span class="beginner-kicker">START FROM ZERO · NO PREVIOUS EXPERIENCE REQUIRED</span><h5>'+escapeHTML(d.heading)+'</h5><p>First understand the ideas in plain English. The visual experiment comes after these explanations.</p></header>'+
+ '<header class="beginner-heading"><span class="beginner-kicker">START FROM ZERO · NO PREVIOUS EXPERIENCE REQUIRED</span><h5>'+escapeHTML(d.heading)+'</h5><p>Follow the explanation and watch the diagram change at each step. Then try the interactive experiment.</p></header>'+
  '<nav class="beginner-step-nav" aria-label="Explanation sections">'+d.steps.map((x,i)=>'<button type="button" data-beginner-step="'+i+'" aria-pressed="'+(i===0)+'"><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+escapeHTML(x.title)+'</strong></button>').join('')+'</nav>'+
- '<div class="beginner-step-body" aria-live="polite"><span class="beginner-step-count" data-beginner-count>EXPLANATION 1 OF '+d.steps.length+'</span><h6 data-beginner-title>'+escapeHTML(d.steps[0].title)+'</h6><p data-beginner-text>'+escapeHTML(d.steps[0].explanation)+'</p></div>'+
+ '<div class="beginner-step-body" aria-live="polite"><span class="beginner-step-count" data-beginner-count>EXPLANATION 1 OF '+d.steps.length+'</span><h6 data-beginner-title>'+escapeHTML(d.steps[0].title)+'</h6><p data-beginner-text>'+escapeHTML(d.steps[0].explanation)+'</p><div data-beginner-visual>'+stepPicture(d.steps[0])+'</div></div>'+
  '<div class="beginner-controls"><button type="button" data-beginner-previous disabled>← Previous explanation</button><span data-beginner-position>1 / '+d.steps.length+'</span><button type="button" data-beginner-next>Next explanation →</button></div>'+
  '<p class="beginner-reassurance">Next: see the concept in a picture, manipulate a model, and follow a worked example before answering questions.</p></section>';
 }
@@ -414,6 +421,7 @@ export function wireBeginnerGuides(root){
    buttons.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===idx)));
    panel.querySelector('[data-beginner-title]').textContent=data.steps[idx].title;
    panel.querySelector('[data-beginner-text]').textContent=data.steps[idx].explanation;
+   panel.querySelector('[data-beginner-visual]').innerHTML=stepPicture(data.steps[idx]);
    panel.querySelector('[data-beginner-count]').textContent='EXPLANATION '+(idx+1)+' OF '+data.steps.length;
    panel.querySelector('[data-beginner-position]').textContent=(idx+1)+' / '+data.steps.length;
    panel.querySelector('[data-beginner-previous]').disabled=idx===0;
