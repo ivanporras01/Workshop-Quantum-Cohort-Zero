@@ -87,7 +87,8 @@ for(let i=1;i<=attempts;i++){
   const provided=lessons.lessons.map(l=>l.date+'|'+l.title).sort();
   assert.deepEqual(provided,actual);
   assert.deepEqual(Buffer.from(await pdf.arrayBuffer()),Buffer.from((await readFile(new URL('../payload/agenda.pdf.b64',import.meta.url),'utf8')).trim(),'base64'),'Published agenda must match the approved designed PDF');
-  console.log('PASS LIVE: Cloudflare serves all 18 beginner-first lessons, original 5-day agenda, enhanced Bloch sphere and angles, 75 foundational explanations, guided examples, responsive styling and agenda PDF.');
+  const explanationCount=Object.values(BEGINNER_GUIDES).reduce((sum,guide)=>sum+guide.steps.length,0);
+  console.log('PASS LIVE: Cloudflare serves all 18 beginner-first lessons, original 5-day agenda, enhanced Bloch sphere and angles, '+explanationCount+' foundational explanations, guided examples, responsive styling and agenda PDF.');
   process.exit(0);
  }catch(error){
   last=String(error);

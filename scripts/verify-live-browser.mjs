@@ -116,10 +116,11 @@ try{
  const firstConcept=page.locator('#topic-0-1 [data-beginner-guide]');
  assert.match(await firstConcept.locator('[data-beginner-title]').innerText(),/classical bit/i);
  await firstConcept.locator('[data-beginner-next]').click();
- assert.match(await firstConcept.locator('[data-beginner-title]').innerText(),/qubit/i);
- assert.match(await firstConcept.locator('[data-beginner-text]').innerText(),/probability amplitudes/i);
- await firstConcept.locator('[data-beginner-step="4"]').click();
+ assert.match(await firstConcept.locator('[data-beginner-title]').innerText(),/quantum reference states/i);
+ assert.match(await firstConcept.locator('[data-beginner-text]').innerText(),/physical quantum system/i);
+ await firstConcept.locator('[data-beginner-step="2"]').click();
  assert.match(await firstConcept.locator('[data-beginner-text]').innerText(),/Hadamard/i);
+ assert.match(await firstConcept.locator('[data-beginner-visual]').innerText(),/50/);
  const sphere=page.locator('#topic-0-1 [data-qubit-lesson]');
  await sphere.locator('.public-bloch-svg').waitFor();
  assert.equal(await sphere.locator('[data-state]').count(),6);
