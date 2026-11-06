@@ -34,7 +34,7 @@ for(const [id,name,params,targets,controls,description] of [
  ['CCZ','Controlled-controlled Z',0,1,2,'Apply Z only when both controls are |1⟩.'],
  ['CSWAP','Fredkin',0,2,1,'Swap the two targets only when the control is |1⟩.']
 ])GATES[id]={id,name,params,targets,controls,description,group:controls===2||id==='CSWAP'?'Three qubits':'Two qubits'};
-export function gateLabel(id){return id.replace('dg','†').replace('RX','Rx').replace('RY','Ry').replace('RZ','Rz');}
+export function gateLabel(id){return id.replace('dg','†').replace(/^(C?)R([XYZ])$/,(_,control,axis)=>control+'R'+axis.toLowerCase());}
 export function singleMatrix(id,params=[]){
  const [t=0,p=0,l=0]=params.map(rad), c=Math.cos(t/2),s=Math.sin(t/2),h=1/Math.SQRT2;
  switch(id){

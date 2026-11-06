@@ -41,6 +41,8 @@ try{
  await action('delete').click();assert.equal(await page.locator('[data-column]').count(),2);
  await page.locator('#project-name').fill('Classroom circuit');await download('json');
  assert.equal(JSON.parse((await download('json')).text).name,'Classroom circuit');
+ const desktop=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth}));
+ assert.ok(desktop.scrollWidth<=desktop.width+4,'Export controls overflow desktop: '+JSON.stringify(desktop));
  const py=await download('qiskit');assert.equal(py.name,'quantum-circuit.py');assert.match(py.text,/Statevector.from_instruction/);
  const svg=await download('svg');assert.match(svg.text,/<svg xmlns=/);
  await page.locator('#import-circuit').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{"version":1,"n":99}')});
@@ -50,7 +52,7 @@ try{
  console.log('PASS CIRCUIT: parameter edit on first click, reorder, duplicate, delete, validated import and JSON/Python/SVG downloads.');
 
  await page.locator('#example').selectOption('GHZ state');await action('share').click();
- const shared=await page.locator('#share-link').inputValue();assert.ok(shared.startsWith(origin+'/circuit-lab.html#circuit='));
+ const shared=await page.locator('#share-link').inputValue();const sharedURL=new URL(shared),currentURL=new URL(page.url());assert.equal(sharedURL.origin,currentURL.origin);assert.equal(sharedURL.pathname,currentURL.pathname);assert.ok(sharedURL.hash.startsWith('#circuit='));
  await page.goto(shared,{waitUntil:'domcontentloaded'});await page.locator('#qubit-count').waitFor();
  assert.equal(await page.locator('#qubit-count').inputValue(),'3');assert.deepEqual(await joint(),['50.0%','0.0%','0.0%','0.0%','0.0%','0.0%','0.0%','50.0%']);
  await page.locator('[data-orbit="0"]').focus();await page.keyboard.press('ArrowRight');
