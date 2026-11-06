@@ -20,8 +20,14 @@ jobs:
       - run: node --check src/quantum-atlas.js
       - run: node --check src/quantum-models.js
       - run: node --check src/day-learning-map.js
+      - run: node --check src/circuit-model.js
+      - run: node --check src/circuit-lab.js
       - run: npm run build
       - run: |
+          test -s dist/circuit-lab.html
+          test -s dist/src/circuit-model.js
+          test -s dist/src/circuit-lab.js
+          test -s dist/src/circuit-lab.css
           test -s dist/index.html
           test -s dist/src/app.js
           test -s dist/src/styles.css
@@ -72,3 +78,32 @@ jobs:
         env:
           WORKSHOP_URL: https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev
 
+
+      - name: Exercise circuit builder, Bloch spheres and exports
+        run: node scripts/verify-circuit-browser.mjs
+        env:
+          WORKSHOP_URL: https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev
+      - name: Save mobile circuit lab screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: circuit-lab-preview
+          path: circuit-lab-mobile.png
+          if-no-files-found: ignore
+
+  qiskit-export-check:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install independent quantum reference implementation
+        run: python -m pip install --disable-pip-version-check qiskit numpy
+      - name: Generate reference circuits
+        run: node scripts/check-circuit-qiskit.mjs "$RUNNER_TEMP/circuit-cases.json"
+      - name: Compare every gate and its inverse with Qiskit
+        run: python scripts/check-circuit-qiskit.py "$RUNNER_TEMP/circuit-cases.json"

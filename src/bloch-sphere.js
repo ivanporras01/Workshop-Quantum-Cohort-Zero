@@ -21,10 +21,18 @@ export function measureBloch(vector,basis='Z'){
   const plus=Math.max(0,Math.min(1,(1+vector[axis.axis])/2));
   return {plus,minus:1-plus,labels:[axis.plus,axis.minus]};
 }
-export function applyBlochGate(vector,gate){
+export function applyBlochGate(vector,gate,angle=90){
   const [x,y,z]=vector;
-  let result;
+  let result; const a=angle*Math.PI/180,c=Math.cos(a),s=Math.sin(a);
   switch(gate){
+    case 'I': result=[x,y,z];break;
+    case 'Sdg':result=[y,-x,z];break;
+    case 'Tdg':result=[(x+y)/Math.SQRT2,(y-x)/Math.SQRT2,z];break;
+    case 'RX': result=[x,c*y-s*z,s*y+c*z];break;
+    case 'RY': result=[c*x+s*z,y,-s*x+c*z];break;
+    case 'RZ':case 'P': result=[c*x-s*y,s*x+c*y,z];break;
+    case 'SX':result=[x,-z,y];break;
+    case 'SXdg':result=[x,z,-y];break;
     case 'X': result=[x,-y,-z];break;
     case 'Y': result=[-x,y,-z];break;
     case 'Z': result=[-x,-y,z];break;
@@ -111,6 +119,7 @@ export function renderBlochSphere({vector=[0,0,1],basis='Z',trace=['Start'],embe
         <p class="public-bloch-vector">Bloch vector r = (${vector.map(n=>n.toFixed(2)).join(', ')})</p>
         <p class="public-bloch-trace">State changes: ${trace.join(' → ')}</p>
       </div>
+      <a class="public-circuit-link" href="/circuit-lab.html">Open the full Bloch sphere & circuit lab ↗<small>38 gate choices · 1–3 qubits · replay · measurements · save & export</small></a>
       <div class="public-bloch-challenge"><strong>Try this live:</strong> Reset → H → Z → H. Why does a phase change turn into a certain measurement of 1?</div>
     </div>
   </section>`;
