@@ -1,3 +1,4 @@
+import {renderDigitalLabs,wireDigitalLabs} from './bench-labs.js';
 import {renderQkdLab,wireQkdLabs} from './qkd-lab.js';
 import {renderBitQubit,wireBitQubit} from './bit-qubit.js';
 import {renderQuantumAtlas,wireQuantumAtlas} from './quantum-atlas.js';
@@ -28,6 +29,7 @@ function render(){let d=st.days[st.day],date=new Date(d.date+'T12:00:00Z').toLoc
  $('day-position').textContent=pad(st.day+1)+' / 05';$('previous-day').disabled=st.day===0;$('next-day').disabled=st.day===4;
  $('timeline').innerHTML='<p class="session-intro">Official program times and presenters, transcribed from the supplied agenda.</p><div class="timeline">'+d.sessions.map(s=>'<article class="session '+(s.kind==='break'?'break':'')+'"><div class="session-time">'+(s.start?time(s.start):'TBA')+'<small>'+(s.end?'to '+time(s.end):'Time not specified')+'</small></div><div class="timeline-rail"><span class="timeline-dot"></span></div><div class="session-card"><h4>'+safe(s.title)+'</h4>'+(s.speaker?'<p>'+safe(s.speaker)+'</p>':'')+(s.note?'<p class="session-note">'+safe(s.note)+'</p>':'')+(s.kind!=='break'?'<button class="agenda-learn" type="button" data-agenda-lesson="'+safe(s.title)+'">Study this topic ↗</button>':'')+'</div></article>').join('')+'</div><p class="original-note">The Explore activities are additional educational demonstrations; the schedule above follows the source agenda. <a href="/resources/PBSC-Cohort-Zero-Agenda.pdf" target="_blank">Download agenda PDF</a>.</p>';
  $('workshop-notes').value=read(notesKey())||'';$('day-complete').checked=read(doneKey())==='yes';$('note-status').textContent='Stored locally in this browser';nav();learn();explore();
+ if(d.date==='2026-11-14')$('timeline').insertAdjacentHTML('afterbegin','<aside class="digital-labs"><span class="lab-kicker">10:00 AM–1:00 PM · APPLIED ENERGY WAVES</span><h3>Hands-on laboratory · Ready on screen</h3><p>Both complete workbooks and the digital waveform generator / oscilloscope are available here.</p><a class="primary-button" href="/hands-on-labs.html">Open workbooks & digital instruments →</a></aside>');
  $('timeline').querySelectorAll('[data-agenda-lesson]').forEach(button=>button.addEventListener('click',()=>{
    const i=d.sessions.filter(s=>s.kind!=='break').findIndex(s=>s.title===button.dataset.agendaLesson);
    tab('learn');
@@ -59,7 +61,7 @@ function learn(){
   const beginner=renderBeginnerGuide(lesson);
   const opening=design?'<section class="concept-opening"><span class="concept-opening-eyebrow">01 · UNDERSTAND THE BIG IDEA</span><h5>'+safe(design.idea)+'</h5><p>'+safe(lesson.overview)+'</p><div class="concept-why"><span class="why-icon">✳</span><div><strong>Why this matters</strong><p>'+safe(design.why)+'</p></div></div></section>':'<p class="topic-overview">'+safe(lesson.overview)+'</p>';
   const concepts='<section class="concept-teaching"><div class="lesson-section-title"><span>02 · BUILD YOUR UNDERSTANDING</span><h5>Three concepts to know before you experiment</h5></div><div class="concept-tiles">'+lesson.concepts.map((p,j)=>'<section class="lesson-concept"><span class="concept-number">'+String(j+1).padStart(2,'0')+'</span><div><h5>'+safe(p.heading)+'</h5><p>'+safe(p.text)+'</p></div></section>').join('')+'</div></section>';
-  const visual=(design?renderLessonExperience(lesson):'')+(lesson.date==='2026-11-14'&&lesson.title==='Applied energy waves'?renderLabGuide():'');
+  const visual=(design?renderLessonExperience(lesson):'')+(lesson.date==='2026-11-14'&&lesson.title==='Applied energy waves'?renderDigitalLabs()+'<details class="optional-circuit"><summary>Optional extension: resistor-combiner circuit</summary>'+renderLabGuide()+'</details>':'');
   const steps=lesson.worked.steps;
   const worked='<section class="guided-worked" data-guided-example="true"><div class="lesson-section-title"><span>04 · FOLLOW A GUIDED EXAMPLE</span><h5>'+safe(lesson.worked.title)+'</h5><p>Follow the logic one step at a time. Make a prediction before revealing the next step.</p></div><div class="guided-progress"><span data-guided-progress>Step 1 of '+steps.length+'</span><div class="guided-dots">'+steps.map((x,k)=>'<span class="'+(k===0?'active':'')+'" data-guided-dot="'+k+'">'+String(k+1)+'</span>').join('')+'</div></div><div class="guided-steps">'+steps.map((x,k)=>'<div class="guided-step" data-guided-step="'+k+'" '+(k?'hidden':'')+'><span class="step-big">'+String(k+1).padStart(2,'0')+'</span><p>'+safe(x)+'</p></div>').join('')+'</div><div class="guided-result" data-guided-result hidden><strong>What the example shows</strong><p>'+safe(lesson.worked.result)+'</p></div><div class="guided-actions"><button type="button" data-guided-reset class="guided-button secondary">Start again</button><button type="button" data-guided-next class="guided-button primary">Next step <span aria-hidden="true">→</span></button></div></section>';
   const practice='<section class="lesson-practice"><div class="lesson-section-title"><span>05 · CHECK YOUR UNDERSTANDING</span><h5>Now you try</h5><p>You have already studied the concept, explored a visual and followed an example. Try this one independently.</p></div><p class="practice-question">'+safe(lesson.practice.question)+'</p><details><summary>Reveal the answer and explanation</summary><p>'+safe(lesson.practice.answer)+'</p></details></section>';
@@ -79,6 +81,7 @@ function learn(){
  wireBeginnerGuides(root);
  wireLessonExperiences(root,openExplore);
  wireLabGuide(root);
+ wireDigitalLabs(root);
  root.querySelectorAll('[data-guided-example]').forEach(ex=>{
    const steps=[...ex.querySelectorAll('[data-guided-step]')], dots=[...ex.querySelectorAll('[data-guided-dot]')],result=ex.querySelector('[data-guided-result]');
    const label=ex.querySelector('[data-guided-progress]'),next=ex.querySelector('[data-guided-next]');
