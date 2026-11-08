@@ -52,11 +52,16 @@ for(let i=1;i<=attempts;i++){
     assert.equal(remote,expected,'Cloudflare has not deployed latest '+relative);
   }
   // Require the deployed concept explorer to match this revision, not just exist.
-  for(const relative of ['circuit-lab.html','src/circuit-model.js','src/circuit-lab.js','src/circuit-lab.css','src/bloch-sphere.js','src/bloch-sphere.css','src/qkd-model.js','src/qkd-lab.js','src/visual-steps.js','src/visual-story-content.js','src/visual-steps.css','src/bit-qubit.js','src/hero-quantum.js','src/hero-quantum.css','src/concept-art.js','index.html','src/app.js','src/quantum-atlas.js','src/quantum-atlas.css','src/quantum-models.js','src/quantum-concept-content.js','src/day-learning-map.js']){
+  for(const relative of ['hands-on-labs.html','src/bench-model.js','src/bench-labs.js','src/bench-simulator.js','src/bench-labs.css','circuit-lab.html','src/circuit-model.js','src/circuit-lab.js','src/circuit-lab.css','src/bloch-sphere.js','src/bloch-sphere.css','src/qkd-model.js','src/qkd-lab.js','src/visual-steps.js','src/visual-story-content.js','src/visual-steps.css','src/bit-qubit.js','src/hero-quantum.js','src/hero-quantum.css','src/concept-art.js','index.html','src/app.js','src/quantum-atlas.js','src/quantum-atlas.css','src/quantum-models.js','src/quantum-concept-content.js','src/day-learning-map.js']){
     const actual=await (await get('/'+relative)).text();
     const expected=await readFile(new URL('../'+relative,import.meta.url),'utf8');
     assert.equal(actual,expected,'Cloudflare has not deployed latest '+relative);
   }
+  for(const name of ['PBSC_Quantum_Workshop_One_BNC_Complete_Lab.pdf','PBSC_Quantum_Workshop_Phase_Interference_Complete_Lab.pdf']){
+   const path='resources/labs/'+name;
+   assert.deepEqual(Buffer.from(await (await get('/'+path)).arrayBuffer()),await readFile(new URL('../'+path,import.meta.url)),'Published lab PDF must match the verified original');
+  }
+  console.log('PASS LIVE: digital bench, presentation controls and both lab PDFs match the committed source.');
   console.log('PASS LIVE: all eight quantum concept lessons and five detailed daily plans match the committed source.');
   assert.ok(html.includes('/src/beginner-path.css'));
   assert.ok(beginnerStyle.includes('.beginner-guide')&&beginnerStyle.includes('.qubit-live-lesson'));

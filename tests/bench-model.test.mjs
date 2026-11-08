@@ -20,3 +20,13 @@ test('manual burst is zero outside its finite N-cycle envelope',()=>{
 test('both real PDF workbooks have matching production links and valid headers',async()=>{
  const html=renderDigitalLabs();for(const w of WORKBOOKS){assert.ok(html.includes(w.file));const b=await readFile(new URL('..'+w.file,import.meta.url));assert.equal(b.subarray(0,5).toString(),'%PDF-');assert.ok(b.length>100000);}
 });
+
+test('separate quantum models match both workbook examples',async()=>{
+ const {interferenceProbabilities,assumedBurstRotation}=await import('../src/bench-model.js');
+ for(const [phase,p0] of [[0,1],[90,.5],[180,0],[270,.5],[360,1]]){
+  const p=interferenceProbabilities(phase);near(p.p0,p0);near(p.p0+p.p1,1);
+ }
+ for(const [n,p1] of [[1,.5],[2,1],[3,.5],[4,0]]){
+  const m=assumedBurstRotation(n,1000);near(m.duration,n/1000);near(m.p1,p1);
+ }
+});

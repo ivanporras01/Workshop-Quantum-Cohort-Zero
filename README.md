@@ -102,3 +102,14 @@ QKD now has a ten-stage BB84 walkthrough in the concept explorer, Tuesday lesson
 The other quantum concepts now have numbered visual explanations whose diagrams change with each stage. Daily beginner explanations use the same content, before interactive models and practice. Existing agenda, cover, Bloch tools, lab, notes and PDF remain intact.
 
 Validation includes measurement and sifting invariants, the derived intercept-resend error expectation, public-sample exclusion, the XOR round trip, the existing regression suite, desktop/mobile inspection and exact published-source checks.
+
+
+## November 14 digital laboratory
+
+The day-five workshop page links to `hands-on-labs.html`. Both complete English PDF workbooks can be read in the page, opened separately or downloaded. Workbook observations are stored in the student's browser and can be exported.
+
+The digital bench includes amplitude, frequency, pulse width, finite bursts, phase and Math addition. Previous/Next and Reset controls support the presentation, with six numbered experiment guides. SINGLE must precede a manual burst TRIGGER. STOP freezes the displayed capture. Scale readouts appear above the grid and below the screen. The phase slider shows its numeric setting. Fullscreen can be exited with its button or Escape.
+
+The quantum circuit and burst rotation panels are explicitly theoretical; the scope measures no qubit. The burst model assumes a 250 Hz Rabi rate at fixed 1 Vpp, separate from carrier frequency.
+
+Validation: `npm test`, `npm run build`, then `node scripts/verify-live.mjs` after the connected Cloudflare deployment. Production verification compares the bench sources and both PDF files byte-for-byte.
