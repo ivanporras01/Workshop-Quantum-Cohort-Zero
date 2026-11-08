@@ -78,6 +78,14 @@ document.getElementById('demo-reset').addEventListener('click',()=>selectPreset(
 document.getElementById('scope-run').addEventListener('click',()=>{running=!running;armed=false;if(running){captured=false;lastDisplay={...state};}draw();});
 document.getElementById('scope-single').addEventListener('click',()=>{if(state.burst){armed=true;captured=false;running=false;lastDisplay={...state};}else{armed=false;running=false;lastDisplay={...state};captured=true;}draw();});
 document.getElementById('generator-trigger').addEventListener('click',()=>{if(!state.burst){document.getElementById('scope-status').textContent='Select Burst mode for a manual trigger.';return;}if(!armed){document.getElementById('scope-status').textContent='Burst sent; scope was not armed. Press SINGLE first, then TRIGGER.';return;}if(!state.output){document.getElementById('scope-status').textContent='Enable generator output before triggering.';return;}captured=true;armed=false;running=false;lastDisplay={...state};draw();});
-document.getElementById('bench-fullscreen').addEventListener('click',async()=>{const el=document.getElementById('simulator');try{if(document.fullscreenElement)await document.exitFullscreen();else await el.requestFullscreen();}catch{document.getElementById('scope-status').textContent='Fullscreen unavailable. Use browser zoom for presentation.';}});
-document.addEventListener('fullscreenchange',()=>{document.getElementById('bench-fullscreen').textContent=document.fullscreenElement?'Exit fullscreen ↙':'Presentation fullscreen ↗';draw();});
+const simulator=document.getElementById('simulator');
+function updatePresentationButton(){document.getElementById('bench-fullscreen').textContent=document.fullscreenElement?'Exit fullscreen ↙':simulator.classList.contains('presentation-expanded')?'Exit presentation ↙':'Presentation fullscreen ↗';draw();}
+document.getElementById('bench-fullscreen').addEventListener('click',async()=>{
+ if(simulator.classList.contains('presentation-expanded'))simulator.classList.remove('presentation-expanded');
+ else if(document.fullscreenElement)await document.exitFullscreen();
+ else try{await simulator.requestFullscreen();}catch{simulator.classList.add('presentation-expanded');}
+ updatePresentationButton();
+});
+document.addEventListener('fullscreenchange',updatePresentationButton);
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&simulator.classList.contains('presentation-expanded')){simulator.classList.remove('presentation-expanded');updatePresentationButton();}});
 window.addEventListener('resize',draw);selectPreset(activePreset);
