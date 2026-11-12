@@ -7,6 +7,7 @@ await copyFile(join(base,'index.html'),join(dist,'index.html'));
 await copyFile(join(base,'circuit-lab.html'),join(dist,'circuit-lab.html'));
 await copyFile(join(base,'hands-on-labs.html'),join(dist,'hands-on-labs.html'));
 await cp(join(base,'resources','labs'),join(dist,'resources','labs'),{recursive:true});
+await cp(join(base,'resources','qubit-gallery'),join(dist,'resources','qubit-gallery'),{recursive:true});
 await copyFile(join(base,'favicon.svg'),join(dist,'favicon.svg'));
 for(const name of ['bench-model.js','bench-labs.js','bench-simulator.js','bench-labs.css','circuit-model.js','circuit-lab.js','circuit-lab.css','qkd-model.js','qkd-lab.js','visual-steps.js','visual-story-content.js','visual-steps.css','bit-qubit.js','hero-quantum.js','hero-quantum.css','concept-art.js','app.js','styles.css','lessons.json','bloch-sphere.js','bloch-sphere.css','learning-experiences.js','learning-experiences.css','applied-waves-lab.js','applied-waves-lab.css','applied-waves-circuit.svg','beginner-path.js','beginner-path.css','qubit-lesson.js','quantum-atlas.js','quantum-atlas.css','quantum-models.js','quantum-concept-content.js','day-learning-map.js'])await copyFile(join(base,'src',name),join(dist,'src',name));
 await copyFile(join(base,'resources','quantum-computing-future.webp'),join(dist,'resources','quantum-computing-future.webp'));

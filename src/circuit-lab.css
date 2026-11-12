@@ -96,3 +96,28 @@
 .qubit-build-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:1050px){.qubit-build-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.qubit-build-grid{grid-template-columns:1fr}}
+
+.qubit-gallery-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.qubit-gallery-tabs[hidden],.qubit-build[hidden]{display:none}
+.qubit-gallery-tabs button{padding:10px 16px;border-radius:999px}
+.qubit-gallery-tabs button[aria-pressed=true]{background:var(--accent);color:#082431;border-color:var(--accent);font-weight:750}
+.qubit-build-grid{display:block}
+.qubit-build{padding:clamp(12px,2.5vw,24px);margin-bottom:16px}
+.qubit-build h4{font-size:clamp(1.35rem,3vw,2.1rem);margin-bottom:12px}
+.qubit-gallery-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.qubit-context{position:relative;overflow:hidden;min-height:0;margin:0;background:#091727;border:1px solid #36596b;border-radius:10px;display:grid;grid-template-rows:1fr auto}
+.qubit-context img{width:100%;height:100%;min-height:0;max-height:310px;object-fit:cover;display:block}
+.qubit-context figcaption,.qubit-zoom{background:#0d2438;color:#d8eafb;padding:9px 12px;margin:0;font-size:.86rem}
+.qubit-context figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px}
+.qubit-context figcaption span{color:#acc3d7;font-size:.8rem}
+.qubit-picture canvas{max-height:310px;object-fit:contain}
+.qubit-encoding{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.qubit-encoding div{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:10px}
+.qubit-encoding dt{font-size:1.2rem;font-weight:700;color:var(--accent)}
+.qubit-encoding dd{margin:0}
+.qubit-build h5{font-size:1rem;margin:14px 0 8px}
+.qubit-build ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;list-style:none;counter-reset:produce;margin:0;padding:0}
+.qubit-build li{counter-increment:produce;background:var(--panel);border-radius:8px;padding:12px;margin:0}
+.qubit-build li+li{margin:0}
+.qubit-build li::before{content:counter(produce) " · " attr(data-caption);display:block;font-weight:750;color:var(--accent);margin-bottom:4px}
+@media(max-width:680px){.qubit-gallery-pair,.qubit-build ol{grid-template-columns:1fr}.qubit-context img{max-height:270px}}

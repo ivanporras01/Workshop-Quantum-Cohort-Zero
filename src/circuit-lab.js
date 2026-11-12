@@ -192,6 +192,24 @@ function drawQubitArt(canvas){
 
 document.querySelectorAll('[data-qubit-art]').forEach(drawQubitArt);
 
+const qubitTabs=document.querySelector('.qubit-gallery-tabs');
+if(qubitTabs){
+ const tabs=[...qubitTabs.querySelectorAll('[data-qubit-tab]')];
+ const selectTechnology=chosen=>{
+  for(const tab of tabs){
+   const active=tab===chosen;
+   tab.setAttribute('aria-pressed',String(active));
+   document.getElementById(tab.getAttribute('aria-controls')).hidden=!active;
+  }
+ };
+ qubitTabs.addEventListener('click',event=>{
+  const tab=event.target.closest('[data-qubit-tab]');
+  if(tab)selectTechnology(tab);
+ });
+ selectTechnology(tabs[0]);
+ qubitTabs.hidden=false;
+}
+
 const bandFrequency={Radio:[1e6,'AM radio example'],Microwave:[5e9,'Example superconducting qubit drive'],Infrared:[193.4e12,'Near-infrared example for optical links'],Visible:[5.45e14,'Green light example'],Ultraviolet:[1e15,'Ultraviolet example'], 'X-ray':[1e18,'X-ray example'],Gamma:[1e20,'Gamma-ray example']};
 const spectrum=document.querySelector('.spectrum-bands');
 if(spectrum){
