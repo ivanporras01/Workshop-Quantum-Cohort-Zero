@@ -82,6 +82,116 @@ function guidedCircuit(){
  return {html,next};
 }
 
+function drawQubitArt(canvas){
+ const c=canvas.getContext('2d');
+ if(!c)return;
+ const aqua='#71e2e4',gold='#ffcc73',ink='#edf7ff',muted='#a7cbdf';
+ const line=(points,color=aqua,width=3,dash=[])=>{
+  c.strokeStyle=color;c.lineWidth=width;c.setLineDash(dash);c.beginPath();
+  points.forEach(([x,y],i)=>i===0?c.moveTo(x,y):c.lineTo(x,y));
+  c.stroke();c.setLineDash([]);
+ };
+ const rect=(x,y,w,h,color,stroke,r=8)=>{
+  c.beginPath();c.roundRect(x,y,w,h,r);c.fillStyle=color;c.fill();
+  if(stroke){c.strokeStyle=stroke;c.lineWidth=2;c.stroke();}
+ };
+ const polygon=(points,color)=>{
+  c.beginPath();points.forEach(([x,y],i)=>i===0?c.moveTo(x,y):c.lineTo(x,y));c.closePath();c.fillStyle=color;c.fill();
+ };
+ const label=(value,x,y,color=ink)=>{
+  c.font='600 22px system-ui';c.fillStyle=color;c.textAlign='center';c.fillText(value,x,y);
+ };
+ const dot=(x,y,r=10)=>{
+  const glow=c.createRadialGradient(x,y,0,x,y,r*3);
+  glow.addColorStop(0,'#ffeab1');glow.addColorStop(.32,gold);glow.addColorStop(1,'#ffb65400');
+  c.fillStyle=glow;c.beginPath();c.arc(x,y,r*3,0,2*Math.PI);c.fill();
+  c.fillStyle=gold;c.beginPath();c.arc(x,y,r,0,2*Math.PI);c.fill();
+ };
+ const metal=(x,y,w,h)=>{
+  const fill=c.createLinearGradient(x,y,x,y+h);
+  fill.addColorStop(0,'#ace4eb');fill.addColorStop(.18,'#5ba4ba');fill.addColorStop(1,'#235671');
+  rect(x,y,w,h,fill,'#78c6d5',6);
+ };
+ const arrow=(x,y,ex,ey,color=muted)=>{
+  line([[x,y],[ex,ey]],color,2);
+  const a=Math.atan2(ey-y,ex-x);
+  polygon([[ex,ey],[ex-10*Math.cos(a-.45),ey-10*Math.sin(a-.45)],[ex-10*Math.cos(a+.45),ey-10*Math.sin(a+.45)]],color);
+ };
+ const background=c.createRadialGradient(315,120,15,315,120,430);
+ background.addColorStop(0,'#18344d');background.addColorStop(1,'#070f21');
+ c.fillStyle=background;c.fillRect(0,0,640,360);
+ for(let x=20;x<640;x+=24)for(let y=16;y<360;y+=24){c.fillStyle='#7fbfd32c';c.fillRect(x,y,1,1);}
+
+ switch(canvas.dataset.qubitArt){
+ case 'transmon': {
+  rect(79,71,482,232,'#122c48','#416581',16);
+  rect(91,83,458,208,'#153d55','#315e72',10);
+  for(const x of [110,503])for(const y of [102,250])metal(x,y,26,19);
+  metal(150,129,145,94);metal(345,129,145,94);
+  line([[295,176],[345,176]],gold,4);
+  rect(311,167,18,18,gold,null,2);
+  line([[314,170],[326,182]],'#65492c',2);line([[326,170],[314,182]],'#65492c',2);
+  line([[112,258],[232,258],[254,240],[286,240]],aqua,5);
+  label('Josephson junction',320,46,gold);arrow(320,54,320,155,gold);
+  label('Capacitor pads',320,229,ink);
+  label('Microwave drive line',270,335);arrow(232,314,232,267);
+  break;
+ }
+ case 'silicon': {
+  rect(86,137,468,139,'#173f63','#5b8cb2',10);
+  rect(86,143,468,23,'#406887',null,1);
+  for(const x of [145,278,411])metal(x,100,84,36);
+  line([[109,197],[184,197],[218,212],[246,251],[282,265],[354,265],[391,251],[420,212],[456,197],[530,197]],aqua,3);
+  dot(320,239,15);arrow(320,247,320,229,'#352a3d');
+  label('Metal gate electrodes',320,45);arrow(320,54,320,94);
+  label('Silicon device',163,304,muted);arrow(156,286,156,262);
+  label('Single electron spin',433,333,gold);arrow(401,310,337,250,gold);
+  break;
+ }
+ case 'ion': {
+  rect(100,73,440,212,'#10283e','#507b92',30);
+  for(const x of [139,225,311,397,483])metal(x,237,51,21);
+  for(const offset of [0,24,48]){
+   c.strokeStyle='#659eb466';c.lineWidth=2;c.beginPath();c.ellipse(320,172,43+offset,27+offset/2,0,0,Math.PI*2);c.stroke();
+  }
+  polygon([[49,142],[320,166],[320,176],[49,201]],'#b682ff4d');
+  line([[58,171],[319,171]],'#d0aaff',3);
+  dot(320,171,15);label('+',320,179,'#343050');
+  label('Vacuum chamber',320,46);arrow(320,53,320,73);
+  label('Laser',68,132,'#d0aaff');
+  label('Trapped ion',458,126,gold);arrow(428,133,338,164,gold);
+  label('Trap electrodes',320,328);arrow(320,306,320,264);
+  break;
+ }
+ case 'atom': {
+  for(const x of [176,320,464]){
+   polygon([[x-42,83],[x+42,83],[x+10,171],[x+42,264],[x-42,264],[x-10,171]],'#60d8f24d');
+   line([[x,85],[x,258]],'#79d6ee95',2,[5,7]);
+   dot(x,171,11);
+  }
+  polygon([[75,203],[319,168],[320,177],[75,231]],'#c99aff59');
+  label('Optical tweezers',320,46);arrow(320,53,320,78);
+  label('Addressing beam',141,300,'#dbb6ff');arrow(138,278,138,217,'#dbb6ff');
+  label('Neutral atom',441,328,gold);arrow(415,306,335,188,gold);
+  break;
+ }
+ case 'photon': {
+  rect(165,69,417,225,'#13334d','#416d8b',16);
+  const paths=[[[190,180],[257,180],[310,124],[520,124]],[[190,180],[257,180],[310,235],[520,235]]];
+  for(const route of paths){line(route,'#28657d',20);line(route,aqua,4);}
+  rect(42,153,69,54,'#654581','#c39aee',8);
+  arrow(113,180,178,180,aqua);dot(148,180,9);
+  label('Photonic chip',387,46);
+  label('Source',75,243,'#d7b7f4');
+  label('|0⟩  Path A',437,110);label('|1⟩  Path B',437,269);
+  label('Single photon',143,325,gold);arrow(143,303,148,194,gold);
+  break;
+ }
+ }
+}
+
+document.querySelectorAll('[data-qubit-art]').forEach(drawQubitArt);
+
 const bandFrequency={Radio:[1e6,'AM radio example'],Microwave:[5e9,'Example superconducting qubit drive'],Infrared:[193.4e12,'Near-infrared example for optical links'],Visible:[5.45e14,'Green light example'],Ultraviolet:[1e15,'Ultraviolet example'], 'X-ray':[1e18,'X-ray example'],Gamma:[1e20,'Gamma-ray example']};
 const spectrum=document.querySelector('.spectrum-bands');
 if(spectrum){
