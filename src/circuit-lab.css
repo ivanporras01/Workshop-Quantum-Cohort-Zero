@@ -84,3 +84,28 @@
 .spectrum-ticks span:first-child{translate:0 0}
 .spectrum-ticks span:last-child{translate:-100% 0}
 @media(max-width:420px){.spectrum-ticks span:nth-last-child(2){display:none}}
+
+.qubit-build-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:14px;margin:16px 0 24px}
+.qubit-build{margin:0;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.qubit-build h4{margin:0 0 10px;font-size:1.1rem}
+.qubit-build ol{margin:12px 0 0;padding-left:22px}
+.qubit-build li+li{margin-top:5px}
+.qubit-picture{min-height:132px;display:grid;grid-template-rows:90px auto;place-items:center;padding:4px 8px 8px;border-radius:8px;background:#0b2034;color:#f0f8ff}
+.qubit-picture-label{text-align:center;font-size:.8rem;color:#d4e8f5}
+.chip-body{display:flex;align-items:center;padding:13px 10px;border:1px solid #65a7b7;border-radius:8px;background:#19394c}
+.chip-body i{width:41px;height:33px;border-radius:4px;background:#7fd8cf}
+.chip-body b{display:grid;place-items:center;width:26px;height:21px;background:#ffe08a;color:#182638;font-size:20px;line-height:1}
+.silicon-stack{width:112px;display:grid;gap:4px}
+.silicon-gates,.trap-electrodes{display:flex;justify-content:center;gap:6px}
+.silicon-gates i,.trap-electrodes i{width:28px;height:13px;background:#72b9cb;border-radius:3px}
+.silicon-layer{display:grid;place-items:center;height:34px;border:1px solid #7993bc;border-radius:4px;background:#213956}
+.silicon-layer b,.vacuum-chamber b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#ffe08a;color:#14273a;line-height:1}
+.vacuum-chamber{width:126px;height:66px;display:grid;justify-items:center;align-content:center;gap:9px;border:1px dashed #85adbf;border-radius:13px}
+.tweezer-array{display:flex;gap:13px;align-items:center}
+.tweezer-array i{position:relative;width:27px;height:66px;background:#62cfed55;clip-path:polygon(0 0,100% 0,66% 46%,100% 100%,0 100%,34% 46%)}
+.tweezer-array b{position:absolute;left:50%;top:46%;translate:-50% -50%;width:12px;height:12px;border-radius:50%;background:#ffe08a}
+.photon-paths{display:flex;align-items:center;gap:0}
+.photon-paths>b{width:14px;height:14px;border-radius:50%;background:#ffe08a}
+.photon-paths>i{width:25px;border-top:2px solid #7ad7ed}
+.photon-paths>span{display:grid;gap:12px;border-left:2px solid #7ad7ed}
+.photon-paths em{padding:0 6px;border-bottom:2px solid #7ad7ed;font:inherit;font-size:.78rem}

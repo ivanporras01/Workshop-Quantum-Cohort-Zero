@@ -25,6 +25,31 @@
 <section id="hardware" class="panel lesson-section" aria-labelledby="hardware-title">
 <h2 id="hardware-title">Qubit technologies at a glance</h2>
 <p>The same |0⟩ and |1⟩ in the Bloch sphere can represent two energy levels, two spin states, or two paths for a photon. The table shows where each qubit lives and how engineers control it.</p>
+<h3>How each qubit is produced</h3>
+<p>Follow each example from fabrication or particle loading to preparation of the initial state. The diagrams are simplified and use gold to highlight the qubit or the component that enables it.</p>
+<div class="qubit-build-grid">
+<figure class="qubit-build"><h4>Superconducting transmon</h4>
+<div class="qubit-picture transmon-picture" role="img" aria-label="Two metal pads joined by a Josephson junction on a cold chip">
+<span class="chip-body" aria-hidden="true"><i></i><b>×</b><i></i></span><span class="qubit-picture-label">Josephson junction connects two pads</span></div>
+<ol><li>Pattern superconducting metal pads and wiring on a wafer.</li><li>Form a Josephson junction with two superconducting layers separated by a thin insulating barrier.</li><li>Package the chip and cool it in a dilution refrigerator. Use its two lowest circuit energy levels and initialize the qubit near |0⟩.</li></ol></figure>
+<figure class="qubit-build"><h4>Silicon spin</h4>
+<div class="qubit-picture silicon-picture" role="img" aria-label="Three electrodes above silicon confine an electron in a quantum dot">
+<span class="silicon-stack" aria-hidden="true"><span class="silicon-gates"><i></i><i></i><i></i></span><span class="silicon-layer"><b>↑</b></span></span><span class="qubit-picture-label">One electron confined below the gates</span></div>
+<ol><li>Fabricate tiny gate electrodes above a silicon device.</li><li>Cool the device and tune the gate voltages to confine one electron in a quantum dot.</li><li>Use a magnetic field to separate two spin states in energy and prepare a known spin state.</li></ol></figure>
+<figure class="qubit-build"><h4>Trapped ion</h4>
+<div class="qubit-picture ion-picture" role="img" aria-label="A charged atom floats above trap electrodes inside a vacuum chamber">
+<span class="vacuum-chamber" aria-hidden="true"><b>+</b><span class="trap-electrodes"><i></i><i></i><i></i></span></span><span class="qubit-picture-label">Ion held above electrodes in vacuum</span></div>
+<ol><li>Remove an electron from an atom to make a positive ion.</li><li>Hold the ion in vacuum using fields from trap electrodes, then cool it with laser light.</li><li>Use light to prepare one of two chosen internal states of the ion.</li></ol></figure>
+<figure class="qubit-build"><h4>Neutral atom</h4>
+<div class="qubit-picture atom-picture" role="img" aria-label="An array of focused laser beams holds separate neutral atoms">
+<span class="tweezer-array" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i></span><span class="qubit-picture-label">Focused laser beams hold individual atoms</span></div>
+<ol><li>Cool a cloud of neutral atoms in vacuum.</li><li>Load individual atoms into focused laser spots called optical tweezers.</li><li>Use light to prepare one of two chosen internal states of each atom.</li></ol></figure>
+<figure class="qubit-build"><h4>Photonic</h4>
+<div class="qubit-picture photon-picture" role="img" aria-label="A single photon enters an optical circuit with two possible waveguide paths">
+<span class="photon-paths" aria-hidden="true"><b></b><i></i><span><em>Path 0</em><em>Path 1</em></span></span><span class="qubit-picture-label">One photon, two possible paths</span></div>
+<ol><li>Generate a single photon, for example by exciting a semiconductor quantum dot that emits light.</li><li>Couple the photon into an optical path, such as a waveguide on a photonic chip.</li><li>Use two paths to encode |0⟩ and |1⟩. Launching the photon into one path prepares that basis state.</li></ol></figure>
+</div>
+<h3>Compare the technologies</h3>
 <div class="table-scroll" role="region" aria-label="Qubit technology comparison" tabindex="0">
 <table>
 <thead><tr><th scope="col">Technology</th><th scope="col">What carries the qubit?</th><th scope="col">How is it controlled?</th><th scope="col">What does the chip or apparatus do?</th></tr></thead>
@@ -37,7 +62,7 @@
 </tbody>
 </table></div>
 <p><strong>Classroom connection.</strong> Follow the signal from control to readout. Microwave pulses can drive a superconducting qubit, lasers can drive atomic qubits, and light itself can carry a photonic qubit. <a href="#waves">Compare microwave and optical frequencies in the spectrum explorer ↓</a></p>
-<p><a href="https://www.nist.gov/quantum-information-science/quantum-computing-explained">NIST guide to qubit technologies</a></p>
+<p><a href="https://www.nist.gov/quantum-information-science/quantum-computing-explained">NIST guide to qubit technologies</a> · <a href="https://quantum.cloud.ibm.com/learning/en/courses/quantum-computing-in-practice/running-quantum-circuits">IBM on transmon circuits</a> · <a href="https://www.nist.gov/noac/technology/quantum-optics-and-radiometry/single-photon-sources">NIST on single-photon production</a></p>
 </section>
 
 <section id="waves" class="panel lesson-section" aria-labelledby="waves-title">
