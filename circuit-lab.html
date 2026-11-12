@@ -4,27 +4,53 @@
 <link rel="icon" href="/favicon.svg"><link rel="canonical" href="https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev/circuit-lab.html">
 <link rel="stylesheet" href="/src/circuit-lab.css"><script type="module" src="/src/circuit-lab.js"></script></head>
 <body><a class="skip" href="#lab">Skip to circuit lab</a>
-<header class="topbar"><a class="wordmark" href="/">QUANTUM <span>/</span> ZERO <small>THE WORKSHOP PORTAL</small></a><nav aria-label="Lab navigation"><a href="/">← Workshop</a><a href="#classical-gates">Classical gates</a><a href="#lab">Circuit builder</a><button id="theme" aria-label="Switch color theme">◐ Theme</button><button id="fullscreen">⛶ Full screen</button></nav></header>
-<main><section class="intro"><div><p class="eyebrow">THE QUANTUM CIRCUIT LAB</p><h1>Build a circuit.<br><em>See the state change.</em></h1><p>Prepare a qubit, choose a gate and follow the result. Add more qubits to explore controlled operations and entanglement.</p><small>By Dr. Luis Pentzke and Professor Hector Porras</small></div><div class="intro-note"><span class="orbit-symbol" aria-hidden="true">◎</span><strong>38 gates · 1–3 qubits</strong><p>Rotatable Bloch spheres · circuit playback · measurements · Qiskit export</p><span class="badge">Interactive ideal simulator</span></div></section>
-<section id="classical-gates" class="panel gate-lesson" aria-labelledby="classical-title">
-<h2 id="classical-title">Start with classical logic gates</h2>
-<p>A classical bit is 0 or 1. A gate uses a rule to turn input bits into an output. Pick a gate and change the inputs to see its truth table in action.</p>
-<div class="classical-workbench">
-<div class="classical-controls"><label>Classical gate <select id="classical-gate"><option>NOT</option><option>AND</option><option>OR</option><option>XOR</option><option>NAND</option></select></label>
-<label>Input A <select id="classical-a"><option>0</option><option>1</option></select></label>
-<label id="classical-b-label" hidden>Input B <select id="classical-b"><option>0</option><option>1</option></select></label>
-<p id="classical-result" role="status"></p></div>
-<div id="classical-table"></div>
-</div>
-<div class="guide-grid">
-<article><h3>NOT → Pauli X</h3><p>NOT flips 0 and 1. X swaps |0⟩ and |1⟩. On a superposition, X swaps the two amplitudes. On the Bloch sphere it rotates the state by 180° about X.</p></article>
-<article><h3>XOR → CNOT</h3><p>XOR outputs 1 when its inputs differ. CNOT preserves the control A and writes A XOR B into target B for basis inputs. Both bits are still available, so applying CNOT twice restores the input.</p></article>
-<article><h3>AND → Toffoli</h3><p>AND outputs 1 only when both inputs are 1. Toffoli uses those inputs as controls and flips a third bit. Starting the target at 0 gives the AND result on that target.</p></article>
-<article><h3>OR and NAND, plus a quantum contrast</h3><p>AND, OR and NAND can give the same output for several inputs. Quantum gates preserve enough information to reverse the operation. Hadamard H takes |0⟩ to |+⟩, which gives 50% for each Z measurement outcome and can interfere with later gates.</p></article>
-</div><a class="lesson-link" href="#lab">Try X in the circuit builder ↓</a>
-</section>
+<header class="topbar"><a class="wordmark" href="/">QUANTUM <span>/</span> ZERO <small>THE WORKSHOP PORTAL</small></a><nav aria-label="Lab navigation"><a href="/">← Workshop</a><a href="#lab">Bloch studio</a><a href="#classical-gates">Gate guide</a><a href="#hardware">Qubit hardware</a><a href="#waves">Spectrum &amp; labs</a><button id="theme" aria-label="Switch color theme">◐ Theme</button><button id="fullscreen">⛶ Full screen</button></nav></header>
+<main>
+<section class="intro studio-intro"><div><h1>Bloch Sphere <em>Studio</em></h1><p>Apply a gate and watch the state change. Build your own circuit or follow a guided example.</p><small>By Dr. Luis Pentzke and Professor Hector Porras</small></div></section>
 <div id="lab"><p class="loading">Opening your circuit workspace…</p></div>
-<section id="guide" class="guide panel"><p class="eyebrow">START HERE / NO PREVIOUS EXPERIENCE REQUIRED</p><h2>Your first quantum circuit</h2><ol><li><strong>Prepare:</strong> begin with one qubit in |0⟩, the north pole.</li><li><strong>Apply X:</strong> click X in Essential gates to flip |0⟩ to |1⟩. Click Undo, then click H to try superposition.</li><li><strong>Read the sphere:</strong> the arrow now points to |+⟩. Z measurement probabilities are 50% and 50%.</li><li><strong>Change basis to X:</strong> the + outcome becomes certain. Changing the display basis does not measure the state.</li><li><strong>Try Bell pair:</strong> load the example and step through H and CX. The local arrows move to the centers as the qubits become entangled.</li></ol>
-<div class="guide-grid"><article><h3>What does a sphere show?</h3><p>One qubit’s reduced state. A pure state lies on the surface. A mixed local state lies inside. For a Bell pair, each local vector is zero while the full two-qubit state is pure and entangled. Separate spheres do not show all correlations; read the joint probabilities too.</p></article><article><h3>Why do gate order and phase matter?</h3><p>The circuit runs left to right. H → Z → H takes |0⟩ to |1⟩. Rearranging gates can change the answer. Global phase is present in the statevector but invisible on a Bloch sphere; relative phases can change later outcomes.</p></article><article><h3>Measurements and repeated shots</h3><p>“Measure once” collapses the current preview. “Run to end” prepares the circuit again. Repeated shots sample fresh copies of the state at the current playback step, without changing the preview. X/Y labels use 0 for + and 1 for −.</p></article><article><h3>Scope of this lab</h3><p>Up to 128 unitary gates, three qubits and 10,000 shots. U(θ,φ,λ) plus controlled operations provides a universal gate toolbox. This educational model has no hardware noise, optical loss, mid-circuit classical control or real-device connection. Browser randomness is for learning.</p></article></div>
-<p class="reference">Learn more: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/circuit" target="_blank" rel="noopener">IBM · Quantum circuits</a> · <a href="https://quantum.cloud.ibm.com/docs/en/guides/bit-ordering" target="_blank" rel="noopener">Qiskit · Bit ordering</a> · <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.UGate" target="_blank" rel="noopener">Universal U gate</a></p></section></main>
+
+<section id="classical-gates" class="panel lesson-section" aria-labelledby="classical-title">
+<h2 id="classical-title">Classical and quantum gates</h2>
+<div class="table-scroll"><table><thead><tr><th>Quantum gate</th><th>Familiar idea</th><th>Purpose</th></tr></thead><tbody>
+<tr><th>X</th><td>Classical NOT</td><td>Swap |0⟩ and |1⟩.</td></tr>
+<tr><th>H</th><td>Combining paths in an interferometer</td><td>Prepare superposition or recombine amplitudes. H takes |0⟩ to |+⟩.</td></tr>
+<tr><th>Y</th><td>NOT plus a phase change</td><td>Swap the basis states and change the relative phase.</td></tr>
+<tr><th>Z, S, T</th><td>Shift one wave relative to another</td><td>Change the phase of the |1⟩ component by 180°, 90°, or 45°, respectively.</td></tr>
+<tr><th>Rx, Ry, Rz</th><td>Turn an arrow around an axis</td><td>Rotate the Bloch vector around X, Y, or Z by a chosen angle.</td></tr>
+<tr><th>CNOT</th><td>XOR into a target bit</td><td>For basis states, retain control A and change target B to A XOR B. It can entangle two qubits.</td></tr>
+<tr><th>Toffoli</th><td>AND controls a flip</td><td>Flip a third qubit when both controls are 1. With target initially 0, it records the AND result for basis inputs.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="hardware" class="panel lesson-section" aria-labelledby="hardware-title">
+<h2 id="hardware-title">What is a qubit made of?</h2>
+<p>A qubit uses two distinguishable states of a physical system as |0⟩ and |1⟩. Engineers must prepare those states, control their superpositions, and read out an outcome.</p>
+<div class="hardware-grid">
+<article><h3>Superconducting circuits</h3><p>Two energy levels of a circuit fabricated with a Josephson junction. Microwave pulses control the circuit inside a dilution refrigerator.</p></article>
+<article><h3>Silicon spin</h3><p>Two spin states of an electron confined in a semiconductor quantum dot. Electrodes define the dot, and calibrated electric or magnetic drives control the spin.</p></article>
+<article><h3>Trapped ions</h3><p>Two internal states of a charged atom held in vacuum by fields. A trap can be fabricated on a chip. Lasers or microwaves manipulate the ion.</p></article>
+<article><h3>Neutral atoms</h3><p>Two internal states of an uncharged atom held in a laser tweezer. Optical arrays organize the atoms, and laser pulses control them.</p></article>
+<article><h3>Photons</h3><p>Two light modes, such as paths or polarizations. An integrated photonic chip can route the photons and make them interfere, while detectors register outcomes.</p></article>
+</div>
+<p><a href="https://www.nist.gov/quantum-information-science/quantum-computing-explained">NIST guide to qubit technologies</a></p>
+</section>
+
+<section id="waves" class="panel lesson-section" aria-labelledby="waves-title">
+<h2 id="waves-title">The electromagnetic spectrum and quantum control</h2>
+<p>Higher frequency means shorter wavelength in vacuum (λ = c/f) and more energy per photon (E = hf). Select a band to compare examples.</p>
+<div class="spectrum-bands" role="group" aria-label="Electromagnetic spectrum from low to high frequency">
+<button type="button" data-band="Radio">Radio</button><button type="button" data-band="Microwave">Microwave</button><button type="button" data-band="Infrared">Infrared</button><button type="button" data-band="Visible">Visible</button><button type="button" data-band="Ultraviolet">Ultraviolet</button><button type="button" data-band="X-ray">X-ray</button><button type="button" data-band="Gamma">Gamma</button>
+</div>
+<p id="spectrum-result" role="status"></p>
+<h3>What we can demonstrate at the bench</h3>
+<div class="wave-bridges">
+<article><h4>Amplitude · change the height</h4><p>With one BNC cable, change Vpp and hold frequency fixed. The trace gets taller. For a calibrated resonant qubit drive, pulse strength and duration help set the rotation angle. A quantum state amplitude is a complex coefficient, and its squared magnitude gives an outcome probability in the chosen basis.</p></article>
+<article><h4>Frequency · count cycles</h4><p>Set 1 kHz, then 2 kHz. One cycle shrinks from 1 ms to 0.5 ms. A drive near a qubit’s transition frequency couples its two energy levels, whose gap is ΔE = hf. The bench compares timing at kilohertz. Superconducting qubit drives typically use gigahertz microwaves.</p></article>
+<article><h4>Phase · compare two traces</h4><p>Use two synchronized channels at the same frequency. At 2 kHz, a quarter cycle is 125 µs (90°). Equal sine waves add at 0° and cancel at 180° in the scope’s sum. In a resonant qubit control model, drive phase selects the rotation axis in the XY plane. Relative state phase can change interference outcomes, as the H → Z → H guide shows.</p></article>
+</div>
+<p>The generator and oscilloscope show classical voltages and timing. The Bloch sphere simulation shows how quantum states respond to ideal gates.</p>
+<p class="row"><a class="lesson-link" href="/hands-on-labs.html#simulator">Open the wave generator and oscilloscope labs →</a></p>
+<p><a href="https://imagine.gsfc.nasa.gov/science/toolbox/spectrum_chart.html">NASA spectrum reference</a> · <a href="https://quantum.cloud.ibm.com/learning/en/courses/quantum-computing-in-practice/running-quantum-circuits">IBM Quantum on microwave control</a></p>
+</section>
+</main>
 <footer>QUANTUM / ZERO · Learn. Build. Measure. Explain. <a href="/">Return to the workshop ↗</a></footer><noscript>This interactive lab needs JavaScript enabled.</noscript></body></html>
