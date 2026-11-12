@@ -41,7 +41,36 @@
 <div class="spectrum-bands" role="group" aria-label="Electromagnetic spectrum from low to high frequency">
 <button type="button" data-band="Radio">Radio</button><button type="button" data-band="Microwave">Microwave</button><button type="button" data-band="Infrared">Infrared</button><button type="button" data-band="Visible">Visible</button><button type="button" data-band="Ultraviolet">Ultraviolet</button><button type="button" data-band="X-ray">X-ray</button><button type="button" data-band="Gamma">Gamma</button>
 </div>
+<div class="spectrum-ruler" aria-hidden="true"><div class="spectrum-axis" id="spectrum-axis"></div><div class="spectrum-scale spectrum-ticks"><span style="--tick:0%">1 MHz</span><span style="--tick:21.43%">1 GHz</span><span style="--tick:42.86%">1 THz</span><span style="--tick:64.29%">1 PHz</span><span style="--tick:85.71%">1 EHz</span><span style="--tick:100%">100 EHz</span></div></div>
+<p class="spectrum-note">The dots mark example frequencies. A step from MHz to GHz, or from GHz to THz, multiplies frequency by 1,000.</p>
 <p id="spectrum-result" role="status"></p>
+<div class="spectrum-demos">
+<article class="spectrum-card">
+<h3>Read the wave on a scope</h3>
+<label>Change one property <select id="spectrum-wave-mode"><option value="frequency">Frequency · 1 vs 2 kHz</option><option value="amplitude">Amplitude · 1 vs 2 Vpp</option><option value="phase">Phase · 0° vs 90°</option></select></label>
+<canvas id="spectrum-wave" width="720" height="224" role="img" aria-label="Comparison of two sine-wave voltage traces on a shared time axis" aria-describedby="spectrum-wave-caption"></canvas>
+<p class="spectrum-legend"><span>Reference trace</span><span>Changed trace</span></p>
+<p id="spectrum-wave-caption" role="status"></p>
+</article>
+<article class="spectrum-card">
+<h3>Zoom in on visible light</h3>
+<p>Move from violet to red. Watch what happens to frequency and energy per photon.</p>
+<div class="visible-rainbow" aria-hidden="true"><span id="visible-marker"></span></div>
+<label class="visible-control">Wavelength <input id="visible-wavelength" type="range" min="400" max="700" value="550" step="1"></label>
+<div class="spectrum-scale"><span>400 nm · violet</span><span>700 nm · red</span></div>
+<p id="visible-result" role="status"></p>
+<p class="spectrum-note">Colors on your screen are approximate. The slider shows a common classroom range for visible light.</p>
+</article>
+</div>
+
+<h3>Why light matters</h3>
+<div class="wave-bridges">
+<article><h4>See and identify matter</h4><p>Visible light lets us see. A spectrometer separates light by wavelength so we can identify atoms from the lines they emit or absorb. These four lines are examples from hydrogen.</p>
+<div class="hydrogen-lines" role="img" aria-label="Hydrogen emission lines at about 410, 434, 486, and 656 nanometers"><i style="--at:3.33%;--line-color:#b897ff"></i><i style="--at:11.33%;--line-color:#796dff"></i><i style="--at:28.67%;--line-color:#65dafa"></i><i style="--at:85.33%;--line-color:#ff6666"></i></div><small>410, 434, 486, and 656 nm</small></article>
+<article><h4>Carry information</h4><p>Infrared light carries signals through optical fiber. In a quantum link, one photon can carry a qubit in two polarization states. Polarization describes the orientation of the light’s electric field.</p></article>
+<article><h4>Control and read qubits</h4><p>Laser pulses can change the states of trapped atoms. A detector can read some atomic qubits by seeing whether they fluoresce. Superconducting qubits use another part of the same spectrum: microwaves.</p></article>
+</div>
+<p><a href="https://science.nasa.gov/mission/webb/science-overview/science-explainers/spectroscopy-101-how-absorption-and-emission-spectra-work/">NASA on light and spectral lines</a> · <a href="https://www.nist.gov/programs-projects/single-photonics-and-quantum-information">NIST on photons and quantum information</a></p>
 <h3>What we can demonstrate at the bench</h3>
 <div class="wave-bridges">
 <article><h4>Amplitude · change the height</h4><p>With one BNC cable, change Vpp and hold frequency fixed. The trace gets taller. For a calibrated resonant qubit drive, pulse strength and duration help set the rotation angle. A quantum state amplitude is a complex coefficient, and its squared magnitude gives an outcome probability in the chosen basis.</p></article>

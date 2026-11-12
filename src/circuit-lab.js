@@ -85,13 +85,78 @@ function guidedCircuit(){
 const bandFrequency={Radio:[1e6,'AM radio example'],Microwave:[5e9,'Example superconducting qubit drive'],Infrared:[193.4e12,'Near-infrared example for optical links'],Visible:[5.45e14,'Green light example'],Ultraviolet:[1e15,'Ultraviolet example'], 'X-ray':[1e18,'X-ray example'],Gamma:[1e20,'Gamma-ray example']};
 const spectrum=document.querySelector('.spectrum-bands');
 if(spectrum){
+ const axis=document.querySelector('#spectrum-axis');
+ const minExponent=6,maxExponent=20;
+ for(const [band,[frequency]] of Object.entries(bandFrequency)){
+  const marker=document.createElement('span');
+  marker.className='spectrum-marker';
+  marker.dataset.marker=band;
+  marker.style.left=(100*(Math.log10(frequency)-minExponent)/(maxExponent-minExponent))+'%';
+  axis.append(marker);
+ }
  const showBand=band=>{
   const [f,label]=bandFrequency[band];
   document.querySelector('#spectrum-result').textContent=label+' · '+f.toExponential(2)+' Hz · λ ≈ '+(299792458/f).toExponential(2)+' m in vacuum · photon energy ≈ '+(6.62607015e-34*f).toExponential(2)+' J';
+  axis.querySelectorAll('[data-marker]').forEach(marker=>marker.classList.toggle('current',marker.dataset.marker===band));
   spectrum.querySelectorAll('[data-band]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.band===band)));
  };
  spectrum.addEventListener('click',e=>{const b=e.target.closest('[data-band]');if(b)showBand(b.dataset.band);});
  showBand('Microwave');
+
+ const slider=document.querySelector('#visible-wavelength');
+ const visibleResult=document.querySelector('#visible-result');
+ const visibleMarker=document.querySelector('#visible-marker');
+ const showVisible=()=>{
+  const nm=Number(slider.value),f=299792458/(nm*1e-9),energy=6.62607015e-34*f/1.602176634e-19;
+  visibleMarker.style.left=((nm-400)/3)+'%';
+  visibleResult.textContent=nm+' nm · '+(f/1e12).toFixed(1)+' THz · '+energy.toFixed(2)+' eV per photon';
+ };
+ slider.addEventListener('input',showVisible);
+ showVisible();
+
+ const mode=document.querySelector('#spectrum-wave-mode');
+ const canvas=document.querySelector('#spectrum-wave');
+ const caption=document.querySelector('#spectrum-wave-caption');
+ const waveModes={
+  frequency:{cycles:4,height:32,phase:0,caption:'The reference completes two cycles in 2 ms. The 2 kHz trace completes four. Its period is half as long.'},
+  amplitude:{cycles:2,height:64,phase:0,caption:'The changed trace has twice the peak-to-peak voltage. Both traces complete two cycles in 2 ms.'},
+  phase:{cycles:2,height:32,phase:Math.PI/2,caption:'The changed trace leads by 90°, or a quarter cycle. At 1 kHz that equals 0.25 ms. Height and frequency stay the same.'}
+ };
+ const drawWave=()=>{
+  const changed=waveModes[mode.value],ctx=canvas.getContext('2d');
+  caption.textContent=changed.caption;
+  if(!ctx)return;
+  const left=66,right=690,center=101;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#0a1b30';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.font='16px system-ui';
+  ctx.fillStyle='#d6e9f5';
+  ctx.strokeStyle='#36596b';
+  for(let tick=0;tick<=4;tick++){
+   const x=left+(right-left)*tick/4;
+   ctx.beginPath();ctx.moveTo(x,22);ctx.lineTo(x,178);ctx.stroke();
+   ctx.textAlign=tick===4?'right':tick===0?'left':'center';
+   ctx.fillText((tick/2)+' ms',x,207);
+  }
+  ctx.textAlign='right';
+  for(const volts of [1,.5,0,-.5,-1]){
+   const y=center-volts*64;
+   ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
+   ctx.fillText(volts+' V',left-7,y+5);
+  }
+  for(const [wave,color,dash] of [[{cycles:2,height:32,phase:0},'#a4efd8',[]],[changed,'#ffc776',[7,5]]]){
+   ctx.strokeStyle=color;ctx.lineWidth=3;ctx.setLineDash(dash);ctx.beginPath();
+   for(let x=left;x<=right;x++){
+    const y=center-wave.height*Math.sin(2*Math.PI*wave.cycles*(x-left)/(right-left)+wave.phase);
+    if(x===left)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+   }
+   ctx.stroke();
+  }
+  ctx.setLineDash([]);
+ };
+ mode.addEventListener('change',drawWave);
+ drawWave();
 }
 function render(){
  advancedOpen=root.querySelector('.studio-advanced')?.open||false;
