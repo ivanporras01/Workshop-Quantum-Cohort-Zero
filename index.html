@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="/src/quantum-atlas.css">
   <link rel="stylesheet" href="/src/visual-steps.css">
   <link rel="stylesheet" href="/src/hero-quantum.css">
+  <link rel="stylesheet" href="/src/quantum-news.css">
   <script type="module" src="/src/app.js"></script>
 </head>
 <body>
@@ -50,6 +51,7 @@
           <a class="secondary-button" href="/circuit-lab.html">Build a quantum circuit ↗</a>
           <a class="secondary-button" href="#quantum-concepts">Explore quantum concepts ↗</a>
           <a class="secondary-button" href="/resources/PBSC-Cohort-Zero-Agenda.pdf" download="PBSC-Cohort-Zero-Agenda.pdf">Download agenda PDF <span aria-hidden="true">↓</span></a>
+          <a class="secondary-button" href="#quantum-news">Quantum industry news <span aria-hidden="true">↘</span></a>
           <button class="secondary-button" type="button" id="copy-public-link">Copy public website link <span aria-hidden="true">⧉</span></button>
         </div>
         <p class="hero-authors">By Dr. Luis Pentzke and Professor Hector Porras</p>
@@ -65,6 +67,65 @@
       <div><strong>18</strong><span>Guided learning topics</span></div>
       <div><strong>08</strong><span>New visual concept lessons</span></div>
       <div class="feature-note"><span class="mini-orbit" aria-hidden="true">◎</span> Learn · Experiment · Reflect</div>
+    </section>
+    <section class="quantum-news container" id="quantum-news" aria-labelledby="quantum-news-heading">
+      <div class="section-heading">
+        <div>
+          <h2 id="quantum-news-heading">Quantum Industry News</h2>
+          <p>Recent announcements from major quantum companies and research teams. Last reviewed <time datetime="2026-11-12">November 12, 2026</time>.</p>
+        </div>
+      </div>
+      <div class="news-grid">
+        <article class="news-card news-feature">
+          <p class="news-meta"><strong>IBM</strong> · <time datetime="2026-11-11">Nov 11, 2026</time> · Roadmap</p>
+          <h3>Nighthawk r3 targets 520 programmable qubits</h3>
+          <p>IBM says its next-generation processor is designed for 10,000 quantum operations across 520 programmable qubits. It plans to connect two r3 processors in 2027.</p>
+          <p><strong>Discuss in class.</strong> Which numbers describe a design target, and which describe a future system?</p>
+          <div class="news-links"><a href="https://newsroom.ibm.com/2026-11-11-ibm-quantum-nighthawk-demonstrates-new-levels-of-speed-and-quality%2C-with-plans-to-scale-beyond-1%2C000-qubits-in-2027">IBM press release <span aria-hidden="true">↗</span></a> <a href="https://thequantuminsider.com/2026/11/11/ibm-nighthawk-r3-processor-520-programmable-qubits/">The Quantum Insider coverage <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>Rigetti</strong> · <time datetime="2026-11-10">Nov 10, 2026</time> · Hardware benchmark</p>
+          <h3>Rigetti reports 99.5% median two-qubit gate fidelity</h3>
+          <p>Rigetti reported this benchmark on its 108-qubit superconducting system. Gate fidelity measures how closely an operation matches the intended one.</p>
+          <div class="news-links"><a href="https://investors.rigetti.com/news-releases/news-release-details/rigetti-computing-reports-third-quarter-2026-financial-results">Rigetti press release <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>D-Wave</strong> · <time datetime="2026-11-10">Nov 10, 2026</time> · Hardware delivery</p>
+          <h3>An Advantage2 annealing system arrives in Italy</h3>
+          <p>D-Wave’s quarterly update reported delivery of a 4,400-plus-qubit Advantage2 system for installation in Como. Quantum annealers are designed for a different style of computation than gate-based processors.</p>
+          <div class="news-links"><a href="https://ir.dwavequantum.com/news/news-details/2026/D-Wave-Reports-Third-Quarter-2026-Results/default.aspx">D-Wave press release <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>QuEra</strong> · <time datetime="2026-11-10">Nov 10, 2026</time> · Research</p>
+          <h3>AI-assisted methods explore lower resource requirements</h3>
+          <p>QuEra, Harvard and Anthropic announced research using AI to find ways to reduce the resources needed for certain quantum applications.</p>
+          <div class="news-links"><a href="https://www.prnewswire.com/news-releases/harvard-anthropic-and-quera-breakthrough-research-uniquely-shows-ai-can-reduce-the-resources-quantum-applications-need-significantly-accelerating-the-era-of-useful-quantum-computing-302934155.html">Joint press release <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>Quantinuum</strong> · <time datetime="2026-11-05">Nov 5, 2026</time> · Error correction</p>
+          <h3>Helios update highlights logical-qubit experiments</h3>
+          <p>Quantinuum reported new error-correction results on its trapped-ion Helios system. A logical qubit uses an encoding across physical qubits to protect information.</p>
+          <div class="news-links"><a href="https://www.quantinuum.com/press-releases/quantinuum-reports-third-quarter-2026-results-and-raises-full-year-revenue-outlook">Quantinuum press release <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>IonQ</strong> · <time datetime="2026-11-05">Nov 5, 2026</time> · Hardware deployment</p>
+          <h3>IonQ reports Tempo deployments</h3>
+          <p>IonQ highlighted deployments of its Tempo quantum computers in its quarterly update. Tempo uses trapped-ion qubits.</p>
+          <div class="news-links"><a href="https://ionq.com/news/ionq-announces-record-3q26-revenues-and-raises-fy2026-guidance-to-505---515-million-as-backlog-grows-to-1-2-billion">IonQ press release <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>Amazon Web Services</strong> · <time datetime="2026-10-16">Oct 16, 2026</time> · Cloud access</p>
+          <h3>Amazon Braket enters FedRAMP Class C scope</h3>
+          <p>AWS announced that its own Braket service components are covered by this authorization boundary. Third-party quantum hardware sits outside that boundary.</p>
+          <div class="news-links"><a href="https://aws.amazon.com/about-aws/whats-new/2026/10/braket-fedramp-class-c/">AWS announcement <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="news-card">
+          <p class="news-meta"><strong>Google Quantum AI</strong> · <time datetime="2026-10-15">Oct 15, 2026</time> · Error correction</p>
+          <h3>Google tests magic-state cultivation on Willow</h3>
+          <p>Google reported about 40 times fewer errors in a magic-state preparation experiment on Willow compared with its approach without cultivation. Magic states help implement operations used in fault-tolerant quantum circuits.</p>
+          <div class="news-links"><a href="https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/">Google research announcement <span aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
     </section>
     <section class="workshop container" id="workshop" aria-label="Workshop agenda and activities">
       <div class="section-heading"><div><span class="eyebrow plain">THE LEARNING JOURNEY</span><h2>Five days. One foundation.</h2><p>Select a day to review the original schedule, study detailed lessons for every session, and practice in interactive labs.</p></div><span class="section-number">01 / 05</span></div>

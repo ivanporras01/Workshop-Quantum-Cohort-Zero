@@ -1,0 +1,61 @@
+.quantum-news {
+  margin-block: clamp(2.5rem, 6vw, 5rem);
+  scroll-margin-top: 6rem;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  padding: clamp(1rem, 2.4vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.news-card h3, .news-card p {
+  margin: 0;
+}
+
+.news-card p {
+  color: var(--muted);
+}
+
+.news-card .news-meta {
+  font-size: .85rem;
+}
+
+.news-card strong {
+  color: var(--ink);
+}
+
+.news-feature {
+  grid-column: 1 / -1;
+  background: linear-gradient(120deg, var(--panel2), var(--panel));
+  border-inline-start: .25rem solid var(--accent);
+}
+
+.news-feature h3 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.news-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+  margin-top: auto;
+  padding-top: .3rem;
+}
+
+.news-links a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
