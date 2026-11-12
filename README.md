@@ -36,7 +36,7 @@ Open http://localhost:8080 in a browser. No JavaScript framework is needed; the 
 
 https://workshop-quantum-cohort-zero.hectorporras0916.workers.dev/
 
-By Dr. Luis Pentzke and Professor Hector Porras. All 18 teaching sessions include beginner explanations, a visual activity, a guided example, independent practice and a takeaway.
+All 18 teaching sessions include beginner explanations, a visual activity, a guided example, independent practice and a takeaway.
 
 ## Deployment configuration
 

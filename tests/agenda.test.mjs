@@ -5,14 +5,14 @@ import {inflateSync} from 'node:zlib';
 const root=new URL('../',import.meta.url);
 const read=async path=>readFile(new URL(path,root),'utf8');
 const agenda=async()=>JSON.parse(inflateSync(Buffer.from((await read('payload/agenda.json.b64')).trim(),'base64')).toString('utf8'));
-test('exact five days with original workshop presenters and unassigned sessions',async()=>{
+test('exact five days with public workshop presenters and unassigned sessions',async()=>{
  const d=await agenda();
  assert.equal(d.days.length,5);
  assert.deepEqual(d.dates,['2026-11-09','2026-11-10','2026-11-12','2026-11-13','2026-11-14']);
  assert.equal(d.days[0].sessions.find(s=>s.title.includes('Qiskit')).end,'21:00');
  assert.equal(d.days[2].sessions.find(s=>s.title.includes('Implementation')).start,null);
  assert.equal(d.days[3].sessions.find(s=>s.title==='Python for Quantum').speaker,'TBA');
- assert.equal(d.days[4].sessions.find(s=>s.title==='Applied energy waves').speaker,'Prof Hector Porras, PBSC');
+ assert.equal(d.days[4].sessions.find(s=>s.title==='Applied energy waves').speaker,'PBSC');
 });
 test('interactive learning activities cover all five days',async()=>{
  const s=await read('src/app.js');

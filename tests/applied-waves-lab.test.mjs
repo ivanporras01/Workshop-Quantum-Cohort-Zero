@@ -8,7 +8,7 @@ test('Lab guide includes circuit, materials, procedures, safety and quantum anal
  const h=renderLabGuide();
  assert.equal(LAB_EQUIPMENT.length,7);
  assert.equal(LAB_STEPS.length,8);
- for(const anchor of ['src/applied-waves-circuit.svg','Hector Porras','materials','data-lab-step','data-lab-phase','Common','1 MΩ','50 Ω','two active generator outputs','H → P(φ) → H','not quantum']) {
+ for(const anchor of ['src/applied-waves-circuit.svg','materials','data-lab-step','data-lab-phase','Common','1 MΩ','50 Ω','two active generator outputs','H → P(φ) → H','not quantum']) {
   assert.ok(h.toLowerCase().includes(anchor.toLowerCase()),'Missing '+anchor);
  }
  assert.ok(h.indexOf('BEFORE WE BUILD')<h.indexOf('THE PHYSICAL CIRCUIT'));

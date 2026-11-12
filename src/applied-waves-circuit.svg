@@ -19,7 +19,7 @@
 </defs>
 <rect width="1050" height="570" rx="19" fill="url(#bg)"/>
 <text x="32" y="40" font-size="25" font-family="Arial,sans-serif" font-weight="700" fill="#f1fcff">Passive resistive combiner — oscilloscope lab</text>
-<text x="32" y="65" font-size="15" font-family="Arial,sans-serif" fill="#a8dcd9">Presented by Hector Porras · 1 kHz sine waves · 2 Vpp per source · R1 = R2 = 10 kΩ</text>
+<text x="32" y="65" font-size="15" font-family="Arial,sans-serif" fill="#a8dcd9">1 kHz sine waves · 2 Vpp per source · R1 = R2 = 10 kΩ</text>
 <rect class="panel" x="32" y="110" width="240" height="112" rx="13"/>
 <text class="lbl" x="48" y="140">Generator output A</text>
 <text class="sm" x="48" y="171">Function generator CH1</text>
