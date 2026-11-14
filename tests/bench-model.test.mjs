@@ -15,7 +15,9 @@ test('pulse duration and high/low levels agree with the workbook',()=>{
  const s={...PRESETS.pulse,output:true};near(sample(.00005,s),1);near(sample(.00015,s),0);near(sample(.00105,s),1);
 });
 test('manual burst is zero outside its finite N-cycle envelope',()=>{
- const s={...PRESETS.burst,output:true,cycles:2};near(sample(-.001,s),0);near(sample(.00025,s),.5);near(sample(.00225,s),0);near(sample(.00025,{...s,output:false}),0);
+ const s={...PRESETS.burst,output:true};
+ near(sample(-.001,s),0);near(sample(.000125,s),.5);near(sample(.002625,s),0);near(sample(.000125,{...s,output:false}),0);
+ near(burstTimeUs(s.cycles,s.frequency),2500);near(burstTimeUs(10,s.frequency),5000);
 });
 test('both real PDF workbooks have matching production links and valid headers',async()=>{
  const html=renderDigitalLabs();for(const w of WORKBOOKS){assert.ok(html.includes(w.file));const b=await readFile(new URL('..'+w.file,import.meta.url));assert.equal(b.subarray(0,5).toString(),'%PDF-');assert.ok(b.length>100000);}

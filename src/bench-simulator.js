@@ -88,4 +88,4 @@ document.getElementById('bench-fullscreen').addEventListener('click',async()=>{
 });
 document.addEventListener('fullscreenchange',updatePresentationButton);
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&simulator.classList.contains('presentation-expanded')){simulator.classList.remove('presentation-expanded');updatePresentationButton();}});
-window.addEventListener('resize',draw);selectPreset(activePreset);
+window.addEventListener('resize',draw);selectPreset(new URLSearchParams(window.location.search).get('preset') === 'burst' ? 'burst' : activePreset);
