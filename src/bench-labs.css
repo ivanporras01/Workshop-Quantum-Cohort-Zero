@@ -23,3 +23,28 @@
 .burst-lab li + li {
   margin-top: 8px;
 }
+
+.preset-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr));
+}
+.preset-row button,
+.scope-actions button,
+.presentation-controls button {
+  min-height: 44px;
+}
+.preset-row button:hover:not([aria-pressed="true"]) {
+  background: #26536c;
+}
+.preset-row button[aria-pressed="true"] {
+  border-color: #b4f2dd;
+}
+.scope-actions {
+  flex-wrap: wrap;
+}
+.presentation-controls button:disabled {
+  background: #243f51;
+  color: #b9cfdd;
+  opacity: 1;
+  cursor: default;
+}
