@@ -3,7 +3,7 @@ export const WORKBOOKS=[
  {id:'two-bnc',title:'Two BNC · Phase & interference',pages:14,cables:'2 cables',file:'/resources/labs/PBSC_Quantum_Workshop_Phase_Interference_Complete_Lab.pdf',description:'Compare two synchronized channels, measure relative phase and compute their sum. Explore constructive and destructive interference and the quantum analogy.'}
 ];
 function renderBurstLab() {
- return `<article id="lab-3-burst" class="workbook-card">
+ return `<article id="lab-3-burst" class="workbook-card burst-lab">
   <span>1 BNC cable · 5 minutes</span>
   <h4>D · Triggered Sine Burst</h4>
   <p>Compare a 5-cycle and a 10-cycle packet at the same frequency. Predict what happens to the packet duration when you double the number of cycles.</p>

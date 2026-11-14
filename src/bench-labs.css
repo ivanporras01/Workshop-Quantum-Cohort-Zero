@@ -3,3 +3,23 @@
 .presentation-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:20px 0}.presentation-controls>span{color:#b4f2dd;font-weight:700}.bench-simulator button:disabled{opacity:.4;cursor:default}.demo-guide,.quantum-connection{padding:18px 24px;background:#133449;border-left:3px solid #9ce4dc;border-radius:10px;margin:20px 0}.demo-guide h3,.quantum-connection h4{margin:0 0 12px;font-size:20px}.demo-guide ol{padding-left:24px;line-height:1.65}.demo-guide li+li{margin-top:9px}.quantum-connection p{line-height:1.65;color:#c5d7e7}.scope-scales{padding:12px;background:#16364b;color:#ffdf7e!important;font-weight:700;border-radius:8px}#phase-value{color:#ffdf7e;font-weight:700}.bench-simulator:is(:fullscreen,.presentation-expanded) .bench-instruments{grid-template-columns:minmax(230px,.65fr) minmax(0,2fr)}@media(max-width:950px){.bench-simulator:is(:fullscreen,.presentation-expanded) .bench-instruments{grid-template-columns:1fr}}@media(min-width:1100px){.bench-simulator:is(:fullscreen,.presentation-expanded) .generator-panel form{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .bench-simulator.presentation-expanded{position:fixed;inset:0;z-index:10000;width:100%;height:100%;box-sizing:border-box;margin:0;overflow:auto;border-radius:0}
+
+.digital-labs a.primary-button {
+  color: #082b36;
+  text-align: center;
+  max-width: 100%;
+}
+.digital-labs > .primary-button {
+  margin: 4px 0 24px;
+}
+.digital-labs .workbook-card .primary-button {
+  display: inline-flex;
+  margin: 8px 0 0;
+}
+.burst-lab ol {
+  padding-inline-start: 1.4rem;
+  line-height: 1.6;
+}
+.burst-lab li + li {
+  margin-top: 8px;
+}
