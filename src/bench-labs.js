@@ -5,7 +5,7 @@ export const WORKBOOKS=[
 function renderBurstLab() {
  return `<article id="lab-3-burst" class="workbook-card">
   <span>1 BNC cable · 5 minutes</span>
-  <h4>Lab 3 · Triggered Sine Burst</h4>
+  <h4>D · Triggered Sine Burst</h4>
   <p>Compare a 5-cycle and a 10-cycle packet at the same frequency. Predict what happens to the packet duration when you double the number of cycles.</p>
   <ol>
    <li>With the generator output off, connect generator <strong>CH1 OUT</strong> to oscilloscope <strong>CH1 IN</strong>. Use <strong>High Z</strong> on the generator when the scope input is <strong>1 MΩ</strong>.</li>

@@ -2,9 +2,9 @@ export const PRESETS={
  amplitude:{label:'A · Amplitude',wave:'sine',frequency:1000,vpp:2,offset:0,phase:0,width:100,cycles:1,two:false,math:false,time:200,volts:.5,burst:false},
  frequency:{label:'B · Frequency',wave:'sine',frequency:2000,vpp:2,offset:0,phase:0,width:100,cycles:1,two:false,math:false,time:200,volts:.5,burst:false},
  pulse:{label:'C · Pulse width',wave:'pulse',frequency:1000,vpp:1,offset:.5,phase:0,width:100,cycles:1,two:false,math:false,time:200,volts:.2,burst:false},
- burst:{label:'Lab 3 · Triggered sine burst',wave:'sine',frequency:2000,vpp:1,offset:0,phase:0,width:100,cycles:5,two:false,math:false,time:1000,volts:.2,burst:true},
- phase:{label:'Two cables · Relative phase',wave:'sine',frequency:1000,vpp:1,offset:0,phase:90,width:100,cycles:1,two:true,math:false,time:200,volts:.2,burst:false},
- sum:{label:'Two cables · Interference',wave:'sine',frequency:1000,vpp:1,offset:0,phase:180,width:100,cycles:1,two:true,math:true,time:200,volts:.5,burst:false}
+ burst:{label:'D · Triggered sine burst',wave:'sine',frequency:2000,vpp:1,offset:0,phase:0,width:100,cycles:5,two:false,math:false,time:1000,volts:.2,burst:true},
+ phase:{label:'E · Relative phase',wave:'sine',frequency:1000,vpp:1,offset:0,phase:90,width:100,cycles:1,two:true,math:false,time:200,volts:.2,burst:false},
+ sum:{label:'F · Interference',wave:'sine',frequency:1000,vpp:1,offset:0,phase:180,width:100,cycles:1,two:true,math:true,time:200,volts:.5,burst:false}
 };
 export function periodUs(f){if(!(f>0))throw Error('Frequency must be positive');return 1e6/f;}
 export function phaseTimeUs(deg,f){return deg/360*periodUs(f);}
@@ -32,7 +32,7 @@ export const DEMO_GUIDES={
  amplitude:{title:'A · Amplitude changes height',steps:['Use one BNC: generator CH1 → scope CH1. Keep frequency at 1 kHz and voltage scale at 0.5 V/div.','Try 2, 1 and 0.5 Vpp. Predict 4, 2 and 1 vertical divisions.','Explain: the period stays 1 ms while wave height changes.']},
  frequency:{title:'B · Frequency changes spacing',steps:['Keep amplitude at 2 Vpp and time scale at 200 µs/div.','Try 500, 1000 and 2000 Hz. Predict periods of 2000, 1000 and 500 µs.','At 2 kHz, one cycle spans 2.5 divisions. Explain T = 1/f.']},
  pulse:{title:'C · Pulse width changes time high',steps:['Use 1 kHz, 1 Vpp and +0.5 V offset. The pulse runs between 0 and +1 V.','Try widths of 100, 250 and 500 µs. The full period remains 1000 µs.','Predict duty cycles of 10%, 25% and 50%. These are time fractions.']},
- burst:{title:'Lab 3 · Triggered sine burst',steps:['Start at 5 cycles, 2 kHz and 1 Vpp.','Press TRIGGER burst to capture the waveform. Count five cycles across 2.5 ms. To rehearse the hardware sequence, press SINGLE first.','Change to 10 cycles, press TRIGGER burst again, and measure 5.0 ms. Each cycle still takes 0.5 ms.']},
- phase:{title:'Two cables · Compare relative phase',steps:['Cable A: CH1 → input 1. Cable B: CH2 → input 2. CH1 remains the reference.','Move CH2 phase through 0°, 90°, 180°, 270° and 360°.','At 1 kHz, 90° is a 250 µs lead. At 360°, the traces overlap again.']},
- sum:{title:'Two cables · Reveal interference',steps:['The Math function adds CH1 + CH2 digitally. Keep both source amplitudes at 1 Vpp.','Try 0°, 90° and 180°. Predict sum amplitudes of 2, 1.414 and 0 Vpp.','Compare the separate theoretical H → P(φ) → H circuit below. A canceled sum leaves both source signals present.']}
+ burst:{title:'D · Triggered sine burst',steps:['Start at 5 cycles, 2 kHz and 1 Vpp.','Press TRIGGER burst to capture the waveform. Count five cycles across 2.5 ms. To rehearse the hardware sequence, press SINGLE first.','Change to 10 cycles, press TRIGGER burst again, and measure 5.0 ms. Each cycle still takes 0.5 ms.']},
+ phase:{title:'E · Compare relative phase',steps:['Cable A: CH1 → input 1. Cable B: CH2 → input 2. CH1 remains the reference.','Move CH2 phase through 0°, 90°, 180°, 270° and 360°.','At 1 kHz, 90° is a 250 µs lead. At 360°, the traces overlap again.']},
+ sum:{title:'F · Reveal interference',steps:['The Math function adds CH1 + CH2 digitally. Keep both source amplitudes at 1 Vpp.','Try 0°, 90° and 180°. Predict sum amplitudes of 2, 1.414 and 0 Vpp.','Compare the separate theoretical H → P(φ) → H circuit below. A canceled sum leaves both source signals present.']}
 };
