@@ -31,12 +31,13 @@ function draw(){
  ctx.fillStyle='#dce9f7';ctx.font='12px system-ui';ctx.fillText('Yellow CH1   ·   Green dashed CH2   ·   Magenta Math sum',left,417);
  document.getElementById('scope-scales').textContent=`Time: ${s.time} µs/div · Voltage: ${s.volts} V/div · Center: ${center.toFixed(2)} V · 10 × 8 divisions${s.two?' · CH2 phase lead: '+s.phase+'°':''}`;
  const meas=document.getElementById('scope-measurements');meas.innerHTML=`<div><small>Frequency</small><strong>${s.output&&show?(s.frequency/1000).toFixed(3)+' kHz':'—'}</strong></div><div><small>Period</small><strong>${s.output&&show?periodUs(s.frequency).toFixed(1)+' µs':'—'}</strong></div><div><small>CH1 peak-to-peak</small><strong>${s.output&&show?s.vpp.toFixed(3):'0.000'} V</strong></div>`+(s.wave==='pulse'?`<div><small>Pulse width / duty</small><strong>${s.width.toFixed(1)} µs / ${(s.width/periodUs(s.frequency)*100).toFixed(1)}%</strong></div>`:'')+(s.two&&s.math?`<div><small>Sum Vpp ${s.wave!=='sine'?'(sampled)':''}</small><strong>${show?sumReading(s).toFixed(3):'0.000'} V</strong></div>`:'')+(s.burst?`<div><small>Burst duration</small><strong>${burstTimeUs(s.cycles,s.frequency).toFixed(1)} µs</strong></div>`:'');
- document.getElementById('scope-status').textContent=armed?'SINGLE: armed - press generator TRIGGER':s.burst&&!captured?'No burst captured - press scope SINGLE, then generator TRIGGER':!running?'STOP - displayed capture is frozen':'RUN - ideal CH1-triggered display';
+ document.getElementById('scope-status').textContent=armed?'SINGLE: armed - press generator TRIGGER':s.burst&&!captured?'Ready · press TRIGGER to capture a burst':s.burst?'Burst captured · display frozen':!running?'STOP - displayed capture is frozen':'RUN - ideal CH1-triggered display';
  document.getElementById('scope-status').classList.toggle('armed',armed);
  document.getElementById('bench-description').textContent=explanation(s);
  renderQuantumConnection(s);
  document.getElementById('scope-run').textContent=running?'STOP · freeze display':'RUN · resume acquisition';
  document.getElementById('scope-single').setAttribute('aria-pressed',String(armed));
+ document.getElementById('scope-burst-trigger').hidden=!state.burst;
 }
 function sumReading(s){if(!s.output)return 0;if(s.wave==='sine')return sumVpp(s.vpp,s.phase);let min=Infinity,max=-Infinity;for(let i=0;i<2000;i++){const t=i/2000/s.frequency,v=sample(t,s,1)+sample(t,s,2);min=Math.min(min,v);max=Math.max(max,v);}return max-min;}
 function explanation(s){if(!s.output)return 'Generator output is OFF. The model sends 0 V to the scope.';if(s.burst)return `${s.cycles} complete cycles at ${s.frequency} Hz give τ = N/f = ${(s.cycles/s.frequency*1000).toFixed(3)} ms. This is drive duration, not a measured quantum rotation.`;if(s.two)return `CH1 is fixed. CH2 leads by ${s.phase}°. ${s.math?'The Math trace adds the voltages; a canceled sum does not remove the separate source signals.':'Compare the yellow and green traces using the same time reference.'} Relative phase is the analogy to quantum interference.`;if(s.wave==='pulse')return `The pulse is high for ${s.width} µs in each ${periodUs(s.frequency).toFixed(1)} µs period. The display centers on the DC offset so both levels stay visible. Duty cycle is a classical time fraction, not quantum probability.`;return `T = 1/f = ${periodUs(s.frequency).toFixed(1)} µs. Each large horizontal square is ${s.time} µs; each vertical square is ${s.volts} V. Voltage changes height; frequency changes spacing.`;}
@@ -77,7 +78,20 @@ document.getElementById('demo-next').addEventListener('click',()=>selectPreset(p
 document.getElementById('demo-reset').addEventListener('click',()=>selectPreset(activePreset));
 document.getElementById('scope-run').addEventListener('click',()=>{running=!running;armed=false;if(running){captured=false;lastDisplay={...state};}draw();});
 document.getElementById('scope-single').addEventListener('click',()=>{if(state.burst){armed=true;captured=false;running=false;lastDisplay={...state};}else{armed=false;running=false;lastDisplay={...state};captured=true;}draw();});
-document.getElementById('generator-trigger').addEventListener('click',()=>{if(!state.burst){document.getElementById('scope-status').textContent='Select Burst mode for a manual trigger.';return;}if(!armed){document.getElementById('scope-status').textContent='Burst sent; scope was not armed. Press SINGLE first, then TRIGGER.';return;}if(!state.output){document.getElementById('scope-status').textContent='Enable generator output before triggering.';return;}captured=true;armed=false;running=false;lastDisplay={...state};draw();});
+function triggerBurst(){
+ const status=document.getElementById('scope-status');
+ if(!form.reportValidity())return;
+ readForm();
+ if(!state.burst){status.textContent='Select Burst mode to send a packet.';return;}
+ if(!state.output){status.textContent='Enable generator output before triggering.';return;}
+ captured=true;
+ armed=false;
+ running=false;
+ lastDisplay={...state};
+ draw();
+}
+document.getElementById('generator-trigger').addEventListener('click',triggerBurst);
+document.getElementById('scope-burst-trigger').addEventListener('click',triggerBurst);
 const simulator=document.getElementById('simulator');
 function updatePresentationButton(){document.getElementById('bench-fullscreen').textContent=document.fullscreenElement?'Exit fullscreen ↙':simulator.classList.contains('presentation-expanded')?'Exit presentation ↙':'Presentation fullscreen ↗';draw();}
 document.getElementById('bench-fullscreen').addEventListener('click',async()=>{
